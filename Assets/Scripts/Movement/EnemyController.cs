@@ -6,10 +6,13 @@ public class EnemyController : MonoBehaviour
     public Transform target;
     public int speed;
     public Hittable hp;
+    public int damage;
     public HealthBar healthui;
     public bool dead;
 
     public float last_attack;
+    public string enemyType;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,7 +40,8 @@ public class EnemyController : MonoBehaviour
         if (last_attack + 2 < Time.time)
         {
             last_attack = Time.time;
-            target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(5, Damage.Type.PHYSICAL));
+            target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(damage, Damage.Type.PHYSICAL));
+            GameManager.Instance.damageTaken += damage;
         }
     }
 
@@ -47,6 +51,20 @@ public class EnemyController : MonoBehaviour
         if (!dead)
         {
             dead = true;
+            // Track enemy kills by type
+            switch (enemyType.ToLower())
+            {
+                case "zombie":
+                    GameManager.Instance.zombiesKilled++;
+                    break;
+                case "skeleton":
+                    GameManager.Instance.skeletonsKilled++;
+                    break;
+                case "warlock":
+                    GameManager.Instance.warlocksKilled++;
+                    break;
+            }
+
             GameManager.Instance.RemoveEnemy(gameObject);
             Destroy(gameObject);
         }

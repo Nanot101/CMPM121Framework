@@ -52,6 +52,60 @@ public class GameManager
         return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
     }
 
+
+    // ==========================
+    // Wave Summary Tracking
+    // ==========================
+
+    public int damageTaken;
+    public int zombiesKilled;
+    public int skeletonsKilled;
+    public int warlocksKilled;
+    public float waveStartTime;
+    public float waveEndTime;
+
+    public void ResetWaveStats()
+    {
+        damageTaken = 0;
+        zombiesKilled = 0;
+        skeletonsKilled = 0;
+        warlocksKilled = 0;
+        waveStartTime = Time.time;
+    }
+
+    public void EndWave()
+    {
+        waveEndTime = Time.time;
+    }
+
+    public float WaveDuration => waveEndTime - waveStartTime;
+
+    public void ShowSummary()
+    {
+        float duration = waveEndTime - waveStartTime;
+        Debug.Log("----- Wave Summary -----");
+        Debug.Log("Damage Taken: " + damageTaken);
+        Debug.Log("Zombies Killed: " + zombiesKilled);
+        Debug.Log("Skeletons Killed: " + skeletonsKilled);
+        Debug.Log("Warlocks Killed: " + warlocksKilled);
+        Debug.Log("Time to Beat the Wave: " + duration.ToString("F2") + "s");
+        Debug.Log("------------------------");
+        //ResetWaveStats();
+    }
+
+    public string GetWaveSummary()
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        float duration = waveEndTime - waveStartTime;
+        sb.AppendLine($"<b>Wave Summary</b>");
+        sb.AppendLine($"Time to complete wave: {duration:F2} seconds");
+        sb.AppendLine($"Damage taken: {damageTaken}");
+        sb.AppendLine($"Zombies killed: {zombiesKilled}");
+        sb.AppendLine($"Skeletons killed: {skeletonsKilled}");
+        sb.AppendLine($"Warlocks killed: {warlocksKilled}");
+        return sb.ToString();
+    }
+
     private GameManager()
     {
         enemies = new List<GameObject>();
