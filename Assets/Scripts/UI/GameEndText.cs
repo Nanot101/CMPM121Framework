@@ -1,13 +1,4 @@
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using System.Collections;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using TMPro;
 using UnityEngine.SceneManagement;
 using JetBrains.Annotations;
@@ -18,10 +9,13 @@ public class GameEndText : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public PlayerController PlayController;
     public EnemySpawner EnemySpawner;
+    public TextMeshProUGUI temp;
+
+    //public EnemyDataLoader dataLoader;
     void Start()
     {
-        TextMeshProUGUI temp;
-        temp = GetComponent<TextMeshProUGUI>();
+        //TextMeshProUGUI temp;
+        //temp = GetComponent<TextMeshProUGUI>();
         PlayController.GetCurrentHp();
     }
 
@@ -37,8 +31,10 @@ public class GameEndText : MonoBehaviour
         {
             temp.text = "You have run out of hp and lose.";
         }
+        string currentLevel = EnemySpawner.GetCurrentLevel();
         int currentWave = (int)EnemySpawner.GetCurrentWave();
-        if(GameManager.Instance.state == GameManager.GameState.WAVEEND && currentWave == maxLevel)
+        int maxWave = EnemyDataLoader.GetMaxWave(currentLevel);
+        if(GameManager.Instance.state == GameManager.GameState.WAVEEND && currentWave == maxWave)
         {
             temp.text = "You have beat all the waves and win!";
         }

@@ -177,4 +177,8 @@ public class EnemySpawner : MonoBehaviour
     {
         return currentWave;
     }
+    public string GetCurrentLevel()
+    {
+        return currentLevel.name;
+    }
 }
