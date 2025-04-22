@@ -83,4 +83,15 @@ public static class EnemyDataLoader
     {
         return levels?.FirstOrDefault(l => l.name == name);
     }
+
+    public static int GetMaxWave(string levelName)
+    {
+        Level level = GetLevel(levelName);
+        if (level != null)
+            return level.waves;
+
+        Debug.LogWarning($"Level '{levelName}' not found.");
+        return 0;
+    }
+
 }
