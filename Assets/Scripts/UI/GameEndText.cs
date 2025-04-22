@@ -14,9 +14,10 @@ public class GameEndText : MonoBehaviour
     //public EnemyDataLoader dataLoader;
     void Start()
     {
-        //TextMeshProUGUI temp;
-        //temp = GetComponent<TextMeshProUGUI>();
-        PlayController.GetCurrentHp();
+        TextMeshProUGUI temp;
+        temp = GetComponent<TextMeshProUGUI>();
+        temp.enabled = false;
+        gameObject.SetActive(false);
     }
 
 
@@ -25,11 +26,12 @@ public class GameEndText : MonoBehaviour
     void Update()
     {
 
-        TextMeshProUGUI temp;
-        temp = GetComponent<TextMeshProUGUI>();
+
         if (PlayController.GetCurrentHp() == 0)
         {
             temp.text = "You have run out of hp and lose.";
+            gameObject.SetActive(true);
+            temp.enabled = true;
         }
         string currentLevel = EnemySpawner.GetCurrentLevel();
         int currentWave = (int)EnemySpawner.GetCurrentWave();
@@ -37,11 +39,15 @@ public class GameEndText : MonoBehaviour
         if(GameManager.Instance.state == GameManager.GameState.WAVEEND && currentWave == maxWave)
         {
             temp.text = "You have beat all the waves and win!";
+            gameObject.SetActive(true);
+            temp.enabled = true;
         }
         //Add a button to reset the game
     }
     public void RestartGame()
     {
     SceneManager.LoadScene(SceneManager.GetActiveScene().name); // loads current scene
+    gameObject.SetActive(false);
+        temp.enabled = false;
     }
 }
