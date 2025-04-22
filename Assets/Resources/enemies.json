@@ -12,13 +12,20 @@
        "hp": 30,
        "speed": 7,
        "damage": 10
-   },  
-   {
-       "name": "warlock",
-       "sprite": 19,
-       "hp": 30,
-       "speed": 7,
-       "damage": 10
-   }
+   },
+    {
+        "name": "warlock",
+        "sprite": 19,
+        "hp": 30,
+        "speed": 7,
+        "damage": 10
+    },
+    {
+        "name": "rogue",
+        "sprite": 4,
+        "hp": 20,
+        "speed": 9,
+        "damage": 3 
+    }
  
 ]

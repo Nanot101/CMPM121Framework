@@ -35,6 +35,7 @@ public class Level
     public string name;
     public int waves;
     public List<Spawn> spawns;
+    public int maxWaves;
 }
 
 
@@ -49,6 +50,7 @@ public static class EnemyDataLoader
     {
         TextAsset enemiesText = Resources.Load<TextAsset>("enemies");
         TextAsset levelsText = Resources.Load<TextAsset>("levels");
+        
 
         if (enemiesText == null)
         {
@@ -66,6 +68,7 @@ public static class EnemyDataLoader
         enemyDict = enemies.ToDictionary(e => e.name);
 
         levels = JsonConvert.DeserializeObject<List<Level>>(levelsText.text);
+        levels.waves = (int)maxWaves;
     }
 
     // Get enemy name

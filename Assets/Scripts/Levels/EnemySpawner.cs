@@ -173,4 +173,8 @@ public class EnemySpawner : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
     }
+    public int GetCurrentWave()
+    {
+        return currentWave;
+    }
 }

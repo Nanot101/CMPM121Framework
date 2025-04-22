@@ -61,6 +61,7 @@ public class GameManager
     public int zombiesKilled;
     public int skeletonsKilled;
     public int warlocksKilled;
+    public int roguesKilled;
     public float waveStartTime;
     public float waveEndTime;
 
@@ -70,6 +71,7 @@ public class GameManager
         zombiesKilled = 0;
         skeletonsKilled = 0;
         warlocksKilled = 0;
+        roguesKilled = 0;
         waveStartTime = Time.time;
     }
 
@@ -88,6 +90,7 @@ public class GameManager
         Debug.Log("Zombies Killed: " + zombiesKilled);
         Debug.Log("Skeletons Killed: " + skeletonsKilled);
         Debug.Log("Warlocks Killed: " + warlocksKilled);
+        Debug.Log("Rogues killed: " + roguesKilled);
         Debug.Log("Time to Beat the Wave: " + duration.ToString("F2") + "s");
         Debug.Log("------------------------");
         //ResetWaveStats();
@@ -103,6 +106,7 @@ public class GameManager
         sb.AppendLine($"Zombies killed: {zombiesKilled}");
         sb.AppendLine($"Skeletons killed: {skeletonsKilled}");
         sb.AppendLine($"Warlocks killed: {warlocksKilled}");
+        sb.AppendLine($"Rogues killed:  + {roguesKilled}");
         return sb.ToString();
     }
 

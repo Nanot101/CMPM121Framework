@@ -65,5 +65,8 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("You Lost");
     }
-
+    public int GetCurrentHp()
+    {
+        return hp.hp;
+    }
 }
