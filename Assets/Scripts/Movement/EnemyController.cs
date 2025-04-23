@@ -63,6 +63,9 @@ public class EnemyController : MonoBehaviour
                 case "warlock":
                     GameManager.Instance.warlocksKilled++;
                     break;
+                case "rogue":
+                    GameManager.Instance.roguesKilled++;
+                    break;
             }
 
             GameManager.Instance.RemoveEnemy(gameObject);

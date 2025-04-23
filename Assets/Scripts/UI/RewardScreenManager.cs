@@ -1,13 +1,14 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class RewardScreenManager : MonoBehaviour
 {
     public GameObject rewardUI;
     public TextMeshProUGUI summaryText;
     public Button nextButton;
-
+    public GameEndText GameEndText;
 
     void Start()
     {
@@ -22,6 +23,10 @@ public class RewardScreenManager : MonoBehaviour
         {
             rewardUI.SetActive(true);
             summaryText.text = GameManager.Instance.GetWaveSummary();
+        }
+        else if(GameManager.Instance.state == GameManager.GameState.GAMEWIN)
+        {
+            GameEndText.onWin();
         }
         else
         {

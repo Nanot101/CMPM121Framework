@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameEndText GameEndText;
     public Hittable hp;
     public HealthBar healthui;
     public ManaBar manaui;
@@ -64,6 +65,10 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("You Lost");
+        GameEndText.onDie();
     }
-
+    public int GetCurrentHp()
+    {
+        return hp.hp;
+    }
 }

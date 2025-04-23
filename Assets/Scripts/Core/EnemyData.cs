@@ -35,6 +35,7 @@ public class Level
     public string name;
     public int waves;
     public List<Spawn> spawns;
+    public int maxWaves;
 }
 
 
@@ -44,11 +45,13 @@ public static class EnemyDataLoader
 {
     public static Dictionary<string, EnemyDefinition> enemyDict;
     public static List<Level> levels;
+    public static string levelName;
 
     public static void LoadAll()
     {
         TextAsset enemiesText = Resources.Load<TextAsset>("enemies");
         TextAsset levelsText = Resources.Load<TextAsset>("levels");
+        int maxWaves = 10;
 
         if (enemiesText == null)
         {
@@ -66,6 +69,7 @@ public static class EnemyDataLoader
         enemyDict = enemies.ToDictionary(e => e.name);
 
         levels = JsonConvert.DeserializeObject<List<Level>>(levelsText.text);
+        //levels.waves = (int)maxWaves;
     }
 
     // Get enemy name
@@ -83,7 +87,6 @@ public static class EnemyDataLoader
     {
         return levels?.FirstOrDefault(l => l.name == name);
     }
-
     public static int GetMaxWave(string levelName)
     {
         Level level = GetLevel(levelName);
@@ -93,5 +96,5 @@ public static class EnemyDataLoader
         Debug.LogWarning($"Level '{levelName}' not found.");
         return 0;
     }
-
 }
+
