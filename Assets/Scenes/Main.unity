@@ -702,6 +702,7 @@ MonoBehaviour:
   rewardUI: {fileID: 1709288111}
   summaryText: {fileID: 49966178}
   nextButton: {fileID: 284566018}
+  GameEndText: {fileID: 1712148168}
 --- !u!4 &220180078
 Transform:
   m_ObjectHideFlags: 0
@@ -2044,6 +2045,7 @@ MonoBehaviour:
   - {fileID: 2073311049}
   - {fileID: 1577913788}
   - {fileID: 587991943}
+  GameEndText: {fileID: 0}
 --- !u!1 &532755679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,6 +2816,7 @@ MonoBehaviour:
   button: {fileID: 0}
   enemy: {fileID: 0}
   SpawnPoints: []
+  GameEndText: {fileID: 0}
 --- !u!1 &692553902
 GameObject:
   m_ObjectHideFlags: 0
@@ -5742,7 +5745,8 @@ MonoBehaviour:
   PlayerController: {fileID: 1718273952}
   EnemySpawner: {fileID: 692045034}
   temp: {fileID: 2082328552}
-  gameObject: {fileID: 585499368}
+  restartButton: {fileID: 585499368}
+  artPanel: {fileID: 1709288111}
 --- !u!1 &1718273950
 GameObject:
   m_ObjectHideFlags: 0
@@ -5806,6 +5810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ef5265fce1b544c872205988919fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameEndText: {fileID: 1712148168}
   healthui: {fileID: 765025204}
   manaui: {fileID: 71109453}
   spellui: {fileID: 2085212185}
@@ -56920,10 +56925,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efde5d11a0c0a9e43921697e98a09200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level_selector: {fileID: 0}
-  button: {fileID: 0}
+  level_selector: {fileID: 1003594407}
+  button: {fileID: 585499368}
   enemy: {fileID: 0}
   SpawnPoints: []
+  GameEndText: {fileID: 1712148168}
 --- !u!1 &2082328550
 GameObject:
   m_ObjectHideFlags: 0
