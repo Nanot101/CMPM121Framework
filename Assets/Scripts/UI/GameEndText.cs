@@ -7,17 +7,19 @@ using static UnityEngine.InputSystem.LowLevel.InputEventTrace;
 public class GameEndText : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public PlayerController PlayController;
+    public PlayerController PlayerController;
     public EnemySpawner EnemySpawner;
     public TextMeshProUGUI temp;
+    public GameObject restartButton;
+    public GameObject artPanel;
 
     //public EnemyDataLoader dataLoader;
     void Start()
     {
-        TextMeshProUGUI temp;
-        temp = GetComponent<TextMeshProUGUI>();
+       // TextMeshProUGUI temp;
+        //temp = GetComponent<TextMeshProUGUI>();
         temp.enabled = false;
-        gameObject.SetActive(false);
+        restartButton.SetActive(false);
     }
 
 
@@ -25,29 +27,31 @@ public class GameEndText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-        if (PlayController.GetCurrentHp() == 0)
-        {
-            temp.text = "You have run out of hp and lose.";
-            gameObject.SetActive(true);
-            temp.enabled = true;
-        }
         string currentLevel = EnemySpawner.GetCurrentLevel();
         int currentWave = (int)EnemySpawner.GetCurrentWave();
         int maxWave = EnemyDataLoader.GetMaxWave(currentLevel);
-        if(GameManager.Instance.state == GameManager.GameState.WAVEEND && currentWave == maxWave)
-        {
-            temp.text = "You have beat all the waves and win!";
-            gameObject.SetActive(true);
-            temp.enabled = true;
-        }
         //Add a button to reset the game
     }
     public void RestartGame()
     {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name); // loads current scene
-    gameObject.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // loads current scene
+        restartButton.SetActive(false);
         temp.enabled = false;
+        Time.timeScale = 1;
+    }
+    public void onDie()
+    {
+        temp.text = "You have run out of hp and lose.";
+        restartButton.SetActive(true);
+        temp.enabled = true;
+        Time.timeScale = 0;
+        artPanel.SetActive(true);
+    }
+    public void onWin()
+    {
+        temp.text = "You have beat all the waves and win!";
+        restartButton.SetActive(true);
+        temp.enabled = true;
+        Time.timeScale = 0;
     }
 }
