@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
     public GameEndText GameEndText;
-    private Level currentLevel;
+    [SerializeField] private Level currentLevel;
     private int currentWave = 1;
 
 
@@ -148,7 +148,7 @@ public class EnemySpawner : MonoBehaviour
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.waveEndTime = Time.time;
-        if (currentWave >= currentLevel.maxWaves)
+        if (currentWave >= currentLevel.waves)
         {
             GameManager.Instance.state = GameManager.GameState.GAMEWIN;
         }

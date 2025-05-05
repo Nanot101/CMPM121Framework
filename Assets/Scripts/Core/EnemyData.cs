@@ -35,7 +35,7 @@ public class Level
     public string name;
     public int waves;
     public List<Spawn> spawns;
-    public int maxWaves;
+    //public int maxWaves;
 }
 
 
@@ -51,7 +51,7 @@ public static class EnemyDataLoader
     {
         TextAsset enemiesText = Resources.Load<TextAsset>("enemies");
         TextAsset levelsText = Resources.Load<TextAsset>("levels");
-        int maxWaves = 10;
+        //int maxWaves = 10;
 
         if (enemiesText == null)
         {

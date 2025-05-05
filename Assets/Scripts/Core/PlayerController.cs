@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameEndText GameEndText;
+    //public GameEndText GameEndText;
     public Hittable hp;
     public HealthBar healthui;
     public ManaBar manaui;
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(spellcaster.ManaRegeneration());
         
         hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
-        hp.OnDeath += Die;
+        //hp.OnDeath += Die;
         hp.team = Hittable.Team.PLAYER;
 
         // tell UI elements what to show
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("You Lost");
-        GameEndText.onDie();
+        //GameEndText.onDie();
     }
     public int GetCurrentHp()
     {

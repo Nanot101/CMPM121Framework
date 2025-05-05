@@ -2045,7 +2045,12 @@ MonoBehaviour:
   - {fileID: 2073311049}
   - {fileID: 1577913788}
   - {fileID: 587991943}
-  GameEndText: {fileID: 0}
+  GameEndText: {fileID: 1712148168}
+  currentLevel:
+    name: 
+    waves: 0
+    spawns: []
+    maxWaves: 0
 --- !u!1 &532755679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2412,7 +2417,6 @@ RectTransform:
   - {fileID: 1963145926}
   - {fileID: 1712148167}
   - {fileID: 2082328551}
-  - {fileID: 692045033}
   m_Father: {fileID: 2021125305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2764,59 +2768,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672798488}
   m_CullTransparentMesh: 1
---- !u!1 &692045032
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 692045033}
-  - component: {fileID: 692045034}
-  m_Layer: 5
-  m_Name: EnemySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &692045033
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692045032}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 585499369}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &692045034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692045032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efde5d11a0c0a9e43921697e98a09200, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level_selector: {fileID: 1003594407}
-  button: {fileID: 585499368}
-  enemy: {fileID: 0}
-  SpawnPoints: []
-  GameEndText: {fileID: 1712148168}
 --- !u!1 &692553902
 GameObject:
   m_ObjectHideFlags: 0
@@ -5742,8 +5693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d436af8b58e38408612c2b04c4c8fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerController: {fileID: 1718273952}
-  EnemySpawner: {fileID: 692045034}
   temp: {fileID: 2082328552}
   restartButton: {fileID: 585499368}
   artPanel: {fileID: 1709288111}
@@ -5810,12 +5759,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ef5265fce1b544c872205988919fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameEndText: {fileID: 1712148168}
   healthui: {fileID: 765025204}
   manaui: {fileID: 71109453}
   spellui: {fileID: 2085212185}
-  speed: 15
-  unit: {fileID: 0}
+  speed: 30
+  unit: {fileID: 1718273956}
 --- !u!4 &1718273953
 Transform:
   m_ObjectHideFlags: 0
