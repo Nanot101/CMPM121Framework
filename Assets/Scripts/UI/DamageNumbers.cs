@@ -15,6 +15,12 @@ public class DamageNumbers : MonoBehaviour
         
     }
 
+    void OnDestroy()
+    {
+        if (EventBus.Instance != null)
+            EventBus.Instance.OnDamage -= OnDamage;
+    }
+
     void OnDamage(Vector3 where, Damage dmg, Hittable target)
     {
         var new_dmg_nr = Instantiate(DamageNumber, where, Quaternion.identity);

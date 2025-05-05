@@ -14,22 +14,18 @@ public class GameEndText : MonoBehaviour
     //public EnemyDataLoader dataLoader;
     void Start()
     {
-       // TextMeshProUGUI temp;
-        //temp = GetComponent<TextMeshProUGUI>();
         temp.enabled = false;
         restartButton.SetActive(false);
     }
 
     public void RestartGame()
     {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name); // loads current scene
-        // restartButton.SetActive(false);
-        // temp.enabled = false;
-        // Time.timeScale = 1;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         temp.enabled = false;
         restartButton.SetActive(false);
-        Time.timeScale = 1; // Resume time before restarting
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Reloads scene completely
+        artPanel.SetActive(false);
+        GameManager.Instance.Reset();
     }
     public void onDie()
     {
@@ -45,5 +41,6 @@ public class GameEndText : MonoBehaviour
         restartButton.SetActive(true);
         temp.enabled = true;
         Time.timeScale = 0;
+        artPanel.SetActive(true);
     }
 }
