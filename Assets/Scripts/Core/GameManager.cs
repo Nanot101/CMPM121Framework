@@ -115,4 +115,27 @@ public class GameManager
     {
         enemies = new List<GameObject>();
     }
+
+    public void Reset()
+    {
+        state = GameState.PREGAME;
+
+        player = null;
+        projectileManager = null;
+        spellIconManager = null;
+        enemySpriteManager = null;
+        playerSpriteManager = null;
+        relicIconManager = null;
+
+        enemies.Clear();
+
+        damageTaken = 0;
+        zombiesKilled = 0;
+        skeletonsKilled = 0;
+        warlocksKilled = 0;
+        roguesKilled = 0;
+        waveStartTime = 0;
+        waveEndTime = 0;
+    }
+
 }
