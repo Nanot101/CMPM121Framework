@@ -16,6 +16,7 @@ public class ModifierSpell : SpellBase
     int angle;
     string projectile_trajectory;
     float delay;
+    string description;
     // Constructor that wraps a given spell and assigns the owning caster
     public ModifierSpell(SpellBase innerSpell, SpellCaster owner) : base(owner)
     {
@@ -29,6 +30,7 @@ public class ModifierSpell : SpellBase
         this.angle = 0;
         this.projectile_trajectory = string.Empty;
         this.delay = 0;
+        this.description = string.Empty;
     }
 
 
