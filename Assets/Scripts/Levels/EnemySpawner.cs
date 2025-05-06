@@ -59,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
     {
         currentLevel = EnemyDataLoader.levels.Find(l => l.name == levelname);
         currentWave = 1;
+        GameManager.Instance.CurrentWave = currentWave;
 
         level_selector.gameObject.SetActive(false);
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
@@ -152,6 +153,7 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.state = GameManager.GameState.WAVEEND;
 
             currentWave++;
+            GameManager.Instance.CurrentWave = currentWave;
         }
 
     }

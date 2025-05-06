@@ -26,6 +26,8 @@ public class GameManager
         }
     }
 
+    public int CurrentWave { get; set; }
+
     public GameObject player;
     
     public ProjectileManager projectileManager;
