@@ -7,11 +7,30 @@ public class ModifierSpell : SpellBase
 {
     // the base spell being wrapped and modified
     protected SpellBase innerSpell;
-
+    float damageMultiplier;
+    int damageAdder;
+    float manaMultiplier;
+    int manaAdder;
+    float speedMultiplier;
+    int speedAdder;
+    int angle;
+    string projectile_trajectory;
+    float delay;
+    string description;
     // Constructor that wraps a given spell and assigns the owning caster
     public ModifierSpell(SpellBase innerSpell, SpellCaster owner) : base(owner)
     {
         this.innerSpell = innerSpell;
+        this.damageMultiplier = 1;
+        this.damageAdder = 0;
+        this.manaMultiplier = 1;
+        this.manaAdder = 0;
+        this.speedMultiplier = 1;
+        this.speedAdder = 0;
+        this.angle = 0;
+        this.projectile_trajectory = string.Empty;
+        this.delay = 0;
+        this.description = string.Empty;
     }
 
 
@@ -26,10 +45,23 @@ public class ModifierSpell : SpellBase
     {
         return innerSpell.GetName();
     }
-
-    // Each subclass will add modifiers here
-    public virtual void ApplyModifiers(SpellModBundle bundle)
+    public SpellBase GetSpellBase()
     {
+        return innerSpell;
+    }
+    // Each subclass will add modifiers here
+    public virtual void ApplyModifiers(SpellBase spell)
+    {
+        float damage = spell.GetDamage() + damageAdder;
+        damage *= damageMultiplier;
+        //set damage 
+        float manaCost = spell.GetManaCost() + manaAdder;
+        manaCost *= manaMultiplier;
+        manaCost = (int)manaCost;
+        //set mana cost
+        float speed = spell.getSpeed() + speedAdder;// get speed needs to be implemented
+        speed *= speedMultiplier;
+        //set speed
         // left blank, to be overwritten
     }
 
