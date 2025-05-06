@@ -62,7 +62,7 @@ public class ArcaneSpray : SpellBase
                 where,
                 dir,
                 speed,
-                //FIXME: what do i put here: add the misssing argument
+                //FIXME: missing argument
                 
                 ,lifetime
             );
