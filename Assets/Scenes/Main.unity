@@ -586,7 +586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &96316928
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4216,12 +4216,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1060639559}
   m_Layer: 0
-  m_Name: SpawnPoints (1)
+  m_Name: OriginalSpawnPts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1060639559
 Transform:
   m_ObjectHideFlags: 0
