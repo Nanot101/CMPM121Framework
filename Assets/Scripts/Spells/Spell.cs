@@ -16,6 +16,13 @@ public class Spell : SpellBase
     public override int GetDamage() => 100;
     public override float GetCooldown() => 0.75f;
     public override int GetIcon() => 0;
+    public int N;
+    public float delay;
+    public int angle;
+    public string projectileTrajectory;
+    public int secondaryDamage;
+    public string secondaryProjectile;
+    public float spray;
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
