@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework.Internal;
 using UnityEngine;
 
-public class ArcaneSpray : SpellBase
+public class ArcaneSpray : Spell
 {
     private SpellData data;
     private RpnEvaluator rpn = new();
@@ -62,9 +62,12 @@ public class ArcaneSpray : SpellBase
                 where,
                 dir,
                 speed,
-                //FIXME: missing argument
-                
-                ,lifetime
+                (hitTarget, hitPoint) =>
+                {
+                    Damage dmg = new Damage(damage, Damage.Type.ARCANE);
+                    hitTarget.Damage(dmg);
+                },
+                lifetime
             );
         }
 

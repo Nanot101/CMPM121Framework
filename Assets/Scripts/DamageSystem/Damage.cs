@@ -3,7 +3,6 @@ using UnityEngine;
 public class Damage 
 {
     public int amount;
-    public string source;
     public enum Type
     {
         PHYSICAL, ARCANE, NATURE, FIRE, ICE, DARK, LIGHT
