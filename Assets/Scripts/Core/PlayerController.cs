@@ -28,15 +28,10 @@ public class PlayerController : MonoBehaviour
 
     public void StartLevel()
     {
-        RpnEvaluator rpn = new RpnEvaluator();
-        int hp = rpn.EvaluateRPN("95 wave 5 * +");
-        int mana = rpn.EvaluateRPN("90 wave 10 * +");
-        int manaRegen = rpn.EvaluateRPN("10 wave +");
-        int spellPower = rpn.EvaluateRPN("wave 10 *");
-        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER);
+        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
-        hp = new Hittable(hp, Hittable.Team.PLAYER, gameObject);
+        hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
         //hp.OnDeath += Die;
         hp.team = Hittable.Team.PLAYER;
 

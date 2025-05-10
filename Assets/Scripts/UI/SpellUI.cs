@@ -10,7 +10,7 @@ public class SpellUI : MonoBehaviour
     public TextMeshProUGUI damage;
     public GameObject highlight;
     // public AbstractSpell spell;
-    public SpellBase spell;
+    public Spell spell;
     float last_text_update;
     const float UPDATE_DELAY = 1;
     public GameObject dropbutton;
@@ -22,7 +22,7 @@ public class SpellUI : MonoBehaviour
         last_text_update = 0;
     }
 
-    public void SetSpell(SpellBase spell)
+    public void SetSpell(Spell spell)
     {
         this.spell = spell;
         GameManager.Instance.spellIconManager.PlaceSprite(spell.GetIcon(), icon.GetComponent<Image>());
@@ -38,9 +38,8 @@ public class SpellUI : MonoBehaviour
             damage.text = spell.GetDamage().ToString();
             last_text_update = Time.time;
         }
-        
-        // float since_last = Time.time - spell.last_cast;
-        float since_last = Time.time - spell.LastCast;
+    
+        float since_last = Time.time - spell.last_cast;
         float perc;
         if (since_last > spell.GetCooldown())
         {

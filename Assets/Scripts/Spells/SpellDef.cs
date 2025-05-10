@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -22,14 +23,104 @@ public class SpellData
     public string name;
     public string description;
     public int icon;
-    public int mana_cost;
-    public float cooldown;
+    public string mana_cost;
+    public string cooldown;
     public string N;
     public string spray;
     public DamageData damage;
+    public string speed;
+    public string trajectory = "straight";
+    public float size = 0.7f;
+    public int projectileSprite = 0;
     public string secondary_damage;
     public ProjectileData projectile;
     public ProjectileData secondary_projectile;
+
+
+    // Modifiers for various properties
+    public List<ValueModifier> damageModifiers = new List<ValueModifier>();
+    public List<ValueModifier> manaCostModifiers = new List<ValueModifier>();
+    public List<ValueModifier> cooldownModifiers = new List<ValueModifier>();
+    public List<ValueModifier> speedModifiers = new List<ValueModifier>();
+    public List<ValueModifier> sizeModifiers = new List<ValueModifier>();
+    public List<ValueModifier> secondaryDamageModifiers = new List<ValueModifier>();
+    public List<ValueModifier> numProjectilesModifiers = new List<ValueModifier>();
+
+    // Variable context for RPN evaluation
+    private Dictionary<string, int> variableContext = new Dictionary<string, int>();
+
+    public void SetVariable(string key, int value)
+    {
+        variableContext[key] = value;
+    }
+
+    private int Evaluate(string expression)
+    {
+        return new RpnEvaluator().EvaluateRPN(expression, variableContext);
+    }
+
+    public int GetFinalDamage(int power)
+    {
+        if (damage == null || string.IsNullOrEmpty(damage.amount))
+        {
+            return 0;
+        }
+        
+        int baseDamage = Evaluate(damage.amount) * power / 10;
+        return ValueModifier.ApplyModifiers(baseDamage, damageModifiers);
+    }
+
+    public int GetFinalManaCost()
+    {
+        int baseManaCost = Evaluate(mana_cost);
+        return ValueModifier.ApplyModifiers(baseManaCost, manaCostModifiers);
+    }
+
+    public float GetFinalCooldown()
+    {
+        float baseCooldown = Evaluate(cooldown);
+        return ValueModifier.ApplyModifiers(baseCooldown, cooldownModifiers);
+    }
+
+    public float GetFinalSpeed()
+    {
+        float baseSpeed = Evaluate(speed);
+        return ValueModifier.ApplyModifiers(baseSpeed, speedModifiers);
+    }
+
+    public float GetFinalSize()
+    {
+        return ValueModifier.ApplyModifiers(size, sizeModifiers);
+    }
+
+    public int GetFinalSecondaryDamage()
+    {
+        if (string.IsNullOrEmpty(secondary_damage)) return 0;
+        
+        int baseSecondaryDamage = Evaluate(secondary_damage);
+        return ValueModifier.ApplyModifiers(baseSecondaryDamage, secondaryDamageModifiers);
+    }
+
+    public int GetFinalNumProjectiles()
+    {
+        if (string.IsNullOrEmpty(N)) return 1;
+        
+        int baseNum = Evaluate(N);
+        return ValueModifier.ApplyModifiers(baseNum, numProjectilesModifiers);
+    }
+
+    public Damage.Type GetDamageType()
+    {
+        // Default to physical
+        return damage != null ? damage.type : Damage.Type.PHYSICAL;
+    }
+
+
+
+    public static implicit operator SpellData(Spell v)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 

@@ -1,9 +1,10 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class DamageAmp : ModifierSpell
-{
-    public DamageAmp()
-    {
-        this.
-    }
-}
+// public class DamageAmp : ModifierSpell
+// {
+//     ModifierSpell 
+//     public DamageAmp()
+//     {
+//         this.
+//     }
+// }
