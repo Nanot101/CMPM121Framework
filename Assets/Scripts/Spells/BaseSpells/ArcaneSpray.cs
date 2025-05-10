@@ -10,7 +10,7 @@ public class ArcaneSpray : Spell
 
     public ArcaneSpray(SpellCaster owner) : base(owner)
     {
-        data = SpellLoader.Spells["arcane_spray"];
+        data = SpellLoader.Spells["Arcane Spray"];
     }
 
     public override string GetName() => data.name;
