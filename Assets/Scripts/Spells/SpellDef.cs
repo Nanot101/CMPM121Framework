@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -22,14 +23,19 @@ public class SpellData
     public string name;
     public string description;
     public int icon;
-    public int mana_cost;
-    public float cooldown;
+    public string mana_cost;
+    public string cooldown;
     public string N;
     public string spray;
     public DamageData damage;
     public string secondary_damage;
     public ProjectileData projectile;
     public ProjectileData secondary_projectile;
+
+    public static implicit operator SpellData(Spell v)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 

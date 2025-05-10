@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-
 // Wraps and modifies another spell, uses bundle
-public class ModifierSpell : SpellBase
+public class ModifierSpell : Spell
 {
-    // the base spell being wrapped and modified
-    protected SpellBase innerSpell;
+    // The base spell being wrapped and modified
+    protected Spell innerSpell;
+
+    // Modifier properties
     float damageMultiplier;
     int damageAdder;
     float manaMultiplier;
@@ -17,90 +18,103 @@ public class ModifierSpell : SpellBase
     string projectile_trajectory;
     float delay;
     string description;
+
     // Constructor that wraps a given spell and assigns the owning caster
-    public ModifierSpell(SpellBase innerSpell, SpellCaster owner) : base(owner)
+    public ModifierSpell(Spell innerSpell, SpellCaster owner) : base(owner)
     {
         this.innerSpell = innerSpell;
-        this.damageMultiplier = 1;
-        this.damageAdder = 0;
-        this.manaMultiplier = 1;
-        this.manaAdder = 0;
-        this.speedMultiplier = 1;
-        this.speedAdder = 0;
-        this.angle = 0;
-        this.projectile_trajectory = string.Empty;
-        this.delay = 0;
-        this.description = string.Empty;
+        damageMultiplier = 1;
+        damageAdder = 0;
+        manaMultiplier = 1;
+        manaAdder = 0;
+        speedMultiplier = 1;
+        speedAdder = 0;
+        angle = 0;
+        projectile_trajectory = string.Empty;
+        delay = 0;
+        description = string.Empty;
+        icon = innerSpell.GetIcon();
     }
-
-
-    // Use this if owner is assigned later
-    // public ModifierSpell(SpellBase innerSpell)
-    // {
-    //     this.innerSpell = innerSpell;
-    // }
-
 
     public override string GetName()
     {
-        return innerSpell.GetName();
-    }
-    public SpellBase GetSpellBase()
-    {
-        return innerSpell;
-    }
-    // Each subclass will add modifiers here
-    public virtual void ApplyModifiers(SpellBase spell)
-    {
-        float damage = spell.GetDamage() + damageAdder;
-        damage *= damageMultiplier;
-        //set damage 
-        float manaCost = spell.GetManaCost() + manaAdder;
-        manaCost *= manaMultiplier;
-        manaCost = (int)manaCost;
-        //set mana cost
-        float speed = spell.getSpeed() + speedAdder;// get speed needs to be implemented
-        speed *= speedMultiplier;
-        //set speed
-        // left blank, to be overwritten
+        return innerSpell.GetName() + " (Modified)";
     }
 
-    public override int GetDamage()
+    public override string GetDescription()
     {
-        var bundle = new SpellModBundle();
-        ApplyModifiers(bundle); // calls the overidden version
-        return Mathf.RoundToInt(ValueModifier.ApplyModifiers(innerSpell.GetDamage(), bundle.DamageModifiers));
-    }
-
-    public override int GetManaCost()
-    {
-        var bundle = new SpellModBundle();
-        ApplyModifiers(bundle);
-        return Mathf.RoundToInt(ValueModifier.ApplyModifiers(innerSpell.GetManaCost(), bundle.ManaCostModifiers));
-    }
-
-    public override float GetCooldown()
-    {
-        var bundle = new SpellModBundle();
-        ApplyModifiers(bundle);
-        return ValueModifier.ApplyModifiers(innerSpell.GetCooldown(), bundle.CooldownModifiers);
+        return description != string.Empty ? description : innerSpell.GetDescription();
     }
 
     public override int GetIcon()
     {
-        var bundle = new SpellModBundle();
-        ApplyModifiers(bundle);
-        return Mathf.RoundToInt(ValueModifier.ApplyModifiers(innerSpell.GetIcon(), bundle.IconModifiers));
+        return icon != 0 ? icon : innerSpell.GetIcon();
+    }
+
+    public Spell GetSpellBase()
+    {
+        return innerSpell;
+    }
+
+    // Applying modifiers to the base spell
+    public override int GetDamage()
+    {
+        int baseDamage = innerSpell.GetDamage();
+        float modifiedDamage = (baseDamage + damageAdder) * damageMultiplier;
+        return Mathf.RoundToInt(modifiedDamage);
+    }
+
+    public override int GetManaCost()
+    {
+        int baseMana = innerSpell.GetManaCost();
+        float modifiedMana = (baseMana + manaAdder) * manaMultiplier;
+        return Mathf.RoundToInt(modifiedMana);
+    }
+
+    public override float GetCooldown()
+    {
+        return innerSpell.GetCooldown();
+    }
+
+    
+
+    public override int GetSpeed()
+    {
+        int baseSpeed = innerSpell.GetSpeed();
+        float modifiedSpeed = (baseSpeed + speedAdder) * speedMultiplier;
+        return Mathf.RoundToInt(modifiedSpeed);
+    }
+
+    // Applies additional modifiers to a spell, can be customized by subclasses
+    public virtual void ApplyModifiers(Spell spell)
+    {
+        damageMultiplier = Mathf.Max(1, damageMultiplier);
+        manaMultiplier = Mathf.Max(1, manaMultiplier);
+        speedMultiplier = Mathf.Max(1, speedMultiplier);
     }
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
-        lastCastTime = Time.time;
+        this.team = team;
+        // Apply before casting
+        ApplyModifiers(innerSpell);
+        // Adjust trajectory or angle if specified
+        Vector3 direction = (target - where).normalized;
+        // Modify the angle if applicable
+        if (angle != 0)
+        {
+            float radians = angle * Mathf.Deg2Rad;
+            direction = new Vector3(
+                direction.x * Mathf.Cos(radians) - direction.z * Mathf.Sin(radians),
+                direction.y,
+                direction.x * Mathf.Sin(radians) + direction.z * Mathf.Cos(radians)
+            );
+        }
+        yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
 
-        var bundle = new SpellModBundle();
-        ApplyModifiers(bundle);
-
-        // Optionally pass the bundle to inner spell if it needs it
-        return innerSpell.Cast(where, target, team);
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
     }
 }

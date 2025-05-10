@@ -14,9 +14,15 @@ public class ArcaneSpray : Spell
     }
 
     public override string GetName() => data.name;
-    public override int GetManaCost() => data.mana_cost;
+    public override int GetManaCost()
+    {
+        return rpn.EvaluateRPN(data.mana_cost, BuildVars());
+    }
     public override int GetDamage() => rpn.EvaluateRPN(data.damage.amount, BuildVars());
-    public override float GetCooldown() => data.cooldown;
+    public override float GetCooldown()
+    {
+        return float.Parse(rpn.EvaluateRPN(data.cooldown, BuildVars()).ToString());
+    }
     public override int GetIcon() => data.icon;
 
     private Dictionary<string, int> BuildVars()
