@@ -78,9 +78,9 @@ public class ModifierSpell : Spell
 
     
 
-    public override int GetSpeed()
+    public override float GetSpeed()
     {
-        int baseSpeed = innerSpell.GetSpeed();
+        float baseSpeed = innerSpell.GetSpeed();
         float modifiedSpeed = (baseSpeed + speedAdder) * speedMultiplier;
         return Mathf.RoundToInt(modifiedSpeed);
     }
@@ -116,5 +116,10 @@ public class ModifierSpell : Spell
         {
             yield return new WaitForSeconds(delay);
         }
+    }
+
+    protected override void InitializeSpellData()
+    {
+        throw new System.NotImplementedException();
     }
 }

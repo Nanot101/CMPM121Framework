@@ -3,42 +3,81 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-public class Spell
+public abstract class Spell
 {
 
     protected string name;
     protected string description;
     protected int icon;
     public float last_cast;
+    public float lifetime;
     public SpellCaster owner;
     public Hittable.Team team;
+    protected SpellData attributes;
 
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
+        attributes = new SpellData();
     }
 
-    protected int N;
-    protected float delay;
-    protected int angle;
-    protected string projectileTrajectory;
-    protected int secondaryDamage;
-    protected string secondaryProjectile;
-    protected float spray;
+    protected abstract void InitializeSpellData();
 
-    public virtual string GetName() => name ?? "Bolt";
-    public virtual string GetDescription() => description ?? "A basic bolt of energy.";
+
+
+    // protected int N;
+    // protected float delay;
+    // protected int angle;
+    // protected string projectileTrajectory;
+    // protected int secondaryDamage;
+    // protected string secondaryProjectile;
+    // protected float spray;
+
+    public virtual string GetName() => attributes.name ?? "Default: Bolt";
+    public virtual string GetDescription() => attributes.description ?? "Default: A basic bolt of energy.";
 
     public virtual int GetManaCost() => 10;
-    public virtual int GetDamage() => 100;
-    public virtual float GetCooldown() => 0.75f;
-    public virtual int GetIcon() => 0;
-    public virtual int GetSpeed() => 0;
+    public virtual int GetDamage()
+    {
+        int dmg = attributes.GetFinalDamage(owner.Power);
+        return dmg > 0 ? dmg : 0;
+    }
+    public virtual float GetCooldown() {
+        float cooldown = attributes.GetFinalCooldown();
+        return cooldown > 0 ? cooldown : 0.75f;
+    }
+    public virtual int GetIcon() {
+        int iconn = attributes.icon;
+        return iconn > 0 ? iconn : 0;
+    }
+    public virtual float GetSpeed() {
+        float speed = attributes.GetFinalSpeed();
+        return speed > 0 ? speed : 0;
+    }
+
+    public virtual string GetTrajectory() 
+    {
+        return attributes.trajectory;
+    }
+    public virtual float GetSize()
+    {
+        return attributes.GetFinalSize();
+    }
+
 
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         last_cast = Time.time;
-        GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, 15f, OnHit);
+        this.team = team;
+         GameManager.Instance.projectileManager.CreateProjectile(
+            attributes.projectileSprite, 
+            GetTrajectory(), 
+            where, 
+            target - where, 
+            GetSpeed(), 
+            OnHit,
+            lifetime,
+            GetSize());
         yield return new WaitForEndOfFrame();
     }
 
@@ -46,7 +85,11 @@ public class Spell
     protected virtual void OnHit(Hittable other, Vector3 impact)
     {
         if (other.team != team)
-            other.Damage(new Damage(GetDamage(), Damage.Type.ARCANE));
+        {
+            int damage = GetDamage();
+            Damage.Type damageType = attributes.GetDamageType();
+            other.Damage(new Damage(damage, damageType));
+        }
     }
 
 

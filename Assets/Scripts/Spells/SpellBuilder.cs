@@ -10,7 +10,7 @@ public class SpellBuilder
 
     public Spell Build(SpellCaster owner)
     {
-        return new Spell(owner);
+        return new ArcaneSpray(owner);
     }
 
    
