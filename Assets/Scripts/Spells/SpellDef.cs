@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine;
 
 [System.Serializable]
 public class DamageData
@@ -47,14 +49,36 @@ public class SpellData
     public List<ValueModifier> numProjectilesModifiers = new List<ValueModifier>();
 
     // Variable context for RPN evaluation
-    private Dictionary<string, int> variableContext = new Dictionary<string, int>();
+    // private Dictionary<string, int> variableContext = new Dictionary<string, int>();
+
+    // public void SetVariable(string key, int value)
+    // {
+    //     variableContext[key] = value;
+    // }
+
+    // private int Evaluate(string expression)
+    // {
+    //     return new RpnEvaluator().EvaluateRPN(expression, variableContext);
+    // }
+    private Dictionary<string, float> variableContext = new Dictionary<string, float>();
 
     public void SetVariable(string key, int value)
+    {
+        variableContext[key] = (float)value;
+    }
+
+    public void SetVariable(string key, float value)
     {
         variableContext[key] = value;
     }
 
     private int Evaluate(string expression)
+    {
+        float result = new RpnEvaluator().EvaluateRPN(expression, variableContext);
+        return Mathf.RoundToInt(result);
+    }
+
+    private float EvaluateFloat(string expression)
     {
         return new RpnEvaluator().EvaluateRPN(expression, variableContext);
     }

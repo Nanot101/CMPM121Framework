@@ -17,7 +17,6 @@ public class ModifierSpell : Spell
     int angle;
     string projectile_trajectory;
     float delay;
-    string description;
 
     // Constructor that wraps a given spell and assigns the owning caster
     public ModifierSpell(Spell innerSpell, SpellCaster owner) : base(owner)
