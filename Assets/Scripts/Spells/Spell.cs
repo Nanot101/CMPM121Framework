@@ -95,6 +95,6 @@ public abstract class Spell
 
     public bool IsReady()
     {
-        return (last_cast + GetCooldown() < Time.time);
+        return last_cast + GetCooldown() < Time.time;
     }
 }

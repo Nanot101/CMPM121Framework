@@ -121,20 +121,37 @@ public class EnemySpawner : MonoBehaviour
                 continue;
             }
 
-            Dictionary<string, int> vars = new Dictionary<string, int>
+            // Dictionary<string, int> vars = new Dictionary<string, int>
+            // {
+            //     { "wave", currentWave },
+            //     { "base", enemyData.hp }
+            // };
+
+            // int count = rpn.EvaluateRPN(spawn.count, vars);
+            // int hp = rpn.EvaluateRPN(spawn.hp, vars);
+            // int damage = enemyData.damage;
+            // if (!string.IsNullOrEmpty(spawn.damage))
+            // {
+            //     vars["base"] = enemyData.damage;
+            //     damage = rpn.EvaluateRPN(spawn.damage, vars);
+            // }
+
+            Dictionary<string, float> vars = new Dictionary<string, float>
             {
-                { "wave", currentWave },
-                { "base", enemyData.hp }
+                { "wave", (float)currentWave },
+                { "base", (float)enemyData.hp }
             };
 
-            int count = rpn.EvaluateRPN(spawn.count, vars);
-            int hp = rpn.EvaluateRPN(spawn.hp, vars);
+            int count = Mathf.RoundToInt(rpn.EvaluateRPN(spawn.count, vars));
+            int hp = Mathf.RoundToInt(rpn.EvaluateRPN(spawn.hp, vars));
             int damage = enemyData.damage;
+
             if (!string.IsNullOrEmpty(spawn.damage))
             {
-                vars["base"] = enemyData.damage;
-                damage = rpn.EvaluateRPN(spawn.damage, vars);
+                vars["base"] = (float)enemyData.damage;
+                damage = Mathf.RoundToInt(rpn.EvaluateRPN(spawn.damage, vars));
             }
+
 
             for (int i = 0; i < count; ++i)
             {
