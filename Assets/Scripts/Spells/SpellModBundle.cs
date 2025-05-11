@@ -13,13 +13,13 @@ public class SpellModBundle
     //public List<ValueModifier> SpeedModifiers = new();
     //public List<ValueModifier> IconModifiers = new();
 
-    public ModifierSpell applyModifiers()
-    {
-        SpellBase spell = modifiers[0].GetSpellBase();
-        foreach(ModifierSpell SpellMod in modifiers)
-        {
-            SpellMod.ApplyModifiers();
-        }
-
-    }
+//    public ModifierSpell applyModifiers()
+//    {
+//        Spell spell = modifiers[0].GetSpellBase();
+//        foreach(ModifierSpell SpellMod in modifiers)
+//        {
+//            SpellMod.ApplyModifiers(spell);
+//        }
+//        return ;
+//    }
 }

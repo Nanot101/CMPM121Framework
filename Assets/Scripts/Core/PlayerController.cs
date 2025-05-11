@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public int speed;
 
     public Unit unit;
+    public GameEndText endText;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,7 +43,6 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(spellcaster.ManaRegeneration());
        
         hp = new Hittable(hpNum, Hittable.Team.PLAYER, gameObject);
-
         //hp.OnDeath += Die;
         // hp.team = Hittable.Team.PLAYER;
 
@@ -112,7 +114,7 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         Debug.Log("You Lost");
-        //GameEndText.onDie();
+        endText.onDie();
     }
     public int GetCurrentHp()
     {
