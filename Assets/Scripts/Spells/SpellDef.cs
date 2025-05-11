@@ -127,7 +127,11 @@ public class SpellData
 
     public int GetFinalNumProjectiles()
     {
-        if (string.IsNullOrEmpty(N)) return 1;
+        if (string.IsNullOrEmpty(N)) 
+        { 
+            Debug.Log ("num proj is null or empty");
+            return 1;
+        }
         
         int baseNum = Evaluate(N);
         return ValueModifier.ApplyModifiers(baseNum, numProjectilesModifiers);
@@ -138,6 +142,15 @@ public class SpellData
         // Default to physical
         return damage != null ? damage.type : Damage.Type.PHYSICAL;
     }
+
+    public void SetContext(Dictionary<string, float> context)
+    {
+        foreach (var kvp in context)
+        {
+            variableContext[kvp.Key] = kvp.Value;
+        }
+    }
+
 
 
 

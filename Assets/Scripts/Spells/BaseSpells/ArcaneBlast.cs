@@ -48,13 +48,15 @@ public class ArcaneBlast : Spell
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Dictionary<string, float> vars = BuildVars();
+        data.SetContext(vars);
+        int numProjectiles = rpn.SafeEvaluateInt(data.N, vars, 1);
         int damage = GetDamage();
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
         float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 2f);
 
-        // Cast the main projectile (Arcane Blast) - only ONE slow-moving projectile
+        // Cast the main projectile (Arcane Blast)
         Vector3 direction = (target - where).normalized;
         GameManager.Instance.projectileManager.CreateProjectile(
             spriteIndex,
@@ -68,7 +70,6 @@ public class ArcaneBlast : Spell
 
         yield return new WaitForEndOfFrame();
     }
-
     // --- Handling Impact ---
     private void OnFirstHit(Hittable other, Vector3 hitPosition)
     {

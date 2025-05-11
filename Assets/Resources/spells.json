@@ -20,7 +20,7 @@
    "arcane_blast":  {
        "name": "Arcane Blast",
        "description": "A bolt that explodes into smaller bolts on impact.",
-       "icon": 2,
+       "icon": 3,
        "N": "8 power 5 / +",
        "damage": {"amount": "20 power 3 / +", "type": "arcane"},
        "secondary_damage": "5 power 10 / +",
