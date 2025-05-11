@@ -37,6 +37,7 @@ public class SpellData
     public string secondary_damage;
     public ProjectileData projectile;
     public ProjectileData secondary_projectile;
+    public string interval; // for our original spell
 
 
     // Modifiers for various properties
@@ -137,9 +138,21 @@ public class SpellData
         return ValueModifier.ApplyModifiers(baseNum, numProjectilesModifiers);
     }
 
+    // for our original spell
+    public float GetFinalInterval()
+    {
+        if (string.IsNullOrEmpty(interval)) 
+        { 
+            Debug.Log("Interval is null or empty, defaulting to 5 seconds.");
+            return 5f;
+        }
+        
+        float baseInterval = EvaluateFloat(interval);
+        return baseInterval > 0 ? baseInterval : 5f;
+    }
+
     public Damage.Type GetDamageType()
     {
-        // Default to physical
         return damage != null ? damage.type : Damage.Type.PHYSICAL;
     }
 

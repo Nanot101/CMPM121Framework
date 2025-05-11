@@ -49,7 +49,7 @@ public class ArcaneBolt : Spell
     {
         Dictionary<string, float> vars = BuildVars();
 
-        // int numProjectiles = 1; // Arcane Bolt is a single bolt by default
+        // int numProjectiles = 1;
         int damage = GetDamage();
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();

@@ -34,6 +34,17 @@ public class ProjectileManager : MonoBehaviour
         new_projectile.transform.localScale = new Vector3(size, size, size);
     }
 
+    public GameObject CreateProjectileWithReference(int which, string trajectory, Vector3 where, Vector3 direction, float speed, Action<Hittable, Vector3> onHit, float lifetime)
+    {
+        GameObject new_projectile = Instantiate(projectiles[which], where + direction.normalized * 1.1f, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg));
+        new_projectile.GetComponent<ProjectileController>().movement = MakeMovement(trajectory, speed);
+        new_projectile.GetComponent<ProjectileController>().movement.SetDirection(direction);
+        new_projectile.GetComponent<ProjectileController>().OnHit += onHit;
+        new_projectile.GetComponent<ProjectileController>().SetLifetime(lifetime);
+
+        return new_projectile;
+    }
+
     public ProjectileMovement MakeMovement(string name, float speed)
     {
         if (name == "straight")

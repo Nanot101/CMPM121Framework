@@ -14,7 +14,8 @@ public class SpellBuilder
         // return new ArcaneSpray(owner);
         // return new ArcaneBolt(owner);
         // return new MagicMissile(owner);
-        return new ArcaneBlast(owner); // fixed
+        // return new ArcaneBlast(owner); // fixed
+        return new ArcanePulse(owner);
     }
 
    
