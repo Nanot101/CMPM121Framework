@@ -9,6 +9,14 @@ public class ArcaneBolt : Spell
 
     public ArcaneBolt(SpellCaster owner) : base(owner)
     {
+        if (owner == null)
+        {
+            Debug.LogError("ArcaneBolt owner is null");
+        }
+        else
+        {
+            Debug.Log("ArcaneBolt initialized with owner: " + owner.team);
+        }
         data = SpellLoader.Spells["arcane_bolt"];
     }
 

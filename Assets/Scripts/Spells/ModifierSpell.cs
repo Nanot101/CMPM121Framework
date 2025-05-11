@@ -10,13 +10,14 @@ public class ModifierSpell : Spell
     // Modifier properties
     float damageMultiplier;
     int damageAdder;
-    float manaMultiplier;
+    protected float manaMultiplier;
+    protected float cooldownMultiplier;
+    protected float delay;
     int manaAdder;
     float speedMultiplier;
     int speedAdder;
     int angle;
     string projectile_trajectory;
-    float delay;
 
     // Constructor that wraps a given spell and assigns the owning caster
     public ModifierSpell(Spell innerSpell, SpellCaster owner) : base(owner)
@@ -87,9 +88,7 @@ public class ModifierSpell : Spell
     // Applies additional modifiers to a spell, can be customized by subclasses
     public virtual void ApplyModifiers(Spell spell)
     {
-        damageMultiplier = Mathf.Max(1, damageMultiplier);
-        manaMultiplier = Mathf.Max(1, manaMultiplier);
-        speedMultiplier = Mathf.Max(1, speedMultiplier);
+        
     }
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)

@@ -109,7 +109,7 @@ public class ArcaneBlast : Spell
     // --- Helper Methods ---
     private int GetFinalDamage()
     {
-        return data.GetFinalDamage(10); // Assuming a default power value of 10
+        return data.GetFinalDamage(10);
     }
 
     private int GetSecondaryDamage()

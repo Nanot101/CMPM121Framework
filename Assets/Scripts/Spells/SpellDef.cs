@@ -79,7 +79,7 @@ public class SpellData
         return Mathf.RoundToInt(result);
     }
 
-    private float EvaluateFloat(string expression)
+    public float EvaluateFloat(string expression)
     {
         return new RpnEvaluator().EvaluateRPN(expression, variableContext);
     }

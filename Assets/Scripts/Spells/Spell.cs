@@ -64,6 +64,11 @@ public abstract class Spell
         return attributes.GetFinalSize();
     }
 
+    public SpellData GetAttributes()
+    {
+        return attributes;
+    }
+
 
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {

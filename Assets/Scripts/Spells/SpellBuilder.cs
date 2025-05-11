@@ -15,7 +15,16 @@ public class SpellBuilder
         // return new ArcaneBolt(owner);
         // return new MagicMissile(owner);
         // return new ArcaneBlast(owner); // fixed
-        return new ArcanePulse(owner);
+        // return new ArcanePulse(owner);
+
+        // Build the base spell
+        Spell baseSpell = new ArcaneBolt(owner);
+        if (baseSpell == null)
+        {
+            Debug.LogError("Failed to create spell.");
+        }
+        return new DoublerModifier(baseSpell, owner);
+        // return new DamageAmpModifier(baseSpell, owner);
     }
 
    
