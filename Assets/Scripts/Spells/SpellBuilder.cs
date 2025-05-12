@@ -14,6 +14,7 @@ public class SpellBuilder : MonoBehaviour
     public Spell Build(SpellCaster owner)
     {
         // uncomment these return statements to see the spells in action
+        modifiers = new List<ModifierData>();
         while (true)
         {
             float spellOrModifier = Random.value * 2;
@@ -38,6 +39,9 @@ public class SpellBuilder : MonoBehaviour
                     break;
                     case "arcane_spray":
                         baseSpell = new ArcaneSpray(owner);
+                    break;
+                    case "arcane_pulse":
+                        baseSpell = new ArcanePulse(owner);
                     break;
                 }
                 return baseSpell;
