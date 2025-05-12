@@ -71,7 +71,6 @@ public class SpellData
     {
         variableContext[key] = value;
     }
-
     private int Evaluate(string expression)
     {
         float result = new RpnEvaluator().EvaluateRPN(expression, variableContext);
@@ -82,7 +81,6 @@ public class SpellData
     {
         return new RpnEvaluator().EvaluateRPN(expression, variableContext);
     }
-
     public int GetFinalDamage(int power)
     {
         if (damage == null || string.IsNullOrEmpty(damage.amount))
@@ -132,21 +130,53 @@ public class SpellData
         int baseNum = Evaluate(N);
         return ValueModifier.ApplyModifiers(baseNum, numProjectilesModifiers);
     }
-
+    
     public Damage.Type GetDamageType()
     {
         // Default to physical
         return damage != null ? damage.type : Damage.Type.PHYSICAL;
     }
 
-
+    public float getBaseSpeed()
+    {
+        float baseSpeed = Evaluate(speed);
+        return baseSpeed;
+    }
 
     public static implicit operator SpellData(Spell v)
     {
         throw new NotImplementedException();
     }
-}
+    public int GetBaseDamage()
+    {
+        if (damage == null || string.IsNullOrEmpty(damage.amount))
+        {
+            return 0;
+        }
 
+        int baseDamage = Evaluate(damage.amount);
+        return baseDamage;
+    }
+
+    public int GetBaseManaCost()
+    {
+        int baseManaCost = Evaluate(mana_cost);
+        return baseManaCost;
+    }
+
+    public float GetBaseCooldown()
+    {
+        float baseCooldown = Evaluate(cooldown);
+        return baseCooldown;
+    }
+
+    public float GetBaseSpeed()
+    {
+        float baseSpeed = Evaluate(speed);
+        return baseSpeed;
+    }
+}
+    
 
 [System.Serializable]
 public class ModifierData

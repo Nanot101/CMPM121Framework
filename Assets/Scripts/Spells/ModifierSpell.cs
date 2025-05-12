@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 // Wraps and modifies another spell, uses bundle
@@ -34,7 +35,21 @@ public class ModifierSpell : Spell
         description = string.Empty;
         icon = innerSpell.GetIcon();
     }
-
+    public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, string descrp) : base(owner)
+    {
+        this.innerSpell = innerSpell;
+        damageMultiplier = dmgMlt;
+        damageAdder = dmgAdd;
+        manaMultiplier = manaMlt;
+        manaAdder = manaAdd;
+        speedMultiplier = speedMlt;
+        speedAdder = speedAdd;
+        angle = angl;
+        projectile_trajectory = trajectory;
+        delay = timeBetweenShots;
+        description = descrp;
+        icon = innerSpell.GetIcon();
+    }
     public override string GetName()
     {
         return innerSpell.GetName() + " (Modified)";
@@ -85,18 +100,29 @@ public class ModifierSpell : Spell
     }
 
     // Applies additional modifiers to a spell, can be customized by subclasses
-    public virtual void ApplyModifiers(Spell spell)
+    public virtual void ApplyModifiers()
     {
-        damageMultiplier = Mathf.Max(1, damageMultiplier);
-        manaMultiplier = Mathf.Max(1, manaMultiplier);
-        speedMultiplier = Mathf.Max(1, speedMultiplier);
+        
+        float damage = innerSpell.GetDamage() + damageAdder;
+        damage *= damageMultiplier;
+
+        //set damage 
+        float manaCost = innerSpell.GetManaCost() + manaAdder;
+        manaCost *= manaMultiplier;
+        manaCost = (int)manaCost;
+        //set mana cost
+        float speed = innerSpell.getSpeed() + speedAdder;// get speed needs to be implemented
+        speed *= speedMultiplier;
+        //set speed
+        // left blank, to be overwritten
+        
     }
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         this.team = team;
         // Apply before casting
-        ApplyModifiers(innerSpell);
+        ApplyModifiers();
         // Adjust trajectory or angle if specified
         Vector3 direction = (target - where).normalized;
         // Modify the angle if applicable

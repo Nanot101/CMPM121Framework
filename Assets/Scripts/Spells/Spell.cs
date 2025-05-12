@@ -20,6 +20,11 @@ public abstract class Spell
         this.owner = owner;
         attributes = new SpellData();
     }
+    public Spell(SpellData values, SpellCaster owner)
+    {
+        this.owner = owner;
+        this.attributes = values;
+    }
     public void SetSpellValues(SpellData spellData)
     {
         this.attributes = spellData;
@@ -42,11 +47,11 @@ public abstract class Spell
     public virtual int GetManaCost() => 10;
     public virtual int GetDamage()
     {
-        int dmg = attributes.GetFinalDamage(owner.Power);
+        int dmg = attributes.GetBaseDamage();
         return dmg > 0 ? dmg : 0;
     }
     public virtual float GetCooldown() {
-        float cooldown = attributes.GetFinalCooldown();
+        float cooldown = attributes.GetBaseCooldown();
         return cooldown > 0 ? cooldown : 0.75f;
     }
     public virtual int GetIcon() {
@@ -54,7 +59,7 @@ public abstract class Spell
         return iconn > 0 ? iconn : 0;
     }
     public virtual float GetSpeed() {
-        float speed = attributes.GetFinalSpeed();
+        float speed = attributes.GetBaseSpeed();
         return speed > 0 ? speed : 0;
     }
 
@@ -66,7 +71,10 @@ public abstract class Spell
     {
         return attributes.GetFinalSize();
     }
-
+    public float getSpeed()
+    {
+        return attributes.getBaseSpeed();
+    }
 
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
