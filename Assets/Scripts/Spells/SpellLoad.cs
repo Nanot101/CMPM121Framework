@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+using Unity.Collections;
 
 public class SpellLoader : MonoBehaviour
 {
@@ -48,4 +49,12 @@ public class SpellLoader : MonoBehaviour
 
         Debug.Log($"Loaded {Spells.Count} base spells and {Modifiers.Count} modifiers.");
     }
+    public Dictionary<string, SpellData> getSpellDict()
+    {
+        return Spells;
+    }
+    public Dictionary<string, ModifierData>  getModifierDict() { 
+        return Modifiers; 
+    }
+
 }
