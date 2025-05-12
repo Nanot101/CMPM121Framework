@@ -4,8 +4,7 @@ using UnityEngine;
 public class DamageAmpModifier : ModifierSpell
 {
     private readonly ModifierData data;
-    private float damageMultiplier;
-
+    private Damage modifiedDamageData;
     public DamageAmpModifier(Spell innerSpell, SpellCaster owner) : base(innerSpell, owner)
     {
         data = SpellLoader.Modifiers["damage_amp"];
@@ -34,10 +33,10 @@ public class DamageAmpModifier : ModifierSpell
         return innerSpell.GetCooldown() * cooldownMultiplier;
     }
 
-    public override void ApplyModifiers(Spell spell)
-    {
-        attributes.damage.amount = GetDamage().ToString();
-    }
+    // public override void ApplyModifiers(Spell spell)
+    // {
+    //     attributes.damage.amount = GetDamage().ToString();
+    // }
 
     public override int GetManaCost()
     {
@@ -46,19 +45,41 @@ public class DamageAmpModifier : ModifierSpell
 
     public override int GetDamage()
     {
-        // Directly get the damage from inner spell
         int baseDamage = innerSpell.GetDamage();
         int modifiedDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
+        Damage.Type damageType = innerSpell.GetDamageType();
+        Debug.Log($"[DamageAmpModifier] Base Damage: {baseDamage}, Multiplier: {damageMultiplier}, Modified Damage: {modifiedDamage}, Damage Type: {damageType}");
 
-        Debug.Log($"[DamageAmpModifier] Base Damage: {baseDamage}, Multiplier: {damageMultiplier}, Modified Damage: {modifiedDamage}");
+        
+        modifiedDamageData = new Damage(modifiedDamage, damageType);
+
+        
 
         return modifiedDamage;
     }
 
-    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    public Damage GetDamageData()
     {
-        this.team = team;
-        ApplyModifiers(innerSpell);
-        yield return innerSpell.Cast(where, target, team);
+        if (modifiedDamageData == null)
+        {
+            GetDamage();
+        }
+        return modifiedDamageData;
     }
+
+    public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+{
+    this.team = team;
+    
+    GetDamage(); 
+
+    // Apply the damage override just before casting
+    innerSpell.SetDamageOverride(modifiedDamageData);
+
+    Debug.Log($"[DamageAmpModifier] Applying Modified Damage: {modifiedDamageData.amount} of type {modifiedDamageData.type}");
+
+    // Cast the inner spell
+    yield return innerSpell.Cast(where, target, team);
+}
+
 }

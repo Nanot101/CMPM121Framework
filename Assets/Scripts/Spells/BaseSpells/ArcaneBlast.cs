@@ -43,14 +43,30 @@ public class ArcaneBlast : Spell
     {
         return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
     }
+    
+    public override Damage.Type GetDamageType()
+    {
+        return Damage.Type.ARCANE;
+    }
 
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Dictionary<string, float> vars = BuildVars();
         data.SetContext(vars);
+
         int numProjectiles = rpn.SafeEvaluateInt(data.N, vars, 1);
         int damage = GetDamage();
+        Damage.Type damageType = GetDamageType();
+
+        // Check for overridden damage
+        Damage overriddenDamage = GetOverriddenDamage();
+        if (overriddenDamage != null)
+        {
+            damage = overriddenDamage.amount;
+            damageType = overriddenDamage.type;
+        }
+
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -64,19 +80,19 @@ public class ArcaneBlast : Spell
             where,
             direction,
             speed,
-            OnFirstHit,
+            (hitTarget, hitPoint) => OnFirstHit(hitTarget, hitPoint, damage, damageType),
             lifetime
         );
 
         yield return new WaitForEndOfFrame();
     }
-    // --- Handling Impact ---
-    private void OnFirstHit(Hittable other, Vector3 hitPosition)
+        // --- Handling Impact ---
+    private void OnFirstHit(Hittable other, Vector3 hitPosition, int damage, Damage.Type type)
     {
         if (other.team != team)
         {
             // Deal the primary damage
-            other.Damage(new Damage(GetDamage(), data.damage.type));
+            other.Damage(new Damage(damage, type));
         }
 
         // Explode into secondary projectiles
@@ -92,7 +108,7 @@ public class ArcaneBlast : Spell
                 hitPosition,
                 direction,
                 GetSecondaryProjectileSpeed(),
-                OnSecondaryHit,
+                (hitTarget, hitPoint) => OnSecondaryHit(hitTarget, hitPoint),
                 data.secondary_projectile != null ? rpn.SafeEvaluateFloat(data.secondary_projectile.lifetime, BuildVars(), 2f) : 2f
             );
         }

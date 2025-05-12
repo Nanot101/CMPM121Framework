@@ -43,12 +43,25 @@ public class MagicMissile : Spell
     {
         return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
     }
+        public override Damage.Type GetDamageType()
+    {
+        return Damage.Type.ARCANE;
+    }
 
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Dictionary<string, float> vars = BuildVars();
         int damage = GetDamage();
+        Damage.Type type = data.damage.type;
+
+        Damage overridden = GetOverriddenDamage();
+        if (overridden != null)
+        {
+            damage = overridden.amount;
+            type = overridden.type;
+        }
+
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -64,7 +77,6 @@ public class MagicMissile : Spell
             speed,
             (hitTarget, hitPoint) =>
             {
-                Damage.Type type = data.damage.type;
                 Damage dmg = new Damage(damage, type);
                 hitTarget.Damage(dmg);
             },

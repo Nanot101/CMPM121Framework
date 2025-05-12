@@ -31,12 +31,27 @@ public class ArcanePulse : Spell
 
     public override float GetSize() => Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
 
+    public override Damage.Type GetDamageType()
+    {
+        return Damage.Type.ARCANE;
+    }
+
+
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Dictionary<string, float> vars = BuildVars();
 
         int damage = GetDamage();
+        Damage.Type type = data.damage.type;
+
+        Damage overridden = GetOverriddenDamage();
+        if (overridden != null)
+        {
+            damage = overridden.amount;
+            type = overridden.type;
+        }
+
         float speed = GetSpeed();
         float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 3f);
         int spriteIndex = data.projectile.sprite;
@@ -54,7 +69,6 @@ public class ArcanePulse : Spell
             speed,
             (targetHit, hitPoint) =>
             {
-                Damage.Type type = data.damage.type;
                 Damage dmg = new Damage(damage, type);
                 targetHit.Damage(dmg);
             },

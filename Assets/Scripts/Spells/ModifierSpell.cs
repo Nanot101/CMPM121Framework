@@ -8,7 +8,7 @@ public class ModifierSpell : Spell
     protected Spell innerSpell;
 
     // Modifier properties
-    float damageMultiplier;
+    protected float damageMultiplier;
     int damageAdder;
     protected float manaMultiplier;
     protected float cooldownMultiplier;
@@ -49,6 +49,10 @@ public class ModifierSpell : Spell
     public override int GetIcon()
     {
         return icon != 0 ? icon : innerSpell.GetIcon();
+    }
+    public override Damage.Type GetDamageType()
+    {
+        return innerSpell.GetDamageType();
     }
 
     public Spell GetSpellBase()

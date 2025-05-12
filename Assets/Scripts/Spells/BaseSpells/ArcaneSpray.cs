@@ -44,6 +44,11 @@ public class ArcaneSpray : Spell
         return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
     }
 
+    public override Damage.Type GetDamageType()
+    {
+        return Damage.Type.ARCANE;
+    }
+
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
@@ -52,6 +57,14 @@ public class ArcaneSpray : Spell
         int numProjectiles = rpn.SafeEvaluateInt(data.N, vars, 1);
         float sprayAngle = rpn.SafeParseFloat(data.spray, 0.1f);
         int damage = GetDamage();
+        Damage.Type type = data.damage.type;
+        Damage overridden = GetOverriddenDamage();
+        if (overridden != null)
+        {
+            damage = overridden.amount;
+            type = overridden.type;
+        }
+
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -74,7 +87,6 @@ public class ArcaneSpray : Spell
                 speed,
                 (hitTarget, hitPoint) =>
                 {
-                    Damage.Type type = data.damage.type;
                     Damage dmg = new Damage(damage, type);
                     hitTarget.Damage(dmg);
                 },

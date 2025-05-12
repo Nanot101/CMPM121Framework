@@ -51,14 +51,58 @@ public class ArcaneBolt : Spell
     {
         return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
     }
+    public override Damage.Type GetDamageType()
+    {
+        return Damage.Type.ARCANE;
+    }
 
     // --- Casting Logic ---
+    // public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
+    // {
+    //     Dictionary<string, float> vars = BuildVars();
+
+    //     // int numProjectiles = 1;
+    //     int damage = GetDamage();
+    //     int spriteIndex = data.projectile.sprite;
+    //     string trajectory = GetTrajectory();
+    //     float speed = GetSpeed();
+    //     float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 5f);
+
+    //     Vector3 dir = (target - where).normalized;
+
+    //     GameManager.Instance.projectileManager.CreateProjectile(
+    //         spriteIndex,
+    //         trajectory,
+    //         where,
+    //         dir,
+    //         speed,
+    //         (hitTarget, hitPoint) =>
+    //         {
+    //             Damage.Type type = data.damage.type;
+    //             Damage dmg = new Damage(damage, type);
+    //             hitTarget.Damage(dmg);
+    //         },
+    //         lifetime
+    //     );
+
+    //     yield return null;
+    // }
+
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Dictionary<string, float> vars = BuildVars();
 
-        // int numProjectiles = 1;
-        int damage = GetDamage();
+        int damage = GetDamage(); // Base damage calculation
+        Damage.Type type = data.damage.type;
+
+        // Check if a modifier has overridden the damage
+        Damage overridden = GetOverriddenDamage();
+        if (overridden != null)
+        {
+            damage = overridden.amount;
+            type = overridden.type;
+        }
+
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -74,7 +118,6 @@ public class ArcaneBolt : Spell
             speed,
             (hitTarget, hitPoint) =>
             {
-                Damage.Type type = data.damage.type;
                 Damage dmg = new Damage(damage, type);
                 hitTarget.Damage(dmg);
             },
@@ -83,6 +126,7 @@ public class ArcaneBolt : Spell
 
         yield return null;
     }
+
 
     // --- Variable Context Builder ---
     private Dictionary<string, float> BuildVars()

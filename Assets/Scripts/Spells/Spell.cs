@@ -14,6 +14,9 @@ public abstract class Spell
     public SpellCaster owner;
     public Hittable.Team team;
     protected SpellData attributes;
+    protected Damage overriddenDamage;
+
+
 
     public Spell(SpellCaster owner)
     {
@@ -71,6 +74,22 @@ public abstract class Spell
     {
         return attributes;
     }
+
+    public virtual Damage.Type GetDamageType()
+    {
+        return Damage.Type.PHYSICAL;
+    }
+
+    public virtual void SetDamageOverride(Damage damage)
+    {
+        overriddenDamage = damage;
+    }
+
+    public virtual Damage GetOverriddenDamage()
+    {
+        return overriddenDamage;
+    }
+
 
 
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
