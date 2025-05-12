@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public Unit unit;
     public GameEndText endText;
-
+    public SpellBuilder spellBuilder;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
         int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
         int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
-        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER);
+        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         StartCoroutine(spellcaster.ManaRegeneration());
        
         hp = new Hittable(hpNum, Hittable.Team.PLAYER, gameObject);
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
         int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
         hp.SetMaxHP(hpNum);
-        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER);
+        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         StartCoroutine(spellcaster.ManaRegeneration());
         manaui.SetSpellCaster(spellcaster);
 

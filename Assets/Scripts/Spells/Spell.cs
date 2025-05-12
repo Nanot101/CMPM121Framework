@@ -20,7 +20,10 @@ public abstract class Spell
         this.owner = owner;
         attributes = new SpellData();
     }
-
+    public void SetSpellValues(SpellData spellData)
+    {
+        this.attributes = spellData;
+    }
     protected abstract void InitializeSpellData();
 
 
