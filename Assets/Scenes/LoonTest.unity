@@ -6116,6 +6116,7 @@ MonoBehaviour:
   speed: 30
   unit: {fileID: 1718273956}
   endText: {fileID: 1712148168}
+  spellBuilder: {fileID: 1604162239}
 --- !u!4 &1718273953
 Transform:
   m_ObjectHideFlags: 0

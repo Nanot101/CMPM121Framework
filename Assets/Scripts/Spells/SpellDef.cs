@@ -175,6 +175,23 @@ public class SpellData
         float baseSpeed = Evaluate(speed);
         return baseSpeed;
     }
+    public void addToDamage(int damageAdded)
+    {
+        damage.amount += damageAdded + " + ";
+    }
+    public void addToMana(int manaAdded)
+    {
+        mana_cost += manaAdded + " + ";
+    }
+    public void addToSpeed(float speedAdded)
+    {
+        speed += speedAdded + " + ";
+    }
+    public void addToCooldown(float cooldownAdded)
+    {
+        cooldown += cooldownAdded + " + ";
+    }
+
 }
     
 
