@@ -10,7 +10,7 @@ public class ModifierSpell : Spell
     protected Spell innerSpell;
 
     // Modifier properties
-    float damageMultiplier;
+    protected float damageMultiplier;
     int damageAdder;
     float manaMultiplier;
     int manaAdder;
@@ -129,9 +129,12 @@ public class ModifierSpell : Spell
         innerSpell.addToDamage(damageIncrease);
         //set speed
         innerSpell.addToAngle(innerSpell.getAngle());
-        float cooldown = innerSpell.getCooldown();
+        float cooldown = GetCooldown();
+        Debug.Log($"Base cooldown: {cooldown}");
         cooldown *= cooldownMultiplier;
+        Debug.Log($"Cooldown with {cooldownMultiplier} multiplier: {cooldown}");
         float cooldownIncrease = cooldown - innerSpell.getCooldown();
+        Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
         innerSpell.addToCooldown(cooldownIncrease);
         // left blank, to be overwritten
         
@@ -139,6 +142,7 @@ public class ModifierSpell : Spell
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Modifier Spell Cast called");
         this.team = team;
         // Apply before casting
         ApplyModifiers();

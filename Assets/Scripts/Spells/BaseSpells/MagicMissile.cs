@@ -13,7 +13,11 @@ public class MagicMissile : Spell
     }
 
     // --- Attribute Getters ---
-    public override string GetName() => data.name ?? "(Default) Magic Missile";
+    // => data.name ?? "(Default) Magic Missile";
+    public override string GetName() { // read and working
+        // Debug.Log($"[Magic Missile] Name Read: {data.name ?? "(Default) Magic Missile"} | What I want: {data.name}");
+        return data.name ?? "(Default) Magic Missile";
+    }
 
     public override int GetManaCost()
     {
@@ -25,19 +29,31 @@ public class MagicMissile : Spell
         return rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 10);
     }
 
-    public override float GetCooldown()
+    public override float GetCooldown() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 3f);
+        float evaluatedCooldown = rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 3f);
+        //Debug.Log($"[Magic Missile] Cooldown Read: {evaluatedCooldown} | What I want: {data.cooldown}");
+        return evaluatedCooldown;
     }
 
-    public override int GetIcon() => data.icon >= 0 ? data.icon : 0;
+    //=> data.icon >= 0 ? data.icon : 0;
+    public override int GetIcon() { // read and applied
+        // Debug.Log($"[Magic Missile] Icon Read: {(data.icon >= 0 ? data.icon : 0)} | What I want: {data.icon}");
+        return data.icon >= 0 ? data.icon : 0;
+    }
+    
 
     public override float GetSpeed()
     {
-        return rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 10f);
+        return rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 10f); // not being read, defaults to speed which is intended but incorrect.
     }
 
-    public override string GetTrajectory() => data.projectile.trajectory ?? "homing";
+    // => data.projectile.trajectory ?? "homing"; // not being read, defaults to homing which is intended but incorrect.
+    public override string GetTrajectory()  // read and working
+    {
+        // Debug.Log($"[Magic Missile] Trajectory Read: {data.projectile.trajectory ?? "homing"} | What I want: {data.projectile.trajectory}");
+        return data.projectile.trajectory ?? "homing";
+    }
 
     public override float GetSize()
     {
@@ -47,6 +63,10 @@ public class MagicMissile : Spell
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Magic Missile's Cast called");
+        string name = GetName();
+        float cooldown = GetCooldown();
+        last_cast = Time.time;
         Dictionary<string, float> vars = BuildVars();
         int damage = GetDamage();
         int spriteIndex = data.projectile.sprite;
@@ -72,6 +92,14 @@ public class MagicMissile : Spell
         );
 
         yield return null;
+    }
+
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        // Debug.Log($"[Magic Missile] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
     }
 
     // --- Variable Context Builder ---

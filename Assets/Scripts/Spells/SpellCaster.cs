@@ -32,14 +32,32 @@ public class SpellCaster
 
     }
 
+    // public IEnumerator Cast(Vector3 where, Vector3 target)
+    // {        
+    //     if (mana >= spell.GetManaCost() && spell.IsReady())
+    //     {
+    //         mana -= spell.GetManaCost();
+    //         yield return spell.Cast(where, target, team);
+    //     }
+    //     yield break;
+    // }
     public IEnumerator Cast(Vector3 where, Vector3 target)
-    {        
-        if (mana >= spell.GetManaCost() && spell.IsReady())
+    {
+        if (mana < spell.GetManaCost())
         {
-            mana -= spell.GetManaCost();
-            yield return spell.Cast(where, target, team);
+            Debug.Log("[SpellCaster] Not enough mana to cast the spell.");
+            yield break;
         }
-        yield break;
+
+        if (!spell.IsReady())
+        {
+            Debug.Log($"[SpellCaster] {spell.GetName()} is still on cooldown.");
+            yield break;
+        }
+
+        mana -= spell.GetManaCost();
+        Debug.Log($"[SpellCaster] Casting {spell.GetName()} at target. Remaining Mana: {mana}");
+        yield return spell.Cast(where, target, team);
     }
 
 }

@@ -49,6 +49,8 @@ public class ArcaneBlast : Spell
     {
         Dictionary<string, float> vars = BuildVars();
         int damage = GetDamage();
+        float cooldown = GetCooldown();
+        last_cast = Time.time;
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -106,10 +108,6 @@ public class ArcaneBlast : Spell
     }
 
     // --- Helper Methods ---
-    private int GetFinalDamage()
-    {
-        return data.GetFinalDamage(10); // Assuming a default power value of 10
-    }
 
     private int GetSecondaryDamage()
     {
@@ -118,7 +116,7 @@ public class ArcaneBlast : Spell
 
     private float GetProjectileSpeed()
     {
-        return data.GetFinalSpeed();
+        return data.GetFinalSpeed(); // we dont need this
     }
 
     private float GetSecondaryProjectileSpeed()
@@ -133,6 +131,14 @@ public class ArcaneBlast : Spell
     private int GetFinalNumProjectiles()
     {
         return data.GetFinalNumProjectiles();
+    }
+
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        Debug.Log($"[Arcane Blast] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
     }
 
     // --- Variable Context Builder ---
