@@ -60,6 +60,15 @@ public class SpellData
     // {
     //     return new RpnEvaluator().EvaluateRPN(expression, variableContext);
     // }
+
+    // this is needed for arcane blast bc of numprojectiles
+    public void SetContext(Dictionary<string, float> context)
+    {
+        foreach (var kvp in context)
+        {
+            variableContext[kvp.Key] = kvp.Value;
+        }
+    }
     private Dictionary<string, float> variableContext = new Dictionary<string, float>();
 
     // public void SetVariable(string key, int value)

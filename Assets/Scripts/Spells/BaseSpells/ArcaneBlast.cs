@@ -10,6 +10,7 @@ public class ArcaneBlast : Spell
     public ArcaneBlast(SpellCaster owner) : base(owner)
     {
         data = SpellLoader.Spells["arcane_blast"];
+        Debug.Log($"[ArcaneBlast] Owner is {(owner == null ? "null" : "not null")}, Power is {owner?.Power}");
     }
 
     // --- Attribute Getters ---
@@ -48,6 +49,7 @@ public class ArcaneBlast : Spell
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Dictionary<string, float> vars = BuildVars();
+        data.SetContext(vars);
         int damage = GetDamage();
         float cooldown = GetCooldown();
         last_cast = Time.time;
@@ -142,16 +144,35 @@ public class ArcaneBlast : Spell
     }
 
     // --- Variable Context Builder ---
+    // private Dictionary<string, float> BuildVars()
+    // {
+    //     //Debug.Log($"Power: {owner.Power}, Wave: {GameManager.Instance.CurrentWave}");
+    //     return new Dictionary<string, float>
+    //     {
+    //         { "power", owner.Power },
+    //         { "wave", GameManager.Instance.CurrentWave },
+    //         { "base", 1 }
+    //     };
+    // }
     private Dictionary<string, float> BuildVars()
     {
-        //Debug.Log($"Power: {owner.Power}, Wave: {GameManager.Instance.CurrentWave}");
-        return new Dictionary<string, float>
+        var vars = new Dictionary<string, float>
         {
             { "power", owner.Power },
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };
+
+        // Debug the values before returning
+        // Debug.Log("[ArcaneBlast] BuildVars Contents:");
+        // foreach (var entry in vars)
+        // {
+        //     Debug.Log($"{entry.Key}: {entry.Value}");
+        // }
+
+        return vars;
     }
+
 
     protected override void InitializeSpellData()
     {

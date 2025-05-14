@@ -26,7 +26,7 @@ public class SpellBuilder : MonoBehaviour
                 int rand = (int)(Random.value * spellsAndModifiers.getSpellDict().Count);
                 string[] keys = spellsAndModifiers.getSpellDict().Keys.ToArray();
                 // string spellName = keys[rand];
-                string spellName = "magic_missile";
+                string spellName = "arcane_blast";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
                 switch (spellName)
                 {
