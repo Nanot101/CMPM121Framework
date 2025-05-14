@@ -177,7 +177,7 @@ public class SpellData
     }
     public void addToDamage(int damageAdded)
     {
-        damage.amount += damageAdded + " + ";
+        damage.amount += damageAdded;
     }
     public void addToMana(int manaAdded)
     {

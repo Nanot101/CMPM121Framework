@@ -51,9 +51,10 @@ public class SpellBuilder : MonoBehaviour
                     {
                         modifier.setInnerSpell(recentSpell);
                         modifier.ApplyModifiers();
-                        descriptionWithModifiers += modifier.GetDescription();
+                        descriptionWithModifiers += modifier.GetDescription() + "\n";
                         recentSpell = modifier.GetSpellBase();
                     }
+                    Debug.Log(descriptionWithModifiers);
                 }
                 return recentSpell;
             }
@@ -62,7 +63,7 @@ public class SpellBuilder : MonoBehaviour
                 int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
                 string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
                 string modifierName = keys[rand];
-
+                modifierName = "damage_amp"; 
                 //modifiers.Add(SpellLoader.Modifiers[modifierName]);
                 //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
 
