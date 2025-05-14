@@ -20,7 +20,7 @@
    "arcane_blast":  {
        "name": "Arcane Blast",
        "description": "A bolt that explodes into smaller bolts on impact.",
-       "icon": 2,
+       "icon": 3,
        "N": "8 power 5 / +",
        "damage": {"amount": "20 power 3 / +", "type": "arcane"},
        "secondary_damage": "5 power 10 / +",
@@ -40,6 +40,18 @@
        "cooldown": "0.5",
        "projectile": {"trajectory": "straight", "speed": "8", "sprite": 0, "lifetime": "0.1 power 100 / +"}
    },
+   "arcane_pulse": {
+        "name": "Arcane Pulse",
+        "description": "A slower projectile that shoots out 2 additional projectiles every 5 seconds.",
+        "icon": 4,
+        "damage": {"amount": "15 power 5 / +", "type": "arcane"},
+        "mana_cost": "20",
+        "cooldown": "3",
+        "projectile": {"trajectory": "straight", "speed": "5", "sprite": 0},
+        "secondary_projectile": {"trajectory": "straight", "speed": "10", "lifetime": "0.5", "sprite": 0},
+        "interval": "0.5",
+        "N": "2"
+    },
    "damage_amp": {
        "name": "damage-amplified",
        "description": "Increased damage and increased mana cost.",

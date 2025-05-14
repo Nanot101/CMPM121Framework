@@ -13,62 +13,78 @@ public class MagicMissile : Spell
     }
 
     // --- Attribute Getters ---
-    // => data.name ?? "(Default) Magic Missile";
     public override string GetName() { // read and working
         // Debug.Log($"[Magic Missile] Name Read: {data.name ?? "(Default) Magic Missile"} | What I want: {data.name}");
         return data.name ?? "(Default) Magic Missile";
     }
 
-    public override int GetManaCost()
+    public override string GetDescription() // read and working
     {
-        return rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 20);
+        // Debug.Log($"[Magic Missile] Description Read: {data.description ?? "(Default) Magic Missile Description"} | What I want: {data.description}");
+        return data.description ?? "(Default) Magic Missile Description";
     }
 
-    public override int GetDamage()
+    public override int GetManaCost() // read and applied
     {
-        return rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 10);
+        int manaCost = rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+        // Debug.Log($"[Magic Missile] Mana Read & Calculated: {manaCost} | What I want: {data.mana_cost}");
+        return manaCost;
+    }
+
+    public override int GetDamage() // read and applied
+    {
+        int evalDmg = rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 1);
+        // Debug.Log($"[Magic Missile] Damage Read & Calculated: {evalDmg} | What I want: {data.damage.amount}");
+        return evalDmg;
     }
 
     public override float GetCooldown() // read and applied
     {
-        float evaluatedCooldown = rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 3f);
+        float evaluatedCooldown = rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 1.0f);
         //Debug.Log($"[Magic Missile] Cooldown Read: {evaluatedCooldown} | What I want: {data.cooldown}");
         return evaluatedCooldown;
     }
 
-    //=> data.icon >= 0 ? data.icon : 0;
     public override int GetIcon() { // read and applied
         // Debug.Log($"[Magic Missile] Icon Read: {(data.icon >= 0 ? data.icon : 0)} | What I want: {data.icon}");
         return data.icon >= 0 ? data.icon : 0;
     }
     
-
-    public override float GetSpeed()
+    public override float GetSpeed() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 10f); // not being read, defaults to speed which is intended but incorrect.
+        float evalSpeed = rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+        // Debug.Log($"[Magic Missile] Speed Read: {evalSpeed} | What I want: {data.projectile.speed}");
+        return evalSpeed;
     }
 
-    // => data.projectile.trajectory ?? "homing"; // not being read, defaults to homing which is intended but incorrect.
     public override string GetTrajectory()  // read and working
     {
         // Debug.Log($"[Magic Missile] Trajectory Read: {data.projectile.trajectory ?? "homing"} | What I want: {data.projectile.trajectory}");
         return data.projectile.trajectory ?? "homing";
     }
 
-    public override float GetSize()
+    public override float GetSize() // NOT read bc there's no size in the .json file, applied fallback
     {
-        return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        float sizee = Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        // Debug.Log($"[Magic Missile] Size Read: {(data.size > 0 ? data.size : 0)} | What I want: {data.size}");
+        return sizee;
     }
 
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Debug.Log("Magic Missile's Cast called");
-        string name = GetName();
-        float cooldown = GetCooldown();
-        last_cast = Time.time;
         Dictionary<string, float> vars = BuildVars();
         int damage = GetDamage();
+        
+        // These are so i can debug it on cast
+        // string name = GetName();
+        // string description = GetDescription();
+        // int manaCost = GetManaCost();
+        // float size = GetSize();
+        // float cooldown = GetCooldown();
+        
+        last_cast = Time.time;
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -91,7 +107,7 @@ public class MagicMissile : Spell
             lifetime
         );
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
     }
 
     public override bool IsReady()
