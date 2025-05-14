@@ -9,100 +9,80 @@ public class ArcaneBolt : Spell
 
     public ArcaneBolt(SpellCaster owner) : base(owner)
     {
-        if (owner == null)
-        {
-            Debug.LogError("ArcaneBolt owner is null");
-        }
-        else
-        {
-            Debug.Log("ArcaneBolt initialized with owner: " + owner.team);
-        }
         data = SpellLoader.Spells["arcane_bolt"];
     }
 
     // --- Attribute Getters ---
-    public override string GetName() => data.name ?? "(Default) Arcane Bolt";
-
-    public override int GetManaCost()
-    {
-        return rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+    public override string GetName() { // read and working
+        // Debug.Log($"[Arcane Bolt] Name Read: {data.name ?? "(Default) Arcane Bolt"} | What I want: {data.name}");
+        return data.name ?? "(Default) Arcane Bolt";
     }
 
-    public override int GetDamage()
+    public override string GetDescription() // read and working
     {
-        return rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 5);
+        // Debug.Log($"[Arcane Bolt] Description Read: {data.description ?? "(Default) Arcane Bolt Description"} | What I want: {data.description}");
+        return data.description ?? "(Default) Arcane Bolt Description";
     }
 
-    public override float GetCooldown()
+    public override int GetManaCost() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 0.75f);
+        int manaCost = rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+        // Debug.Log($"[Arcane Bolt] Mana Read & Calculated: {manaCost} | What I want: {data.mana_cost}");
+        return manaCost;
     }
 
-    public override int GetIcon() => data.icon >= 0 ? data.icon : 0;
-
-    public override float GetSpeed()
+    public override int GetDamage() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+        int evalDmg = rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 1);
+        // Debug.Log($"[Arcane Bolt] Damage Read & Calculated: {evalDmg} | What I want: {data.damage.amount}");
+        return evalDmg;
     }
 
-    public override string GetTrajectory() => data.projectile.trajectory ?? "straight";
-
-    public override float GetSize()
+    public override float GetCooldown() // read and applied
     {
-        return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        float evaluatedCooldown = rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 1.0f);
+        // Debug.Log($"[Arcane Bolt] Cooldown Read: {evaluatedCooldown} | What I want: {data.cooldown}");
+        return evaluatedCooldown;
     }
-    public override Damage.Type GetDamageType()
+
+    public override int GetIcon() { // read and applied
+        // Debug.Log($"[Arcane Bolt] Icon Read: {(data.icon >= 0 ? data.icon : 0)} | What I want: {data.icon}");
+        return data.icon >= 0 ? data.icon : 0;
+    }
+    public override float GetSpeed() // read and applied
     {
-        return Damage.Type.ARCANE;
+        float evalSpeed = rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+        // Debug.Log($"[Arcane Bolt] Speed Read: {evalSpeed} | What I want: {data.projectile.speed}");
+        return evalSpeed;
+    }
+
+    public override string GetTrajectory()  // read and applied
+    {
+        // Debug.Log($"[Arcane Bolt] Trajectory Read: {data.projectile.trajectory ?? "straight"} | What I want: {data.projectile.trajectory}");
+        return data.projectile.trajectory ?? "straight";
+    }
+    public override float GetSize() // NOT read bc there's no size in the .json file, applied fallback
+    {
+        float sizee = Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        // Debug.Log($"[Arcane Bolt] Size Read: {(data.size > 0 ? data.size : 0)} | What I want: {data.size}");
+        return sizee;
     }
 
     // --- Casting Logic ---
-    // public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
-    // {
-    //     Dictionary<string, float> vars = BuildVars();
-
-    //     // int numProjectiles = 1;
-    //     int damage = GetDamage();
-    //     int spriteIndex = data.projectile.sprite;
-    //     string trajectory = GetTrajectory();
-    //     float speed = GetSpeed();
-    //     float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 5f);
-
-    //     Vector3 dir = (target - where).normalized;
-
-    //     GameManager.Instance.projectileManager.CreateProjectile(
-    //         spriteIndex,
-    //         trajectory,
-    //         where,
-    //         dir,
-    //         speed,
-    //         (hitTarget, hitPoint) =>
-    //         {
-    //             Damage.Type type = data.damage.type;
-    //             Damage dmg = new Damage(damage, type);
-    //             hitTarget.Damage(dmg);
-    //         },
-    //         lifetime
-    //     );
-
-    //     yield return null;
-    // }
-
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Arcane Bolt's Cast called");
         Dictionary<string, float> vars = BuildVars();
+        int damage = GetDamage();
 
-        int damage = GetDamage(); // Base damage calculation
-        Damage.Type type = data.damage.type;
+        // These are so i can debug it on cast
+        // string name = GetName();
+        // string description = GetDescription();
+        // int manaCost = GetManaCost();
+        // float size = GetSize();
+        // float cooldown = GetCooldown();
 
-        // Check if a modifier has overridden the damage
-        Damage overridden = GetOverriddenDamage();
-        if (overridden != null)
-        {
-            damage = overridden.amount;
-            type = overridden.type;
-        }
-
+        last_cast = Time.time;
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
@@ -118,15 +98,23 @@ public class ArcaneBolt : Spell
             speed,
             (hitTarget, hitPoint) =>
             {
+                Damage.Type type = data.damage.type;
                 Damage dmg = new Damage(damage, type);
                 hitTarget.Damage(dmg);
             },
             lifetime
         );
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
     }
 
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        // Debug.Log($"[Arcane Bolt] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
+    }
 
     // --- Variable Context Builder ---
     private Dictionary<string, float> BuildVars()

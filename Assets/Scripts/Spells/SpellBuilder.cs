@@ -9,60 +9,101 @@ using System.Collections;
 public class SpellBuilder : MonoBehaviour
 {
     public SpellLoader spellsAndModifiers;
-    List<ModifierData> modifiers;
+    List<ModifierSpell> modifiers;
     Spell baseSpell;
     public Spell Build(SpellCaster owner)
     {
         // uncomment these return statements to see the spells in action
+        while (true)
+        {
+            //ModifierSpell lastModifier = null;
+            float spellOrModifier = Random.value * 2;
+            modifiers = new List<ModifierSpell>();
+            if (spellOrModifier > 1)
+            {
+                //Spell base
+                //int numSpells = 4;
+                int rand = (int)(Random.value * spellsAndModifiers.getSpellDict().Count);
+                string[] keys = spellsAndModifiers.getSpellDict().Keys.ToArray();
+                string spellName = keys[rand];
+                // string spellName = "magic_missile";
+                //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
+                switch (spellName)
+                {
+                    case "arcane_bolt":
+                        baseSpell = new ArcaneBolt(owner);
+                    break;
+                    case "magic_missile":
+                        baseSpell = new MagicMissile(owner);
+                    break;
+                    case "arcane_blast":
+                        baseSpell = new ArcaneBlast(owner);
+                    break;
+                    case "arcane_spray":
+                        baseSpell = new ArcaneSpray(owner);
+                    break;
+                }
+                Spell recentSpell = baseSpell;
+                
+                if (modifiers != null)
+                {
+                    string descriptionWithModifiers = "";
+                    foreach (ModifierSpell modifier in modifiers)
+                    {
+                        modifier.setInnerSpell(recentSpell);
+                        modifier.ApplyModifiers();
+                        descriptionWithModifiers += modifier.GetDescription();
+                        recentSpell = modifier.GetSpellBase();
+                    }
+                }
+                return recentSpell;
+            }
+            else
+            {
+                int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
+                string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
+                string modifierName = keys[rand];
 
+                //modifiers.Add(SpellLoader.Modifiers[modifierName]);
+                //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
 
-        // modifiers = new List<ModifierData>();
-        // while (true)
-        // {
-        //     float spellOrModifier = Random.value * 2;
-        //     if (spellOrModifier > 1)
-        //     {
-        //         //Spell base
-        //         //int numSpells = 4;
-        //         int rand = (int)(Random.value * spellsAndModifiers.getSpellDict().Count);
-        //         string[] keys = spellsAndModifiers.getSpellDict().Keys.ToArray();
-        //         string spellName = keys[rand];
-        //         //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
-        //         switch (spellName)
-        //         {
-        //             case "arcane_bolt":
-        //                 baseSpell = new ArcaneBolt(owner);
-        //             break;
-        //             case "magic_missile":
-        //                 baseSpell = new MagicMissile(owner);
-        //             break;
-        //             case "arcane_blast":
-        //                 baseSpell = new ArcaneBlast(owner);
-        //             break;
-        //             case "arcane_spray":
-        //                 baseSpell = new ArcaneSpray(owner);
-        //             break;
-        //             case "arcane_pulse":
-        //                 baseSpell = new ArcanePulse(owner);
-        //             break;
-        //         }
-        //         return baseSpell;
-        //     }
-        //     else
-        //     {
-        //         int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
-        //         string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
-        //         string modifierName = keys[rand];
-        //         modifiers.Add(spellsAndModifiers.getModifierDict()[modifierName]);
-
-        //     }
-        // }
-
-        baseSpell = new ArcanePulse(owner);
-        // return new DoublerModifier(baseSpell, owner);
-        return new DamageAmpModifier(baseSpell, owner);
-
-
+                Debug.Log($"Applying {modifierName}");
+                switch (modifierName)
+                {
+                    case "damage_amp":
+                        ModifierSpell dAmp = new ModifierSpell(null, owner, 1.5f, 0, 1.5f, 0, 1, 0, 0, "straight", 0, 1, "Increased damage and increased mana cost.");
+                        modifiers.Add(dAmp);
+                        Debug.Log($"Applied {dAmp}");
+                        break;
+                    case "speed_amp":
+                        ModifierSpell speedAmp = new ModifierSpell(null, owner, 1, 0, 1, 0, 1.75f, 0, 0, "straight", 0, 1, "Faster projectile speed.");
+                        modifiers.Add(speedAmp);
+                        Debug.Log($"Applied {speedAmp}");
+                        break;
+                    case "doubler":
+                        ModifierSpell doubler = new ModifierSpell(null, owner, 1, 0, 1, 0, 1, 0, 0, "straight", 0, 1.5f, "Spell is cast a second time after a small delay; increased mana cost and cooldown.");
+                        modifiers.Add(doubler);
+                        Debug.Log($"Applied {doubler}");
+                        break;
+                    case "splitter":
+                        ModifierSpell splitter = new ModifierSpell(null, owner, 1, 0, 1.5f, 0, 1, 0, 10, "straight", 0, 1.5f, "Spell is cast twice in slightly different directions; increased mana cost.");
+                        modifiers.Add(splitter);
+                        Debug.Log($"Applied {splitter}");
+                        break;
+                    case "chaos":
+                        ModifierSpell chaos = new ModifierSpell(null, owner, 6.5f, 0, 1, 0, 1, 0, 0, "spiraling", 0, 1.5f, "Significantly increased damage, but projectile is spiraling.");
+                        modifiers.Add(chaos);
+                        Debug.Log($"Applied {chaos}");
+                        break;
+                    case "homing":
+                        ModifierSpell homing = new ModifierSpell(null, owner, 0.75f, 0, 1, 10, 1, 0, 0, "homing", 0, 1.5f, "Homing projectile, with decreased damage and increased mana cost.");
+                        modifiers.Add(homing);
+                        Debug.Log($"Applied {homing}");
+                        break;
+                }
+                
+            }
+        }
         //return new ArcaneSpray(owner);
         // return new ArcaneBolt(owner);
         // return new MagicMissile(owner);

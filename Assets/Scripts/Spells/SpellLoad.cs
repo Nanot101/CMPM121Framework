@@ -25,7 +25,7 @@ public class SpellLoader : MonoBehaviour
         }
 
     //     Dictionary<string, Dictionary<string, object>> rawData =
-    //     JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(jsonFile.text);
+    //         JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(jsonFile.text);
 
     //     foreach (var kvp in rawData)
     //     {
@@ -50,6 +50,8 @@ public class SpellLoader : MonoBehaviour
 
     //     Debug.Log($"Loaded {Spells.Count} base spells and {Modifiers.Count} modifiers.");
     // }
+
+
     var rawData = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(jsonFile.text);
 
         foreach (var kvp in rawData)
@@ -81,6 +83,8 @@ public class SpellLoader : MonoBehaviour
 
         Debug.Log($"Loaded {Spells.Count} base spells and {Modifiers.Count} modifiers.");
     }
+
+
     public Dictionary<string, SpellData> getSpellDict()
     {
         return Spells;

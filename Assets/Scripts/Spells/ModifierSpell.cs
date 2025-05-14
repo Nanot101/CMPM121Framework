@@ -1,5 +1,7 @@
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.Audio;
 
 // Wraps and modifies another spell, uses bundle
 public class ModifierSpell : Spell
@@ -10,14 +12,14 @@ public class ModifierSpell : Spell
     // Modifier properties
     protected float damageMultiplier;
     int damageAdder;
-    protected float manaMultiplier;
-    protected float cooldownMultiplier;
-    protected float delay;
+    float manaMultiplier;
     int manaAdder;
     float speedMultiplier;
     int speedAdder;
     int angle;
     string projectile_trajectory;
+    float cooldownMultiplier;
+    float delay;
 
     // Constructor that wraps a given spell and assigns the owning caster
     public ModifierSpell(Spell innerSpell, SpellCaster owner) : base(owner)
@@ -32,10 +34,29 @@ public class ModifierSpell : Spell
         angle = 0;
         projectile_trajectory = string.Empty;
         delay = 0;
+        cooldownMultiplier = 1;
         description = string.Empty;
         icon = innerSpell.GetIcon();
     }
-
+    public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
+    {
+        this.innerSpell = innerSpell;
+        damageMultiplier = dmgMlt;
+        damageAdder = dmgAdd;
+        manaMultiplier = manaMlt;
+        manaAdder = manaAdd;
+        speedMultiplier = speedMlt;
+        speedAdder = speedAdd;
+        angle = angl;
+        projectile_trajectory = trajectory;
+        delay = timeBetweenShots;
+        cooldownMultiplier = cooldownMlt;
+        description = descrp;
+        if (innerSpell != null)
+            {
+                icon = innerSpell.GetIcon();
+            }
+        }
     public override string GetName()
     {
         return innerSpell.GetName() + " (Modified)";
@@ -49,10 +70,6 @@ public class ModifierSpell : Spell
     public override int GetIcon()
     {
         return icon != 0 ? icon : innerSpell.GetIcon();
-    }
-    public override Damage.Type GetDamageType()
-    {
-        return innerSpell.GetDamageType();
     }
 
     public Spell GetSpellBase()
@@ -79,7 +96,10 @@ public class ModifierSpell : Spell
     {
         return innerSpell.GetCooldown();
     }
-
+    public void setInnerSpell(Spell spell)
+    {
+        innerSpell = spell;
+    }
     
 
     public override float GetSpeed()
@@ -90,19 +110,46 @@ public class ModifierSpell : Spell
     }
 
     // Applies additional modifiers to a spell, can be customized by subclasses
-    public virtual void ApplyModifiers(Spell spell)
+    public virtual void ApplyModifiers()
     {
+        
+        float damage = innerSpell.GetDamage() + damageAdder;
+        damage *= damageMultiplier;
+        int damageIncrease = (int)damage - innerSpell.GetDamage();
+        innerSpell.addToDamage(damageIncrease);
+        //set damage 
+        float manaCost = innerSpell.GetManaCost() + manaAdder;
+        manaCost *= manaMultiplier;
+        int manaIncrease = (int)manaCost - innerSpell.GetManaCost();
+        innerSpell.addToMana(manaIncrease);
+        //set mana cost
+        float speed = innerSpell.getSpeed() + speedAdder;// get speed needs to be implemented
+        speed *= speedMultiplier;
+        int speedIncrease = (int)damage - innerSpell.GetDamage();
+        innerSpell.addToDamage(damageIncrease);
+        //set speed
+        innerSpell.addToAngle(innerSpell.getAngle());
+        float cooldown = GetCooldown();
+        Debug.Log($"Base cooldown: {cooldown}");
+        cooldown *= cooldownMultiplier;
+        Debug.Log($"Cooldown with {cooldownMultiplier} multiplier: {cooldown}");
+        float cooldownIncrease = cooldown - innerSpell.getCooldown();
+        Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
+        innerSpell.addToCooldown(cooldownIncrease);
+        // left blank, to be overwritten
         
     }
 
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Modifier Spell Cast called");
         this.team = team;
         // Apply before casting
-        ApplyModifiers(innerSpell);
+        ApplyModifiers();
         // Adjust trajectory or angle if specified
         Vector3 direction = (target - where).normalized;
         // Modify the angle if applicable
+        int angle = innerSpell.getAngle();
         if (angle != 0)
         {
             float radians = angle * Mathf.Deg2Rad;

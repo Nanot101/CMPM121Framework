@@ -37,7 +37,6 @@ public class SpellData
     public string secondary_damage;
     public ProjectileData projectile;
     public ProjectileData secondary_projectile;
-    public string interval; // for our original spell
 
 
     // Modifiers for various properties
@@ -61,62 +60,76 @@ public class SpellData
     // {
     //     return new RpnEvaluator().EvaluateRPN(expression, variableContext);
     // }
+
+    // this is needed for arcane blast bc of numprojectiles
+    public void SetContext(Dictionary<string, float> context)
+    {
+        foreach (var kvp in context)
+        {
+            variableContext[kvp.Key] = kvp.Value;
+        }
+    }
     private Dictionary<string, float> variableContext = new Dictionary<string, float>();
 
-    public void SetVariable(string key, int value)
-    {
-        variableContext[key] = (float)value;
-    }
+    // public void SetVariable(string key, int value)
+    // {
+    //     variableContext[key] = (float)value;
+    // }
 
-    public void SetVariable(string key, float value)
-    {
-        variableContext[key] = value;
-    }
-
+    // public void SetVariable(string key, float value)
+    // {
+    //     variableContext[key] = value;
+    // }
     private int Evaluate(string expression)
     {
+        if (string.IsNullOrEmpty(expression)){
+            Debug.Log("In Evaluate: expression is null or empty, returning 1");
+            return 1;
+        }
         float result = new RpnEvaluator().EvaluateRPN(expression, variableContext);
+        Debug.Log($"Expression: {expression} | Result: " + result);
         return Mathf.RoundToInt(result);
     }
 
-    public float EvaluateFloat(string expression)
-    {
-        return new RpnEvaluator().EvaluateRPN(expression, variableContext);
-    }
+    // private float EvaluateFloat(string expression)
+    // {
+    //     return new RpnEvaluator().EvaluateRPN(expression, variableContext);
+    // }
 
-    public int GetFinalDamage(int power)
-    {
-        if (damage == null || string.IsNullOrEmpty(damage.amount))
-        {
-            return 0;
-        }
+    // public int GetFinalDamage(int power)
+    // {
+    //     if (damage == null || string.IsNullOrEmpty(damage.amount))
+    //     {
+    //         return 0;
+    //     }
         
-        int baseDamage = Evaluate(damage.amount) * power / 10;
-        return ValueModifier.ApplyModifiers(baseDamage, damageModifiers);
-    }
+    //     int baseDamage = Evaluate(damage.amount) * power / 10;
+    //     return ValueModifier.ApplyModifiers(baseDamage, damageModifiers);
+    // }
 
-    public int GetFinalManaCost()
-    {
-        int baseManaCost = Evaluate(mana_cost);
-        return ValueModifier.ApplyModifiers(baseManaCost, manaCostModifiers);
-    }
+    // public int GetFinalManaCost()
+    // {
+    //     int baseManaCost = Evaluate(mana_cost);
+    //     return ValueModifier.ApplyModifiers(baseManaCost, manaCostModifiers);
+    // }
 
-    public float GetFinalCooldown()
-    {
-        float baseCooldown = Evaluate(cooldown);
-        return ValueModifier.ApplyModifiers(baseCooldown, cooldownModifiers);
-    }
+    // public float GetFinalCooldown()
+    // {
+    //     float baseCooldown = Evaluate(cooldown);
+    //     return ValueModifier.ApplyModifiers(baseCooldown, cooldownModifiers);
+    // }
 
+    //get this removed
     public float GetFinalSpeed()
     {
         float baseSpeed = Evaluate(speed);
         return ValueModifier.ApplyModifiers(baseSpeed, speedModifiers);
     }
 
-    public float GetFinalSize()
-    {
-        return ValueModifier.ApplyModifiers(size, sizeModifiers);
-    }
+    // public float GetFinalSize()
+    // {
+    //     return ValueModifier.ApplyModifiers(size, sizeModifiers);
+    // }
 
     public int GetFinalSecondaryDamage()
     {
@@ -128,51 +141,76 @@ public class SpellData
 
     public int GetFinalNumProjectiles()
     {
-        if (string.IsNullOrEmpty(N)) 
-        { 
-            Debug.Log ("num proj is null or empty");
-            return 1;
-        }
+        if (string.IsNullOrEmpty(N)) return 1;
         
         int baseNum = Evaluate(N);
         return ValueModifier.ApplyModifiers(baseNum, numProjectilesModifiers);
     }
-
-    // for our original spell
-    public float GetFinalInterval()
-    {
-        if (string.IsNullOrEmpty(interval)) 
-        { 
-            Debug.Log("Interval is null or empty, defaulting to 5 seconds.");
-            return 5f;
-        }
-        
-        float baseInterval = EvaluateFloat(interval);
-        return baseInterval > 0 ? baseInterval : 5f;
-    }
-
+    
     public Damage.Type GetDamageType()
     {
+        // Default to physical
         return damage != null ? damage.type : Damage.Type.PHYSICAL;
     }
 
-    public void SetContext(Dictionary<string, float> context)
+    public float getBaseSpeed()
     {
-        foreach (var kvp in context)
-        {
-            variableContext[kvp.Key] = kvp.Value;
-        }
+        float baseSpeed = Evaluate(speed);
+        return baseSpeed;
     }
-
-
-
 
     public static implicit operator SpellData(Spell v)
     {
         throw new NotImplementedException();
     }
-}
+    public int GetBaseDamage()
+    {
+        if (damage == null || string.IsNullOrEmpty(damage.amount))
+        {
+            return 0;
+        }
 
+        int baseDamage = Evaluate(damage.amount);
+        return baseDamage;
+    }
+
+    public int GetBaseManaCost()
+    {
+        int baseManaCost = Evaluate(mana_cost);
+        return baseManaCost;
+    }
+
+    public float GetBaseCooldown()
+    {
+        float baseCooldown = Evaluate(cooldown);
+        return baseCooldown;
+    }
+
+    public float GetBaseSpeed()
+    {
+        float baseSpeed = Evaluate(speed);
+        return baseSpeed;
+    }
+    public void addToDamage(int damageAdded)
+    {
+        damage.amount += damageAdded + " + ";
+    }
+    public void addToMana(int manaAdded)
+    {
+        mana_cost += manaAdded + " + ";
+    }
+    public void addToSpeed(float speedAdded)
+    {
+        speed += speedAdded + " + ";
+    }
+    public void addToCooldown(float cooldownAdded)
+    {
+        cooldown += cooldownAdded + " + ";
+        Debug.Log($"In spellDef->addToCooldown: cooldown is {cooldown}");
+    }
+
+}
+    
 
 [System.Serializable]
 public class ModifierData

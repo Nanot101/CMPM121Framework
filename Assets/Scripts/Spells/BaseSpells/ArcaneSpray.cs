@@ -13,62 +13,85 @@ public class ArcaneSpray : Spell
     }
 
     // --- Attribute Getters ---
-    public override string GetName() => data.name ?? "(Default) Arcane Spray";
-
-    public override int GetManaCost()
-    {
-        return rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+    public override string GetName() { // read and working
+        // Debug.Log($"[Arcane Spray] Name Read: {data.name ?? "(Default) Arcane Spray"} | What I want: {data.name}");
+        return data.name ?? "(Default) Arcane Spray";
     }
 
-    public override int GetDamage()
+    public override string GetDescription() // read and working
     {
-        return rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 5);
+        // Debug.Log($"[Arcane Spray] Description Read: {data.description ?? "(Default) Arcane Spray Description"} | What I want: {data.description}");
+        return data.description ?? "(Default) Arcane Spray Description";
     }
 
-    public override float GetCooldown()
+    public override int GetManaCost() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 0.75f);
+        int manaCost = rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+        // Debug.Log($"[Arcane Spray] Mana Read & Calculated: {manaCost} | What I want: {data.mana_cost}");
+        return manaCost;
     }
 
-    public override int GetIcon() => data.icon >= 0 ? data.icon : 0;
 
-    public override float GetSpeed()
+    public override int GetDamage() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+        int evalDmg = rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 1);
+        // Debug.Log($"[Arcane Spray] Damage Read & Calculated: {evalDmg} | What I want: {data.damage.amount}");
+        return evalDmg;
     }
 
-    public override string GetTrajectory() => data.projectile.trajectory ?? "straight";
-
-    public override float GetSize()
+    public override float GetCooldown() // read and applied
     {
-        return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        float evaluatedCooldown = rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 1.0f);
+        // Debug.Log($"[Arcane Spray] Cooldown Read: {evaluatedCooldown} | What I want: {data.cooldown}");
+        return evaluatedCooldown;
     }
 
-    public override Damage.Type GetDamageType()
+    public override int GetIcon() { // read and applied
+        // Debug.Log($"[Arcane Spray] Icon Read: {(data.icon >= 0 ? data.icon : 0)} | What I want: {data.icon}");
+        return data.icon >= 0 ? data.icon : 0;
+    }
+
+    public override float GetSpeed() // read and applied
     {
-        return Damage.Type.ARCANE;
+        float evalSpeed = rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+        // Debug.Log($"[Arcane Spray] Speed Read: {evalSpeed} | What I want: {data.projectile.speed}");
+        return evalSpeed;
+    }
+
+    public override string GetTrajectory()  // read and applied
+    {
+        // Debug.Log($"[Arcane Spray] Trajectory Read: {data.projectile.trajectory ?? "straight"} | What I want: {data.projectile.trajectory}");
+        return data.projectile.trajectory ?? "straight";
+    }
+
+    public override float GetSize() // NOT read bc there's no size in the .json file, applied fallback
+    {
+        float sizee = Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        // Debug.Log($"[Arcane Spray] Size Read: {(data.size > 0 ? data.size : 0)} | What I want: {data.size}");
+        return sizee;
     }
 
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Arcane Spray's Cast called");
         Dictionary<string, float> vars = BuildVars();
-
-        int numProjectiles = rpn.SafeEvaluateInt(data.N, vars, 1);
-        float sprayAngle = rpn.SafeParseFloat(data.spray, 0.1f);
         int damage = GetDamage();
-        Damage.Type type = data.damage.type;
-        Damage overridden = GetOverriddenDamage();
-        if (overridden != null)
-        {
-            damage = overridden.amount;
-            type = overridden.type;
-        }
+        
+        // These are so i can debug it on cast
+        // string name = GetName();
+        // string description = GetDescription();
+        // int manaCost = GetManaCost();
+        // float size = GetSize();
+        // float cooldown = GetCooldown();
 
+        last_cast = Time.time;
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
         float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 1f);
+        int numProjectiles = rpn.SafeEvaluateInt(data.N, vars, 1);
+        float sprayAngle = rpn.SafeParseFloat(data.spray, 0.1f);
 
         Vector3 baseDir = (target - where).normalized;
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x);
@@ -87,6 +110,7 @@ public class ArcaneSpray : Spell
                 speed,
                 (hitTarget, hitPoint) =>
                 {
+                    Damage.Type type = data.damage.type;
                     Damage dmg = new Damage(damage, type);
                     hitTarget.Damage(dmg);
                 },
@@ -94,7 +118,15 @@ public class ArcaneSpray : Spell
             );
         }
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
+    }
+
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        // Debug.Log($"[Arcane Spray] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
     }
 
     // --- Variable Context Builder ---
