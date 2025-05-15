@@ -151,6 +151,7 @@ public class SpellBuilder : MonoBehaviour
                 string spellName = keys[rand];
                 // string spellName = "magic_missile";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
+                spellName = "arcane_pulse";
                 switch (spellName)
                 {
                     case "arcane_bolt":
@@ -165,6 +166,9 @@ public class SpellBuilder : MonoBehaviour
                     case "arcane_spray":
                         baseSpell = new ArcaneSpray(owner);
                     break;
+                    case "arcane_pulse":
+                        baseSpell = new ArcanePulse(owner, 0.5f);
+                        break;
                 }
                 Spell recentSpell = baseSpell;
                 

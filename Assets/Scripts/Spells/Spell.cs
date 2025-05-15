@@ -44,6 +44,10 @@ public abstract class Spell
     public virtual string GetName() => attributes.name ?? "Default: Bolt";
     public virtual string GetDescription() => attributes.description ?? "Default: A basic bolt of energy.";
 
+    public virtual Damage.Type GetDamageType()
+    {
+        return attributes.damage.type;
+    }
     public virtual int GetManaCost() => 10;
     public virtual int GetDamage()
     {
@@ -82,6 +86,10 @@ public abstract class Spell
     public float getCooldown()
     {
         return attributes.GetBaseCooldown();
+    }
+    public SpellData GetAttributes()
+    {
+        return attributes;
     }
     public void addToDamage(int damageAdded)
     {

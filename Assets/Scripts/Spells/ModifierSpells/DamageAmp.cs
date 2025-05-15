@@ -74,7 +74,7 @@ public class DamageAmpModifier : ModifierSpell
     GetDamage(); 
 
     // Apply the damage override just before casting
-    innerSpell.SetDamageOverride(modifiedDamageData);
+    //innerSpell.SetDamageOverride(modifiedDamageData);
 
     Debug.Log($"[DamageAmpModifier] Applying Modified Damage: {modifiedDamageData.amount} of type {modifiedDamageData.type}");
 
