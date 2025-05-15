@@ -10,51 +10,89 @@ public class ArcaneBlast : Spell
     public ArcaneBlast(SpellCaster owner) : base(owner)
     {
         data = SpellLoader.Spells["arcane_blast"];
+        // Debug.Log($"[ArcaneBlast] Owner is {(owner == null ? "null" : "not null")}, Power is {owner?.Power}");
     }
 
     // --- Attribute Getters ---
-    public override string GetName() => data.name ?? "(Default) Arcane Blast";
-
-    public override int GetManaCost()
-    {
-        return rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 15);
+    public override string GetName() { // read and working
+        // Debug.Log($"[Arcane Blast] Name Read: {data.name ?? "(Default) Arcane Blast"} | What I want: {data.name}");
+        return data.name ?? "(Default) Arcane Blast";
     }
 
-    public override int GetDamage()
+    public override string GetDescription() // read and working
     {
-        return rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 10);
+        // Debug.Log($"[Arcane Blast] Description Read: {data.description ?? "(Default) Arcane Blast Description"} | What I want: {data.description}");
+        return data.description ?? "(Default) Arcane Blast Description";
     }
 
-    public override float GetCooldown()
+    public override int GetManaCost() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 1.5f);
+        int manaCost = rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+        // Debug.Log($"[Arcane Blast] Mana Read & Calculated: {manaCost} | What I want: {data.mana_cost}");
+        return manaCost;
     }
 
-    public override int GetIcon() => data.icon >= 0 ? data.icon : 0;
-
-    public override float GetSpeed()
+    public override int GetDamage() // read and applied
     {
-        return rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 12f);
+        int evalDmg = rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 1);
+        // Debug.Log($"[Arcane Blast] Damage Read & Calculated: {evalDmg} | What I want: {data.damage.amount}");
+        return evalDmg;
     }
 
-    public override string GetTrajectory() => data.projectile.trajectory ?? "straight";
-
-    public override float GetSize()
+    public override float GetCooldown() // read and applied
     {
-        return Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        float evaluatedCooldown = rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 1.0f);
+        // Debug.Log($"[Arcane Blast] Cooldown Read: {evaluatedCooldown} | What I want: {data.cooldown}");
+        return evaluatedCooldown;
+    }
+
+    public override int GetIcon() { // read and applied
+        // Debug.Log($"[Arcane Blast] Icon Read: {(data.icon >= 0 ? data.icon : 0)} | What I want: {data.icon}");
+        return data.icon >= 0 ? data.icon : 0;
+    }
+
+    public override float GetSpeed() // read and applied
+    {
+        float evalSpeed = rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+        // Debug.Log($"[Arcane Blast] Speed Read: {evalSpeed} | What I want: {data.projectile.speed}");
+        return evalSpeed;
+    }
+
+    public override string GetTrajectory()  // read and applied
+    {
+        // Debug.Log($"[Arcane Blast] Trajectory Read: {data.projectile.trajectory ?? "straight"} | What I want: {data.projectile.trajectory}");
+        return data.projectile.trajectory ?? "straight";
+    }
+
+    public override float GetSize() // NOT read bc there's no size in the .json file, applied fallback
+    {
+        float sizee = Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+        // Debug.Log($"[Arcane Blast] Size Read: {(data.size > 0 ? data.size : 0)} | What I want: {data.size}");
+        return sizee;
     }
 
     // --- Casting Logic ---
     public override IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Arcane Blast's Cast called");
         Dictionary<string, float> vars = BuildVars();
+        data.SetContext(vars);
         int damage = GetDamage();
+
+        // These are so i can debug it on cast
+        // string name = GetName();
+        // string description = GetDescription();
+        // int manaCost = GetManaCost();
+        // float size = GetSize();
+        // float cooldown = GetCooldown();
+
+        last_cast = Time.time;
         int spriteIndex = data.projectile.sprite;
         string trajectory = GetTrajectory();
         float speed = GetSpeed();
         float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 2f);
 
-        // Cast the main projectile (Arcane Blast) - only ONE slow-moving projectile
+        // Cast only ONE slow-moving projectile
         Vector3 direction = (target - where).normalized;
         GameManager.Instance.projectileManager.CreateProjectile(
             spriteIndex,
@@ -67,6 +105,14 @@ public class ArcaneBlast : Spell
         );
 
         yield return new WaitForEndOfFrame();
+    }
+
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        // Debug.Log($"[Arcane Blast] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
     }
 
     // --- Handling Impact ---
@@ -106,10 +152,6 @@ public class ArcaneBlast : Spell
     }
 
     // --- Helper Methods ---
-    private int GetFinalDamage()
-    {
-        return data.GetFinalDamage(10); // Assuming a default power value of 10
-    }
 
     private int GetSecondaryDamage()
     {
@@ -118,7 +160,7 @@ public class ArcaneBlast : Spell
 
     private float GetProjectileSpeed()
     {
-        return data.GetFinalSpeed();
+        return data.GetFinalSpeed(); // we dont need this
     }
 
     private float GetSecondaryProjectileSpeed()
@@ -136,16 +178,35 @@ public class ArcaneBlast : Spell
     }
 
     // --- Variable Context Builder ---
+    // private Dictionary<string, float> BuildVars()
+    // {
+    //     //Debug.Log($"Power: {owner.Power}, Wave: {GameManager.Instance.CurrentWave}");
+    //     return new Dictionary<string, float>
+    //     {
+    //         { "power", owner.Power },
+    //         { "wave", GameManager.Instance.CurrentWave },
+    //         { "base", 1 }
+    //     };
+    // }
     private Dictionary<string, float> BuildVars()
     {
-        //Debug.Log($"Power: {owner.Power}, Wave: {GameManager.Instance.CurrentWave}");
-        return new Dictionary<string, float>
+        var vars = new Dictionary<string, float>
         {
             { "power", owner.Power },
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };
+
+        // Debug the values before returning
+        // Debug.Log("[ArcaneBlast] BuildVars Contents:");
+        // foreach (var entry in vars)
+        // {
+        //     Debug.Log($"{entry.Key}: {entry.Value}");
+        // }
+
+        return vars;
     }
+
 
     protected override void InitializeSpellData()
     {

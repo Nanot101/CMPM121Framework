@@ -163,7 +163,10 @@ public class RpnEvaluator
     // --- Safe Evaluation Methods ---
     public int SafeEvaluateInt(string expression, Dictionary<string, float> variables, int fallback = 0)
     {
-        if (string.IsNullOrEmpty(expression)) return fallback;
+        if (string.IsNullOrEmpty(expression)) {
+            Debug.LogWarning("expression is null or empty. Defaulting to " + fallback);
+            return fallback;
+        }
         try
         {
             float result = EvaluateRPN(expression, variables);
@@ -178,7 +181,10 @@ public class RpnEvaluator
 
     public float SafeEvaluateFloat(string expression, Dictionary<string, float> variables, float fallback = 0f)
     {
-        if (string.IsNullOrEmpty(expression)) return fallback;
+        if (string.IsNullOrEmpty(expression)) {
+            Debug.LogWarning("Expression is null or empty. Defaulting to " + fallback);
+            return fallback;
+        }
 
         // Check if the expression is a simple numeric value
         if (float.TryParse(expression, out float result))

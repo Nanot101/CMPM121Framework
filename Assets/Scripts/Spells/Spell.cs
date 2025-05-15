@@ -72,7 +72,8 @@ public abstract class Spell
     }
     public virtual float GetSize()
     {
-        return attributes.GetFinalSize();
+        //return attributes.GetFinalSize();
+        return attributes.size;
     }
     public float getSpeed()
     {
@@ -104,6 +105,7 @@ public abstract class Spell
     }
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
+        Debug.Log("Spell's Cast called");
         last_cast = Time.time;
         this.team = team;
          GameManager.Instance.projectileManager.CreateProjectile(
@@ -130,8 +132,9 @@ public abstract class Spell
     }
 
 
-    public bool IsReady()
+    public virtual bool IsReady()
     {
+
         return last_cast + GetCooldown() < Time.time;
     }
 }

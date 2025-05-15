@@ -60,60 +60,76 @@ public class SpellData
     // {
     //     return new RpnEvaluator().EvaluateRPN(expression, variableContext);
     // }
+
+    // this is needed for arcane blast bc of numprojectiles
+    public void SetContext(Dictionary<string, float> context)
+    {
+        foreach (var kvp in context)
+        {
+            variableContext[kvp.Key] = kvp.Value;
+        }
+    }
     private Dictionary<string, float> variableContext = new Dictionary<string, float>();
 
-    public void SetVariable(string key, int value)
-    {
-        variableContext[key] = (float)value;
-    }
+    // public void SetVariable(string key, int value)
+    // {
+    //     variableContext[key] = (float)value;
+    // }
 
-    public void SetVariable(string key, float value)
-    {
-        variableContext[key] = value;
-    }
+    // public void SetVariable(string key, float value)
+    // {
+    //     variableContext[key] = value;
+    // }
     private int Evaluate(string expression)
     {
+        if (string.IsNullOrEmpty(expression)){
+            Debug.Log("In Evaluate: expression is null or empty, returning 1");
+            return 1;
+        }
         float result = new RpnEvaluator().EvaluateRPN(expression, variableContext);
+        Debug.Log($"Expression: {expression} | Result: " + result);
         return Mathf.RoundToInt(result);
     }
 
-    private float EvaluateFloat(string expression)
-    {
-        return new RpnEvaluator().EvaluateRPN(expression, variableContext);
-    }
-    public int GetFinalDamage(int power)
-    {
-        if (damage == null || string.IsNullOrEmpty(damage.amount))
-        {
-            return 0;
-        }
+    // private float EvaluateFloat(string expression)
+    // {
+    //     return new RpnEvaluator().EvaluateRPN(expression, variableContext);
+    // }
+
+    // public int GetFinalDamage(int power)
+    // {
+    //     if (damage == null || string.IsNullOrEmpty(damage.amount))
+    //     {
+    //         return 0;
+    //     }
         
-        int baseDamage = Evaluate(damage.amount) * power / 10;
-        return ValueModifier.ApplyModifiers(baseDamage, damageModifiers);
-    }
+    //     int baseDamage = Evaluate(damage.amount) * power / 10;
+    //     return ValueModifier.ApplyModifiers(baseDamage, damageModifiers);
+    // }
 
-    public int GetFinalManaCost()
-    {
-        int baseManaCost = Evaluate(mana_cost);
-        return ValueModifier.ApplyModifiers(baseManaCost, manaCostModifiers);
-    }
+    // public int GetFinalManaCost()
+    // {
+    //     int baseManaCost = Evaluate(mana_cost);
+    //     return ValueModifier.ApplyModifiers(baseManaCost, manaCostModifiers);
+    // }
 
-    public float GetFinalCooldown()
-    {
-        float baseCooldown = Evaluate(cooldown);
-        return ValueModifier.ApplyModifiers(baseCooldown, cooldownModifiers);
-    }
+    // public float GetFinalCooldown()
+    // {
+    //     float baseCooldown = Evaluate(cooldown);
+    //     return ValueModifier.ApplyModifiers(baseCooldown, cooldownModifiers);
+    // }
 
+    //get this removed
     public float GetFinalSpeed()
     {
         float baseSpeed = Evaluate(speed);
         return ValueModifier.ApplyModifiers(baseSpeed, speedModifiers);
     }
 
-    public float GetFinalSize()
-    {
-        return ValueModifier.ApplyModifiers(size, sizeModifiers);
-    }
+    // public float GetFinalSize()
+    // {
+    //     return ValueModifier.ApplyModifiers(size, sizeModifiers);
+    // }
 
     public int GetFinalSecondaryDamage()
     {
@@ -177,7 +193,7 @@ public class SpellData
     }
     public void addToDamage(int damageAdded)
     {
-        damage.amount += damageAdded;
+        damage.amount += damageAdded + " + ";
     }
     public void addToMana(int manaAdded)
     {
@@ -190,6 +206,7 @@ public class SpellData
     public void addToCooldown(float cooldownAdded)
     {
         cooldown += cooldownAdded + " + ";
+        Debug.Log($"In spellDef->addToCooldown: cooldown is {cooldown}");
     }
 
 }

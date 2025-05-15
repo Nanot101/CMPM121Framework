@@ -26,6 +26,7 @@ public class SpellBuilder : MonoBehaviour
                 int rand = (int)(Random.value * spellsAndModifiers.getSpellDict().Count);
                 string[] keys = spellsAndModifiers.getSpellDict().Keys.ToArray();
                 string spellName = keys[rand];
+                // string spellName = "magic_missile";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
                 switch (spellName)
                 {
@@ -51,10 +52,9 @@ public class SpellBuilder : MonoBehaviour
                     {
                         modifier.setInnerSpell(recentSpell);
                         modifier.ApplyModifiers();
-                        descriptionWithModifiers += modifier.GetDescription() + "\n";
+                        descriptionWithModifiers += modifier.GetDescription();
                         recentSpell = modifier.GetSpellBase();
                     }
-                    Debug.Log(descriptionWithModifiers);
                 }
                 return recentSpell;
             }
@@ -63,36 +63,42 @@ public class SpellBuilder : MonoBehaviour
                 int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
                 string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
                 string modifierName = keys[rand];
-                modifierName = "damage_amp"; 
+
                 //modifiers.Add(SpellLoader.Modifiers[modifierName]);
                 //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
 
-
+                Debug.Log($"Applying {modifierName}");
                 switch (modifierName)
                 {
                     case "damage_amp":
                         ModifierSpell dAmp = new ModifierSpell(null, owner, 1.5f, 0, 1.5f, 0, 1, 0, 0, "straight", 0, 1, "Increased damage and increased mana cost.");
                         modifiers.Add(dAmp);
+                        Debug.Log($"Applied {dAmp}");
                         break;
                     case "speed_amp":
                         ModifierSpell speedAmp = new ModifierSpell(null, owner, 1, 0, 1, 0, 1.75f, 0, 0, "straight", 0, 1, "Faster projectile speed.");
                         modifiers.Add(speedAmp);
+                        Debug.Log($"Applied {speedAmp}");
                         break;
                     case "doubler":
                         ModifierSpell doubler = new ModifierSpell(null, owner, 1, 0, 1, 0, 1, 0, 0, "straight", 0, 1.5f, "Spell is cast a second time after a small delay; increased mana cost and cooldown.");
                         modifiers.Add(doubler);
+                        Debug.Log($"Applied {doubler}");
                         break;
                     case "splitter":
                         ModifierSpell splitter = new ModifierSpell(null, owner, 1, 0, 1.5f, 0, 1, 0, 10, "straight", 0, 1.5f, "Spell is cast twice in slightly different directions; increased mana cost.");
                         modifiers.Add(splitter);
+                        Debug.Log($"Applied {splitter}");
                         break;
                     case "chaos":
                         ModifierSpell chaos = new ModifierSpell(null, owner, 6.5f, 0, 1, 0, 1, 0, 0, "spiraling", 0, 1.5f, "Significantly increased damage, but projectile is spiraling.");
                         modifiers.Add(chaos);
+                        Debug.Log($"Applied {chaos}");
                         break;
                     case "homing":
                         ModifierSpell homing = new ModifierSpell(null, owner, 0.75f, 0, 1, 10, 1, 0, 0, "homing", 0, 1.5f, "Homing projectile, with decreased damage and increased mana cost.");
                         modifiers.Add(homing);
+                        Debug.Log($"Applied {homing}");
                         break;
                 }
                 
