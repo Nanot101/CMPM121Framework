@@ -53,10 +53,10 @@ public class ModifierSpell : Spell
         cooldownMultiplier = cooldownMlt;
         description = descrp;
         if (innerSpell != null)
-            {
-                icon = innerSpell.GetIcon();
-            }
+        {
+            icon = innerSpell.GetIcon();
         }
+    }
     public override string GetName()
     {
         return innerSpell.GetName() + " (Modified)";
@@ -112,22 +112,24 @@ public class ModifierSpell : Spell
     // Applies additional modifiers to a spell, can be customized by subclasses
     public virtual void ApplyModifiers()
     {
-        
+        //set damage 
         float damage = innerSpell.GetDamage() + damageAdder;
         damage *= damageMultiplier;
         int damageIncrease = (int)damage - innerSpell.GetDamage();
         innerSpell.addToDamage(damageIncrease);
-        //set damage 
+        
+        //set mana cost
         float manaCost = innerSpell.GetManaCost() + manaAdder;
         manaCost *= manaMultiplier;
         int manaIncrease = (int)manaCost - innerSpell.GetManaCost();
         innerSpell.addToMana(manaIncrease);
-        //set mana cost
-        float speed = innerSpell.getSpeed() + speedAdder;// get speed needs to be implemented
-        speed *= speedMultiplier;
-        int speedIncrease = (int)damage - innerSpell.GetDamage();
-        innerSpell.addToDamage(damageIncrease);
+
         //set speed
+        float speed = innerSpell.getSpeed() + speedAdder;
+        speed *= speedMultiplier;
+        float speedIncrease = speed - innerSpell.GetSpeed();
+        innerSpell.addToSpeed(speedIncrease);
+        
         innerSpell.addToAngle(innerSpell.getAngle());
         float cooldown = GetCooldown();
         Debug.Log($"Base cooldown: {cooldown}");
