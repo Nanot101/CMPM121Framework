@@ -33,6 +33,7 @@ public class SpellData
     public string speed;
     public string trajectory = "straight";
     public float size = 0.7f;
+    //public float 
     public int projectileSprite = 0;
     public string secondary_damage;
     public ProjectileData projectile;
@@ -193,6 +194,7 @@ public class SpellData
     }
     public void addToDamage(int damageAdded)
     {
+        Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
         damage.amount += damageAdded + " + ";
     }
     public void addToMana(int manaAdded)

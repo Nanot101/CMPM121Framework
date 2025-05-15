@@ -8,10 +8,10 @@ public class ArcanePulse : Spell
     private readonly RpnEvaluator rpn = new();
     private float interval;
 
-    public ArcanePulse(SpellCaster owner) : base(owner)
+    public ArcanePulse(SpellCaster owner, float interval) : base(owner)
     {
         data = SpellLoader.Spells["arcane_pulse"];
-        interval = rpn.SafeEvaluateFloat(data.interval, BuildVars(), 5f);
+        this.interval = interval;
     }
 
     // --- Attribute Getters ---
@@ -45,13 +45,13 @@ public class ArcanePulse : Spell
         int damage = GetDamage();
         Damage.Type type = data.damage.type;
 
-        Damage overridden = GetOverriddenDamage();
-        if (overridden != null)
-        {
-            damage = overridden.amount;
-            type = overridden.type;
-        }
-
+            //Damage overridden = GetOverriddenDamage();
+            //if (overridden != null)
+            //{
+            //    damage = overridden.amount;
+            //    type = overridden.type;
+            //}
+        last_cast = Time.time;
         float speed = GetSpeed();
         float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 3f);
         int spriteIndex = data.projectile.sprite;
@@ -120,6 +120,13 @@ public class ArcanePulse : Spell
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };
+    }
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        // Debug.Log($"[Arcane Pulse] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
     }
 
     protected override void InitializeSpellData()
