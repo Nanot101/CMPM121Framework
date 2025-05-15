@@ -189,7 +189,7 @@ public class SpellBuilder : MonoBehaviour
                         recentSpell = modifier.GetSpellBase();
                     }
 
-                    ModifierSpell LastModifier = modifiers[modifiers.Count - 1];
+                    ModifierSpell LastModifier = modifiers[modifierLength - 1];
                     LastModifier.setInnerSpell(recentSpell);
                     Debug.Log(LastModifier);
                     return LastModifier;

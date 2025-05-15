@@ -48,8 +48,11 @@ public abstract class Spell
     {
         return attributes.damage.type;
     }
-    public virtual int GetManaCost() => 10;
-    public virtual int GetDamage()
+    public virtual int GetManaCost()
+    {
+        return attributes.GetBaseManaCost();
+    }
+        public virtual int GetDamage()
     {
         int dmg = attributes.GetBaseDamage();
         return dmg > 0 ? dmg : 0;
@@ -99,7 +102,7 @@ public abstract class Spell
     }
     public void addToMana(int manaAdded)
     {
-        attributes.addToDamage(manaAdded);
+        attributes.addToMana(manaAdded);
     }
     public void addToSpeed(float speedAdded)
     {
