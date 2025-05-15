@@ -194,7 +194,7 @@ public class SpellData
     }
     public void addToDamage(int damageAdded)
     {
-        Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
+        //Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
         damage.amount += damageAdded + " + ";
     }
     public void addToMana(int manaAdded)

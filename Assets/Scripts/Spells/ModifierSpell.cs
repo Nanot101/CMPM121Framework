@@ -116,20 +116,28 @@ public class ModifierSpell : Spell
         float damage = innerSpell.GetDamage() + damageAdder;
         damage *= damageMultiplier;
         int damageIncrease = (int)damage - innerSpell.GetDamage();
+        Debug.Log("Damage is " + innerSpell.GetDamage() + ", new damage is " + damage + ", damage increase is " + damageIncrease);
         innerSpell.addToDamage(damageIncrease);
-        
+        Debug.Log("After call, new base value is " + innerSpell.GetDamage());
+
+
         //set mana cost
         float manaCost = innerSpell.GetManaCost() + manaAdder;
         manaCost *= manaMultiplier;
         int manaIncrease = (int)manaCost - innerSpell.GetManaCost();
+        Debug.Log("Mana cost is " + innerSpell.GetManaCost() + ", new mana is " + manaCost + ", mana increase is " + manaIncrease);
         innerSpell.addToMana(manaIncrease);
+        Debug.Log("After call, new base value is " + innerSpell.GetManaCost());
+
 
         //set speed
         float speed = innerSpell.getSpeed() + speedAdder;
         speed *= speedMultiplier;
         float speedIncrease = speed - innerSpell.GetSpeed();
+        Debug.Log("Speed is " + innerSpell.GetSpeed() + ", new speed is " + speed + ", speed increase is " + speedIncrease);
         innerSpell.addToSpeed(speedIncrease);
-        
+        Debug.Log("After call, new base value is " + innerSpell.getSpeed());
+
         innerSpell.addToAngle(innerSpell.getAngle());
         float cooldown = GetCooldown();
         Debug.Log($"Base cooldown: {cooldown}");
