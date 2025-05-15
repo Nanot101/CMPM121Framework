@@ -51,7 +51,7 @@ public class ArcanePulse : Spell
             //    damage = overridden.amount;
             //    type = overridden.type;
             //}
-
+        last_cast = Time.time;
         float speed = GetSpeed();
         float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 3f);
         int spriteIndex = data.projectile.sprite;
@@ -120,6 +120,13 @@ public class ArcanePulse : Spell
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };
+    }
+    public override bool IsReady()
+    {
+        float cooldown = GetCooldown();
+        bool isReady = Time.time >= last_cast + cooldown;
+        // Debug.Log($"[Arcane Pulse] IsReady Check: {isReady} | Current Time: {Time.time} | Next Available: {last_cast + cooldown}");
+        return isReady;
     }
 
     protected override void InitializeSpellData()

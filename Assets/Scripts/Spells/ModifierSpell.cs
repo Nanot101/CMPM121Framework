@@ -164,6 +164,7 @@ public class ModifierSpell : Spell
         if (delay > 0)
         {
             yield return new WaitForSeconds(delay);
+            yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
         }
     }
 

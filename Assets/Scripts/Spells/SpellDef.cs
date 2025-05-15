@@ -33,6 +33,7 @@ public class SpellData
     public string speed;
     public string trajectory = "straight";
     public float size = 0.7f;
+    //public float 
     public int projectileSprite = 0;
     public string secondary_damage;
     public ProjectileData projectile;

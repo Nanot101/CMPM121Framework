@@ -171,8 +171,8 @@ public class SpellBuilder : MonoBehaviour
                         break;
                 }
                 Spell recentSpell = baseSpell;
-                
-                if (!modifiers.Any() )
+                int modifierLength = modifiers.Count;
+                if (modifierLength != 0)
                 {
                     string descriptionWithModifiers = "";
                     Debug.Log("Inside if (!modifiers.Any())...");
@@ -188,10 +188,10 @@ public class SpellBuilder : MonoBehaviour
                         recentSpell = modifier.GetSpellBase();
                     }
 
-                    // ModifierSpell LastModifier = modifiers[modifiers.Count];
-                    // LastModifier.setInnerSpell(recentSpell);
-                    // Debug.Log(LastModifier);
-                    // return LastModifier;
+                    ModifierSpell LastModifier = modifiers[modifiers.Count - 1];
+                    LastModifier.setInnerSpell(recentSpell);
+                    Debug.Log(LastModifier);
+                    return LastModifier;
                 }
                 else {
                     Debug.LogError("Modifier list is not found");
