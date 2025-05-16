@@ -7,6 +7,7 @@ public class RewardScreenManager : MonoBehaviour
 {
     public GameObject rewardUI;
     public TextMeshProUGUI summaryText;
+    public TextMeshProUGUI descriptionText;
     public Button nextButton;
     public GameEndText GameEndText;
 
@@ -23,6 +24,7 @@ public class RewardScreenManager : MonoBehaviour
         {
             rewardUI.SetActive(true);
             summaryText.text = GameManager.Instance.GetWaveSummary();
+            descriptionText.text = "";
         }
         else if(GameManager.Instance.state == GameManager.GameState.GAMEWIN)
         {
