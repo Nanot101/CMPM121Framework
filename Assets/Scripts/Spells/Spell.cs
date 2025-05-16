@@ -98,6 +98,7 @@ public abstract class Spell
     {
         Debug.Log($"Calling innerspell.addToDamage. damageAdded should still be {damageAdded}");
         //this is causing errors
+        // Debug.Log(attributes.damage.amount);
         attributes.addToDamage(damageAdded);
     }
     public void addToMana(int manaAdded)
