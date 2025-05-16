@@ -28,6 +28,7 @@ public class SpellCaster
         this.mana_reg = mana_reg;
         this.team = team;
         this.Power = 1;
+        //string spellDescription = "";
         spell = spellBuilder.Build(this);
 
     }

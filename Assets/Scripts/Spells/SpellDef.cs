@@ -168,6 +168,7 @@ public class SpellData
     {
         if (damage == null || string.IsNullOrEmpty(damage.amount))
         {
+            Debug.Log("Damage is null or empty");
             return 0;
         }
 
@@ -192,22 +193,34 @@ public class SpellData
         float baseSpeed = Evaluate(speed);
         return baseSpeed;
     }
+    public string GetDescription()
+    {
+        return description;
+    }
     public void addToDamage(int damageAdded)
     {
-        //Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
-        damage.amount += damageAdded + " + ";
+        Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
+        if (damageAdded != 0)
+        {
+            Debug.Log("Damage added is nonzero.");
+        }
+        if (damage.amount != null)
+        {
+            Debug.Log("Damage is not null.");
+        }
+        damage.amount += " " + damageAdded + " +";
     }
     public void addToMana(int manaAdded)
     {
-        mana_cost += manaAdded + " + ";
+        mana_cost += " " + manaAdded + " +";
     }
     public void addToSpeed(float speedAdded)
     {
-        speed += speedAdded + " + ";
+        speed += " " + speedAdded + " +";
     }
     public void addToCooldown(float cooldownAdded)
     {
-        cooldown += cooldownAdded + " + ";
+        cooldown += " " + cooldownAdded + " +";
         Debug.Log($"In spellDef->addToCooldown: cooldown is {cooldown}");
     }
 

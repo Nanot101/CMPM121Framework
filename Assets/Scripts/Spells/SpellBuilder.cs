@@ -132,6 +132,12 @@ public class SpellBuilder : MonoBehaviour
     public SpellLoader spellsAndModifiers;
     List<ModifierSpell> modifiers;
     Spell baseSpell;
+    string description = "";
+
+    public string GetFullDescription()
+    {
+        return description;
+    }
     public Spell Build(SpellCaster owner)
     {
         // uncomment these return statements to see the spells in action
@@ -174,7 +180,7 @@ public class SpellBuilder : MonoBehaviour
                 int modifierLength = modifiers.Count;
                 if (modifierLength != 0)
                 {
-                    string descriptionWithModifiers = "";
+                    description = recentSpell.GetDescription();
                     Debug.Log("Inside if (!modifiers.Any())...");
                     // foreach (ModifierSpell modifier in modifiers)
                     for (int i = 0; i < modifiers.Count - 1; i++)
@@ -185,12 +191,14 @@ public class SpellBuilder : MonoBehaviour
                         Debug.Log("Calling apply modifiers");
                         modifier.ApplyModifiers();
                         Debug.Log("apply modifiers finished");
-                        descriptionWithModifiers += modifier.GetDescription();
+                        description += modifier.GetDescription();
                         recentSpell = modifier.GetSpellBase();
                     }
 
                     ModifierSpell LastModifier = modifiers[modifiers.Count - 1];
                     LastModifier.setInnerSpell(recentSpell);
+                    description += modifiers[modifierLength - 1].GetDescription();
+                    Debug.Log(description);
                     Debug.Log(LastModifier);
                     return LastModifier;
                 }
