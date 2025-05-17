@@ -167,16 +167,19 @@ public class ModifierSpell : Spell
         int angle = innerSpell.getAngle();
         if (angle != 0)
         {
+            Debug.Log("Angle is " + angle);
             float radians = angle * Mathf.Deg2Rad;
             direction = new Vector3(
                 direction.x * Mathf.Cos(radians) - direction.z * Mathf.Sin(radians),
                 direction.y,
                 direction.x * Mathf.Sin(radians) + direction.z * Mathf.Cos(radians)
             );
-            innerSpell.Cast(where, where + direction * GetSpeed(), team);
+            yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
         }
         if (delay > 0)
         {
+            Debug.Log("Delay is nonzero");
+            yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
             yield return new WaitForSeconds(delay);
         }
         yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
