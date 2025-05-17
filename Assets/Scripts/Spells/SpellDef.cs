@@ -17,6 +17,11 @@ public class ProjectileData
     public string speed;
     public int sprite;
     public string lifetime;
+
+    public void AddToSpeed(float speed)
+    {
+        this.speed += " " + speed + " +";
+    }
 }
 
 [System.Serializable]
@@ -83,7 +88,8 @@ public class SpellData
     // }
     private int Evaluate(string expression)
     {
-        if (string.IsNullOrEmpty(expression)){
+        if (string.IsNullOrEmpty(expression))
+        {
             Debug.Log("In Evaluate: expression is null or empty, returning 1");
             return 1;
         }
@@ -103,7 +109,7 @@ public class SpellData
     //     {
     //         return 0;
     //     }
-        
+
     //     int baseDamage = Evaluate(damage.amount) * power / 10;
     //     return ValueModifier.ApplyModifiers(baseDamage, damageModifiers);
     // }
@@ -135,7 +141,7 @@ public class SpellData
     public int GetFinalSecondaryDamage()
     {
         if (string.IsNullOrEmpty(secondary_damage)) return 0;
-        
+
         int baseSecondaryDamage = Evaluate(secondary_damage);
         return ValueModifier.ApplyModifiers(baseSecondaryDamage, secondaryDamageModifiers);
     }
@@ -143,11 +149,11 @@ public class SpellData
     public int GetFinalNumProjectiles()
     {
         if (string.IsNullOrEmpty(N)) return 1;
-        
+
         int baseNum = Evaluate(N);
         return ValueModifier.ApplyModifiers(baseNum, numProjectilesModifiers);
     }
-    
+
     public Damage.Type GetDamageType()
     {
         // Default to physical
@@ -216,13 +222,18 @@ public class SpellData
     }
     public void addToSpeed(float speedAdded)
     {
-        speed += " " + speedAdded + " +";
+        
+        // referencing wrong speed. should be projectileData -> speed, reading from SpellData -> speed
+        projectile.AddToSpeed(speedAdded);
+        // speed += " " + speedAdded + " +";
     }
     public void addToCooldown(float cooldownAdded)
     {
         cooldown += " " + cooldownAdded + " +";
         Debug.Log($"In spellDef->addToCooldown: cooldown is {cooldown}");
     }
+    
+
 
 }
     
