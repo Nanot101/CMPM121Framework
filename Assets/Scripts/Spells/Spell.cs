@@ -23,7 +23,7 @@ public abstract class Spell
     public Spell(SpellData values, SpellCaster owner)
     {
         this.owner = owner;
-        this.attributes = values;
+        this.attributes = values ?? new SpellData();
     }
     public void SetSpellValues(SpellData spellData)
     {
@@ -94,11 +94,24 @@ public abstract class Spell
     {
         return attributes;
     }
+
+    public void SetAttributes(SpellData spellData)
+    {
+        if (spellData == null || this.attributes == null)
+        {
+            this.attributes = new SpellData();
+        }
+        else
+        {
+            this.attributes = spellData;
+        }
+        
+    }
     public void addToDamage(int damageAdded)
     {
         Debug.Log($"Calling innerspell.addToDamage. damageAdded should still be {damageAdded}");
-        //this is causing errors
-        // Debug.Log(attributes.damage.amount);
+        //this is causing errors, attributes.damage returns null
+        Debug.Log(attributes.damage);
         attributes.addToDamage(damageAdded);
     }
     public void addToMana(int manaAdded)

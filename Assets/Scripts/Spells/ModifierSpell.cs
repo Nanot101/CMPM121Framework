@@ -99,6 +99,7 @@ public class ModifierSpell : Spell
     public void setInnerSpell(Spell spell)
     {
         innerSpell = spell;
+        innerSpell.GetAttributes();
     }
     
 
@@ -131,7 +132,7 @@ public class ModifierSpell : Spell
 
 
         //set speed
-        float speed = innerSpell.getSpeed() + speedAdder;
+        float speed = innerSpell.GetSpeed() + speedAdder;
         speed *= speedMultiplier;
         float speedIncrease = speed - innerSpell.GetSpeed();
         Debug.Log("Speed is " + innerSpell.GetSpeed() + ", new speed is " + speed + ", speed increase is " + speedIncrease);
@@ -155,7 +156,7 @@ public class ModifierSpell : Spell
         Debug.Log("Modifier Spell Cast called");
         this.team = team;
         // Apply before casting
-        ApplyModifiers();
+        // ApplyModifiers();
         // Adjust trajectory or angle if specified
         Vector3 direction = (target - where).normalized;
         // Modify the angle if applicable
