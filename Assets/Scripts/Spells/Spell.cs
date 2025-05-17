@@ -109,9 +109,8 @@ public abstract class Spell
     }
     public void addToDamage(int damageAdded)
     {
-        Debug.Log($"Calling innerspell.addToDamage. damageAdded should still be {damageAdded}");
-        //this is causing errors, attributes.damage returns null
-        Debug.Log(attributes.damage);
+        // Debug.Log($"Calling innerspell.addToDamage. damageAdded should still be {damageAdded}");
+        // Debug.Log(attributes.damage);
         attributes.addToDamage(damageAdded);
     }
     public void addToMana(int manaAdded)

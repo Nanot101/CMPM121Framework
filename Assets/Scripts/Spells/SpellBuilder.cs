@@ -182,7 +182,7 @@ public class SpellBuilder : MonoBehaviour
                 if (modifierLength != 0)
                 {
                     description = recentSpell.GetDescription();
-                    Debug.Log("Decription: " + description);
+                    // Debug.Log("Decription: " + description);
                     Debug.Log("Inside if (!modifiers.Any())...");
                     // foreach (ModifierSpell modifier in modifiers)
                     for (int i = 0; i < modifiers.Count - 1; i++)
@@ -202,8 +202,8 @@ public class SpellBuilder : MonoBehaviour
                     ModifierSpell LastModifier = modifiers[modifiers.Count - 1];
                     LastModifier.setInnerSpell(recentSpell);
                     description += modifiers[modifierLength - 1].GetDescription();
-                    Debug.Log(description);
-                    Debug.Log(LastModifier);
+                    // Debug.Log(description);
+                    // Debug.Log(LastModifier);
                     LastModifier.ApplyModifiers();
                     return LastModifier;
                 }
@@ -218,8 +218,8 @@ public class SpellBuilder : MonoBehaviour
             {
                 int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
                 string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
-                // string modifierName = keys[rand];
-                string modifierName = "splitter";
+                string modifierName = keys[rand];
+                // string modifierName = "splitter";
 
                 //modifiers.Add(SpellLoader.Modifiers[modifierName]);
                 //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
