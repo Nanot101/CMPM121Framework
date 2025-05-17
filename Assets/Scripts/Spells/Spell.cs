@@ -130,20 +130,25 @@ public abstract class Spell
     {
         attributes.addToCooldown(cooldownAdded);
     }
+
+    public void setTrajectory(string trajectoryName)
+    {
+        attributes.SetTrajectory(trajectoryName);
+    }
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         Debug.Log("Spell's Cast called");
         last_cast = Time.time;
         this.team = team;
-         GameManager.Instance.projectileManager.CreateProjectile(
-            attributes.projectileSprite, 
-            GetTrajectory(), 
-            where, 
-            target - where, 
-            GetSpeed(), 
-            OnHit,
-            lifetime,
-            GetSize());
+        GameManager.Instance.projectileManager.CreateProjectile(
+           attributes.projectileSprite,
+           GetTrajectory(),
+           where,
+           target - where,
+           GetSpeed(),
+           OnHit,
+           lifetime,
+           GetSize());
         yield return new WaitForEndOfFrame();
     }
 

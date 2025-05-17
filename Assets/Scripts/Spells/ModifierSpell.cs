@@ -147,7 +147,11 @@ public class ModifierSpell : Spell
         float cooldownIncrease = cooldown - innerSpell.getCooldown();
         Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
         innerSpell.addToCooldown(cooldownIncrease);
-        // left blank, to be overwritten
+
+
+        //set trajectory
+        innerSpell.setTrajectory(projectile_trajectory);
+
         
     }
 
@@ -169,14 +173,14 @@ public class ModifierSpell : Spell
                 direction.y,
                 direction.x * Mathf.Sin(radians) + direction.z * Mathf.Cos(radians)
             );
+            innerSpell.Cast(where, where + direction * GetSpeed(), team);
         }
-        yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
-
         if (delay > 0)
         {
             yield return new WaitForSeconds(delay);
-            yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
         }
+        yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
+        
     }
 
     protected override void InitializeSpellData()
