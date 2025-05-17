@@ -157,7 +157,7 @@ public class SpellBuilder : MonoBehaviour
                 string spellName = keys[rand];
                 // string spellName = "magic_missile";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
-                spellName = "arcane_pulse";
+                spellName = "arcane_bolt";
                 switch (spellName)
                 {
                     case "arcane_bolt":
@@ -219,7 +219,7 @@ public class SpellBuilder : MonoBehaviour
                 int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
                 string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
                 // string modifierName = keys[rand];
-                string modifierName = "homing";
+                string modifierName = "splitter";
 
                 //modifiers.Add(SpellLoader.Modifiers[modifierName]);
                 //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
@@ -238,7 +238,7 @@ public class SpellBuilder : MonoBehaviour
                         Debug.Log($"Applied speed_amp");
                         break;
                     case "doubler":
-                        ModifierSpell doubler = new ModifierSpell(null, owner, 1, 0, 1, 0, 1, 0, 0, "straight", 0, 1.5f, "Spell is cast a second time after a small delay; increased mana cost and cooldown.");
+                        ModifierSpell doubler = new ModifierSpell(null, owner, 1, 0, 1, 0, 1, 0, 0, "straight", 0.5f, 1.5f, "Spell is cast a second time after a small delay; increased mana cost and cooldown.");
                         modifiers.Add(doubler);
                         Debug.Log($"Applied doubler");
                         break;
