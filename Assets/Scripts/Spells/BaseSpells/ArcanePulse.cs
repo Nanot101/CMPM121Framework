@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class ArcanePulse : Spell
 {
-    private readonly SpellData data;
+    // private readonly Spellattributes attributes;
     private readonly RpnEvaluator rpn = new();
     private float interval;
 
     public ArcanePulse(SpellCaster owner, float interval) : base(owner)
     {
-        data = SpellLoader.Spells["arcane_pulse"];
+        attributes = SpellLoader.Spells["arcane_pulse"];
         this.interval = interval;
     }
 
     // --- Attribute Getters ---
-    public override string GetName() => data.name ?? "(Default) Arcane Pulse";
+    public override string GetName() => attributes.name ?? "(Default) Arcane Pulse";
 
-    public override int GetManaCost() => rpn.SafeEvaluateInt(data.mana_cost, BuildVars(), 10);
+    public override int GetManaCost() => rpn.SafeEvaluateInt(attributes.mana_cost, BuildVars(), 10);
 
-    public override int GetDamage() => rpn.SafeEvaluateInt(data.damage.amount, BuildVars(), 5);
+    public override int GetDamage() => rpn.SafeEvaluateInt(attributes.damage.amount, BuildVars(), 5);
 
-    public override float GetCooldown() => rpn.SafeEvaluateFloat(data.cooldown, BuildVars(), 0.75f);
+    public override float GetCooldown() => rpn.SafeEvaluateFloat(attributes.cooldown, BuildVars(), 0.75f);
 
-    public override int GetIcon() => data.icon >= 0 ? data.icon : 0;
+    public override int GetIcon() => attributes.icon >= 0 ? attributes.icon : 0;
 
-    public override float GetSpeed() => rpn.SafeEvaluateFloat(data.projectile.speed, BuildVars(), 0.1f);
+    public override float GetSpeed() => rpn.SafeEvaluateFloat(attributes.projectile.speed, BuildVars(), 0.1f);
 
-    public override string GetTrajectory() => data.projectile.trajectory ?? "straight";
+    public override string GetTrajectory() => attributes.projectile.trajectory ?? "straight";
 
-    public override float GetSize() => Mathf.Max(0.1f, data.size > 0 ? data.size : 0.7f);
+    public override float GetSize() => Mathf.Max(0.1f, attributes.size > 0 ? attributes.size : 0.7f);
 
     public override Damage.Type GetDamageType()
     {
@@ -43,7 +43,7 @@ public class ArcanePulse : Spell
         Dictionary<string, float> vars = BuildVars();
 
         int damage = GetDamage();
-        Damage.Type type = data.damage.type;
+        Damage.Type type = attributes.damage.type;
 
             //Damage overridden = GetOverriddenDamage();
             //if (overridden != null)
@@ -53,11 +53,11 @@ public class ArcanePulse : Spell
             //}
         last_cast = Time.time;
         float speed = GetSpeed();
-        float lifetime = rpn.SafeEvaluateFloat(data.projectile.lifetime, vars, 3f);
-        int spriteIndex = data.projectile.sprite;
+        float lifetime = rpn.SafeEvaluateFloat(attributes.projectile.lifetime, vars, 3f);
+        int spriteIndex = attributes.projectile.sprite;
         string trajectory = GetTrajectory();
         float coneAngle = 30f; // Spread angle for the secondary projectiles
-        int numProjectiles = rpn.SafeEvaluateInt(data.N, vars, 2); // Number of secondary projectiles
+        int numProjectiles = rpn.SafeEvaluateInt(attributes.N, vars, 2); // Number of secondary projectiles
 
         // Main projectile
         Vector3 baseDir = (target - where).normalized;
@@ -94,18 +94,18 @@ public class ArcanePulse : Spell
                 float angleOffset = (-coneAngle / 2) + (i * (coneAngle / Mathf.Max(1, numProjectiles - 1)));
                 Vector3 newDir = Quaternion.AngleAxis(angleOffset, Vector3.forward) * mainDirection;
                 GameManager.Instance.projectileManager.CreateProjectile(
-                    data.secondary_projectile.sprite,
-                    data.secondary_projectile.trajectory,
+                    attributes.secondary_projectile.sprite,
+                    attributes.secondary_projectile.trajectory,
                     mainPosition,
                     newDir,
-                    rpn.SafeEvaluateFloat(data.secondary_projectile.speed, vars, 8f),
+                    rpn.SafeEvaluateFloat(attributes.secondary_projectile.speed, vars, 8f),
                     (targetHit, hitPoint) =>
                     {
-                        Damage.Type type = data.damage.type;
+                        Damage.Type type = attributes.damage.type;
                         Damage dmg = new Damage(damage, type);
                         targetHit.Damage(dmg);
                     },
-                    rpn.SafeEvaluateFloat(data.secondary_projectile.lifetime, vars, 1f)
+                    rpn.SafeEvaluateFloat(attributes.secondary_projectile.lifetime, vars, 1f)
                 );
             }
         }

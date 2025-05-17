@@ -22,6 +22,11 @@ public class ProjectileData
     {
         this.speed += " " + speed + " +";
     }
+
+    public void AddToTrajectory(string trajectory)
+    {
+        this.trajectory += trajectory;
+    }
 }
 
 [System.Serializable]
@@ -222,7 +227,7 @@ public class SpellData
     }
     public void addToSpeed(float speedAdded)
     {
-        
+
         // referencing wrong speed. should be projectileData -> speed, reading from SpellData -> speed
         projectile.AddToSpeed(speedAdded);
         // speed += " " + speedAdded + " +";
@@ -231,6 +236,11 @@ public class SpellData
     {
         cooldown += " " + cooldownAdded + " +";
         Debug.Log($"In spellDef->addToCooldown: cooldown is {cooldown}");
+    }
+
+    public void SetTrajectory(string trajectory)
+    {
+        projectile.trajectory = trajectory;
     }
     
 

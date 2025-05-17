@@ -157,7 +157,7 @@ public class SpellBuilder : MonoBehaviour
                 string spellName = keys[rand];
                 // string spellName = "magic_missile";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
-                spellName = "arcane_bolt";
+                spellName = "arcane_pulse";
                 switch (spellName)
                 {
                     case "arcane_bolt":
@@ -219,7 +219,7 @@ public class SpellBuilder : MonoBehaviour
                 int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
                 string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
                 // string modifierName = keys[rand];
-                string modifierName = "damage_amp";
+                string modifierName = "homing";
 
                 //modifiers.Add(SpellLoader.Modifiers[modifierName]);
                 //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
