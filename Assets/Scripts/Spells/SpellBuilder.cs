@@ -143,11 +143,12 @@ public class SpellBuilder : MonoBehaviour
         // uncomment these return statements to see the spells in action
         modifiers = new List<ModifierSpell>();
         // Debug.Log(modifiers);
+        string lastModifiedTrajectory = "straight";
+
         while (true)
         {
             //ModifierSpell lastModifier = null;
             float spellOrModifier = Random.value * 2;
-            
             if (spellOrModifier > 1)
             {
                 //Spell base
@@ -218,32 +219,33 @@ public class SpellBuilder : MonoBehaviour
             {
                 int rand = (int)(Random.value * spellsAndModifiers.getModifierDict().Count);
                 string[] keys = spellsAndModifiers.getModifierDict().Keys.ToArray();
-                // string modifierName = keys[rand];
-                string modifierName = "splitter";
+                string modifierName = keys[rand];
+                //string modifierName = "splitter";
 
                 //modifiers.Add(SpellLoader.Modifiers[modifierName]);
                 //        public ModifierSpell(Spell innerSpell, SpellCaster owner, float dmgMlt, int dmgAdd, float manaMlt, int manaAdd, float speedMlt, int speedAdd, int angl, string trajectory, float timeBetweenShots, float cooldownMlt, string descrp) : base(owner)
 
                 //Debug.Log($"Applying {modifierName}");
+
                 switch (modifierName)
                 {
                     case "damage_amp":
-                        ModifierSpell dAmp = new ModifierSpell(null, owner, 1.5f, 0, 1.5f, 0, 1, 0, 0, "straight", 0, 1, "Increased damage and increased mana cost.");
+                        ModifierSpell dAmp = new ModifierSpell(null, owner, 1.5f, 0, 1.5f, 0, 1, 0, 0, lastModifiedTrajectory, 0, 1, "Increased damage and increased mana cost.");
                         modifiers.Add(dAmp);
                         Debug.Log($"Applied damage_amp");
                         break;
                     case "speed_amp":
-                        ModifierSpell speedAmp = new ModifierSpell(null, owner, 1, 0, 1, 0, 1.75f, 0, 0, "straight", 0, 1, "Faster projectile speed.");
+                        ModifierSpell speedAmp = new ModifierSpell(null, owner, 1, 0, 1, 0, 1.75f, 0, 0, lastModifiedTrajectory, 0, 1, "Faster projectile speed.");
                         modifiers.Add(speedAmp);
                         Debug.Log($"Applied speed_amp");
                         break;
                     case "doubler":
-                        ModifierSpell doubler = new ModifierSpell(null, owner, 1, 0, 1, 0, 1, 0, 0, "straight", 0.5f, 1.5f, "Spell is cast a second time after a small delay; increased mana cost and cooldown.");
+                        ModifierSpell doubler = new ModifierSpell(null, owner, 1, 0, 1, 0, 1, 0, 0, lastModifiedTrajectory, 0.5f, 1.5f, "Spell is cast a second time after a small delay; increased mana cost and cooldown.");
                         modifiers.Add(doubler);
                         Debug.Log($"Applied doubler");
                         break;
                     case "splitter":
-                        ModifierSpell splitter = new ModifierSpell(null, owner, 1, 0, 1.5f, 0, 1, 0, 10, "straight", 0, 1.5f, "Spell is cast twice in slightly different directions; increased mana cost.");
+                        ModifierSpell splitter = new ModifierSpell(null, owner, 1, 0, 1.5f, 0, 1, 0, 10, lastModifiedTrajectory, 0, 1.5f, "Spell is cast twice in slightly different directions; increased mana cost.");
                         modifiers.Add(splitter);
                         Debug.Log($"Applied splitter");
                         break;
@@ -251,11 +253,13 @@ public class SpellBuilder : MonoBehaviour
                         ModifierSpell chaos = new ModifierSpell(null, owner, 6.5f, 0, 1, 0, 1, 0, 0, "spiraling", 0, 1.5f, "Significantly increased damage, but projectile is spiraling.");
                         modifiers.Add(chaos);
                         Debug.Log($"Applied chaos");
+                        lastModifiedTrajectory = "spiraling";
                         break;
                     case "homing":
                         ModifierSpell homing = new ModifierSpell(null, owner, 0.75f, 0, 1, 10, 1, 0, 0, "homing", 0, 1.5f, "Homing projectile, with decreased damage and increased mana cost.");
                         modifiers.Add(homing);
                         Debug.Log($"Applied homing");
+                        lastModifiedTrajectory = "homing";
                         break;
                 }
                 
