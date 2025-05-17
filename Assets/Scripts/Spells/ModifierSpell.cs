@@ -61,7 +61,10 @@ public class ModifierSpell : Spell
     {
         return innerSpell.GetName() + " (Modified)";
     }
-
+    public void addToAngle(int angleAdded)
+    {
+        angle += angleAdded;
+    } 
     public override string GetDescription()
     {
         return description != string.Empty ? description : innerSpell.GetDescription();
@@ -139,7 +142,7 @@ public class ModifierSpell : Spell
         innerSpell.addToSpeed(speedIncrease);
         Debug.Log("After call, new base value is " + innerSpell.getSpeed());
 
-        innerSpell.addToAngle(innerSpell.getAngle());
+        addToAngle(angle);
         float cooldown = GetCooldown();
         Debug.Log($"Base cooldown: {cooldown}");
         cooldown *= cooldownMultiplier;
@@ -164,10 +167,9 @@ public class ModifierSpell : Spell
         // Adjust trajectory or angle if specified
         Vector3 direction = (target - where).normalized;
         // Modify the angle if applicable
-        int angle = innerSpell.getAngle();
+        Debug.Log("Angle is " + angle);
         if (angle != 0)
         {
-            Debug.Log("Angle is " + angle);
             float radians = angle * Mathf.Deg2Rad;
             direction = new Vector3(
                 direction.x * Mathf.Cos(radians) - direction.z * Mathf.Sin(radians),
@@ -175,6 +177,13 @@ public class ModifierSpell : Spell
                 direction.x * Mathf.Sin(radians) + direction.z * Mathf.Cos(radians)
             );
             yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
+            radians = angle * Mathf.Deg2Rad * -1;
+            direction = new Vector3(
+                direction.x * Mathf.Cos(radians) - direction.z * Mathf.Sin(radians),
+                direction.y,
+                direction.x * Mathf.Sin(radians) + direction.z * Mathf.Cos(radians)
+            );
+
         }
         if (delay > 0)
         {
@@ -184,6 +193,10 @@ public class ModifierSpell : Spell
         }
         yield return innerSpell.Cast(where, where + direction * GetSpeed(), team);
         
+    }
+    public int GetAngle()
+    {
+        return angle;
     }
 
     protected override void InitializeSpellData()
