@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager 
+public class GameManager
 {
     public enum GameState
     {
@@ -24,7 +24,9 @@ public class GameManager
 
     public int countdown;
     private static GameManager theInstance;
-    public static GameManager Instance {  get
+    public static GameManager Instance
+    {
+        get
         {
             if (theInstance == null)
                 theInstance = new GameManager();
@@ -56,7 +58,7 @@ public class GameManager
     {
         if (enemies == null || enemies.Count == 0) return null;
         if (enemies.Count == 1) return enemies[0];
-        return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
+        return enemies.Aggregate((a, b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
     }
 
 
@@ -94,7 +96,7 @@ public class GameManager
         state = GameState.GAMEWIN;
         OnGameWin?.Invoke();
     }
-    
+
     public float WaveDuration => waveEndTime - waveStartTime;
 
     // public void ShowSummary()
@@ -151,5 +153,20 @@ public class GameManager
         waveStartTime = 0;
         waveEndTime = 0;
     }
+    
+    public void Initialize()
+    {
+        
+
+        player = GameObject.FindWithTag("unit");
+        projectileManager = new ProjectileManager();
+        spellIconManager = new SpellIconManager();
+        enemySpriteManager = new EnemySpriteManager();
+        playerSpriteManager = new PlayerSpriteManager();
+        relicIconManager = new RelicIconManager();
+
+        //enemies = new List<GameObject>();
+    }
+
 
 }

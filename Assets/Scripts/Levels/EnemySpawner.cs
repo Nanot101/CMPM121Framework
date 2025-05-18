@@ -75,7 +75,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
-        playerController.updateHP();
+        GameManager.Instance.player.GetComponent<PlayerController>().updateHP();
         StartCoroutine(SpawnWave());
     }
 
