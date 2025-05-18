@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
         int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        Spell spell = new ArcaneBolt(spellcaster);
+        spellcaster.setSpell(spell);
         StartCoroutine(spellcaster.ManaRegeneration());
        
         hp = new Hittable(hpNum, Hittable.Team.PLAYER, gameObject);

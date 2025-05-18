@@ -19,7 +19,8 @@ public class SpellUIContainer : MonoBehaviour
     }
     public void removeFirstSpell()
     {
-        spellUIs[0].SetActive(false );
+        spellUIs[0].SetActive(false);
+
     }
     public void removeSecondSpell()
     {

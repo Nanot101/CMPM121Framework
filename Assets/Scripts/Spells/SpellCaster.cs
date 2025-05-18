@@ -60,5 +60,9 @@ public class SpellCaster
         Debug.Log($"[SpellCaster] Casting {spell.GetName()} at target. Remaining Mana: {mana}");
         yield return spell.Cast(where, target, team);
     }
+    public void setSpell(Spell spell)
+    {
+        this.spell = spell;
+    }
 
 }
