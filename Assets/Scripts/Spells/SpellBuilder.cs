@@ -206,6 +206,7 @@ public class SpellBuilder : MonoBehaviour
                     Debug.Log(description);
                     Debug.Log(LastModifier);
                     LastModifier.ApplyModifiers();
+                    modifiers.Clear();
                     return LastModifier;
                 }
                 else

@@ -14,7 +14,6 @@ public abstract class Spell
     public SpellCaster owner;
     public Hittable.Team team;
     protected SpellData attributes;
-    int angle;
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
@@ -69,10 +68,6 @@ public abstract class Spell
         float speed = attributes.GetBaseSpeed();
         return speed > 0 ? speed : 0;
     }
-    public int getAngle()
-    {
-        return angle;
-    }
     public virtual string GetTrajectory() 
     {
         return attributes.trajectory;
@@ -121,10 +116,6 @@ public abstract class Spell
     public void addToSpeed(float speedAdded)
     {
         attributes.addToSpeed(speedAdded);
-    }
-    public void addToAngle(int angleAdded)
-    {
-        angle += angleAdded;
     }
     public void addToCooldown(float cooldownAdded)
     {

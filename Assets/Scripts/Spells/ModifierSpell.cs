@@ -147,7 +147,7 @@ public class ModifierSpell : Spell
         Debug.Log($"Base cooldown: {cooldown}");
         cooldown *= cooldownMultiplier;
         Debug.Log($"Cooldown with {cooldownMultiplier} multiplier: {cooldown}");
-        float cooldownIncrease = cooldown - innerSpell.getCooldown();
+        float cooldownIncrease = cooldown - innerSpell.GetCooldown();
         Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
         innerSpell.addToCooldown(cooldownIncrease);
 

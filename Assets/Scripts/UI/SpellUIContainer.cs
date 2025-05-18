@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class SpellUIContainer : MonoBehaviour
 {
@@ -15,7 +17,22 @@ public class SpellUIContainer : MonoBehaviour
             spellUIs[i].SetActive(false);
         }
     }
-
+    public void removeFirstSpell()
+    {
+        spellUIs[0].SetActive(false );
+    }
+    public void removeSecondSpell()
+    {
+        spellUIs[1].SetActive(false);
+    }
+    public void removeThirdSpell()
+    {
+        spellUIs[2].SetActive(false);
+    }
+    public void removeFourthSpell()
+    {
+        spellUIs[3].SetActive(false);
+    }
     // Update is called once per frame
     void Update()
     {
