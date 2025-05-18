@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.Experimental.AI;
 
 public class SpellCaster 
 {
@@ -8,9 +10,9 @@ public class SpellCaster
     public int max_mana;
     public int mana_reg;
     public Hittable.Team team;
-    public Spell spell;
+    public Spell[] spells;
     public int Power;
-
+    public int activeSpell;
     public IEnumerator ManaRegeneration()
     {
         while (true)
@@ -28,8 +30,14 @@ public class SpellCaster
         this.mana_reg = mana_reg;
         this.team = team;
         this.Power = 1;
+        this.activeSpell = 0;
         //string spellDescription = "";
-        spell = spellBuilder.Build(this);
+        this.spells = new Spell[4];
+        this.spells[0] = new ArcaneBolt(this);
+        this.spells[1] = new ArcaneBlast(this);
+        this.spells[2] = new ArcaneSpray(this);
+        this.spells[3] = new ArcanePulse(this, 0.5f);
+        // spellBuilder.Build(this);
 
     }
 
@@ -44,21 +52,53 @@ public class SpellCaster
     // }
     public IEnumerator Cast(Vector3 where, Vector3 target)
     {
-        if (mana < spell.GetManaCost())
+        if (spells[activeSpell] == null)
+        {
+            Debug.Log("Active spell is set to null.");
+            yield break;
+        }
+        if (mana < spells[activeSpell].GetManaCost())
         {
             Debug.Log("[SpellCaster] Not enough mana to cast the spell.");
             yield break;
         }
 
-        if (!spell.IsReady())
+        if (!spells[activeSpell].IsReady())
         {
-            Debug.Log($"[SpellCaster] {spell.GetName()} is still on cooldown.");
+            Debug.Log($"[SpellCaster] {spells[activeSpell].GetName()} is still on cooldown.");
             yield break;
         }
 
-        mana -= spell.GetManaCost();
-        Debug.Log($"[SpellCaster] Casting {spell.GetName()} at target. Remaining Mana: {mana}");
-        yield return spell.Cast(where, target, team);
+        mana -= spells[activeSpell].GetManaCost();
+        Debug.Log($"[SpellCaster] Casting {spells[activeSpell].GetName()} at target. Remaining Mana: {mana}");
+        yield return spells[activeSpell].Cast(where, target, team);
+    }
+    public void setSpell(Spell spell)
+    {
+        for (int i = 0; i < spells.Length; i++)
+        {
+            if (spells[i] == null)
+            {
+                spells[i] = spell;
+                Debug.Log("New spell was set at index " + i);
+                break;
+            }
+        }
+    }
+    public void setActiveSpell(int spellNum)
+    {
+        if (spells[activeSpell] != null)
+            activeSpell = spellNum;
+        else
+            Debug.Log("Spell number invalid: No spell at that index");
     }
 
+    public Spell getSpellAtIndex(int index)
+    {
+        return spells[index];
+    }
+    public Spell getActiveSpell()
+    {
+        return spells[activeSpell];
+    }
 }

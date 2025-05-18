@@ -21,5 +21,22 @@ public class SpellUIContainer : MonoBehaviour
     {
         
     }
+    public void removeFirstSpell()
+    {
+        spellUIs[0].SetActive(false);
 
+    }
+    public void removeSecondSpell()
+    {
+        spellUIs[1] = null;
+        //spellUIs[1].SetActive(false);
+    }
+    public void removeThirdSpell()
+    {
+        spellUIs[2].SetActive(false);
+    }
+    public void removeFourthSpell()
+    {
+        spellUIs[3].SetActive(false);
+    }
 }

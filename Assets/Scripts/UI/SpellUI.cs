@@ -31,6 +31,7 @@ public class SpellUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (spell == null) return;
         if (Time.time > last_text_update + UPDATE_DELAY)
         {
