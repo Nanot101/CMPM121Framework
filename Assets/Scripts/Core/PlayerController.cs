@@ -63,12 +63,12 @@ public class PlayerController : MonoBehaviour
         spellui.SetSpell(spellcaster.spell);
     }
 
-    void updateHP()
+    public void updateHP()
     {
         //only do next line if new maxHP increases their curent HP
         //int missingHP = hp.max_hp - hp.hp;
         int oldMaxHP = hp.max_hp;
-
+        Debug.Log("updateHP called");
         RpnEvaluator rpn = new RpnEvaluator();
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
@@ -85,15 +85,6 @@ public class PlayerController : MonoBehaviour
 
         //only do next line if MaxHP increases their current HP
         hp.hp += (hpNum - oldMaxHP);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
-        {
-            updateHP();
-        }
     }
 
     void OnAttack(InputValue value)
