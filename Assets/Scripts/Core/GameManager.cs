@@ -16,6 +16,12 @@ public class GameManager
     }
     public GameState state;
 
+
+    // Events
+    public event Action OnWaveEnd;
+    public event Action OnGameWin;
+
+
     public int countdown;
     private static GameManager theInstance;
     public static GameManager Instance {  get
@@ -27,9 +33,7 @@ public class GameManager
     }
 
     public int CurrentWave { get; set; }
-
     public GameObject player;
-    
     public ProjectileManager projectileManager;
     public SpellIconManager spellIconManager;
     public EnemySpriteManager enemySpriteManager;
@@ -81,23 +85,31 @@ public class GameManager
     public void EndWave()
     {
         waveEndTime = Time.time;
+        state = GameState.WAVEEND;
+        OnWaveEnd?.Invoke();
     }
 
+    public void WinGame()
+    {
+        state = GameState.GAMEWIN;
+        OnGameWin?.Invoke();
+    }
+    
     public float WaveDuration => waveEndTime - waveStartTime;
 
-    public void ShowSummary()
-    {
-        float duration = waveEndTime - waveStartTime;
-        Debug.Log("----- Wave Summary -----");
-        Debug.Log("Damage Taken: " + damageTaken);
-        Debug.Log("Zombies Killed: " + zombiesKilled);
-        Debug.Log("Skeletons Killed: " + skeletonsKilled);
-        Debug.Log("Warlocks Killed: " + warlocksKilled);
-        Debug.Log("Rogues killed: " + roguesKilled);
-        Debug.Log("Time to Beat the Wave: " + duration.ToString("F2") + "s");
-        Debug.Log("------------------------");
-        //ResetWaveStats();
-    }
+    // public void ShowSummary()
+    // {
+    //     float duration = waveEndTime - waveStartTime;
+    //     Debug.Log("----- Wave Summary -----");
+    //     Debug.Log("Damage Taken: " + damageTaken);
+    //     Debug.Log("Zombies Killed: " + zombiesKilled);
+    //     Debug.Log("Skeletons Killed: " + skeletonsKilled);
+    //     Debug.Log("Warlocks Killed: " + warlocksKilled);
+    //     Debug.Log("Rogues killed: " + roguesKilled);
+    //     Debug.Log("Time to Beat the Wave: " + duration.ToString("F2") + "s");
+    //     Debug.Log("------------------------");
+    //     //ResetWaveStats();
+    // }
 
     public string GetWaveSummary()
     {

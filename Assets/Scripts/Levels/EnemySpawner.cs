@@ -168,7 +168,7 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             GameManager.Instance.state = GameManager.GameState.WAVEEND;
-
+            GameManager.Instance.EndWave();
             currentWave++;
             GameManager.Instance.CurrentWave = currentWave;
         }

@@ -143,13 +143,15 @@ public class ModifierSpell : Spell
         // Debug.Log("After call, new base value is " + innerSpell.getSpeed());
 
         addToAngle(angle);
+
         float cooldown = GetCooldown();
         Debug.Log($"Base cooldown: {cooldown}");
         cooldown *= cooldownMultiplier;
         Debug.Log($"Cooldown with {cooldownMultiplier} multiplier: {cooldown}");
         float cooldownIncrease = cooldown - innerSpell.getCooldown();
-        Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
+        // Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
         innerSpell.addToCooldown(cooldownIncrease);
+        Debug.Log($"Cooldown: {innerSpell.GetCooldown()}");
 
 
         //set trajectory
