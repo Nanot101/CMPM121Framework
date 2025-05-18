@@ -52,4 +52,19 @@ public class SpellUI : MonoBehaviour
         }
         cooldown.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 48 * perc);
     }
+    public void SetActive(bool active)
+    {
+        if (!active)
+        {
+            icon.SetActive(false);
+            manacost.text = "";
+            damage.text = "";
+            spell = null;
+        }
+        else
+        {
+            icon.SetActive(true);
+
+        }
+    }
 }

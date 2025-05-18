@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpellUIContainer : MonoBehaviour
 {
-    public GameObject[] spellUIs;
+    public SpellUI[] spellUIs;
     public PlayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,12 +24,10 @@ public class SpellUIContainer : MonoBehaviour
     public void removeFirstSpell()
     {
         spellUIs[0].SetActive(false);
-
     }
     public void removeSecondSpell()
     {
-        spellUIs[1] = null;
-        //spellUIs[1].SetActive(false);
+        spellUIs[1].SetActive(false);
     }
     public void removeThirdSpell()
     {
