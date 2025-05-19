@@ -12,14 +12,16 @@ public class RewardScreenManager : MonoBehaviour
     public GameEndText GameEndText;
     public SpellUI spellUI;
     public SpellBuilder spellBuilder;
-    private Spell builtSpell;
+    public Spell builtSpell;
     public PlayerController playerController;
     public TextMeshProUGUI spellDescriptionText;
+    public Button replaceButton;
 
     void Start()
     {
         rewardUI.SetActive(false);
         nextButton.onClick.AddListener(OnNextWavePressed);
+        nextButton.onClick.AddListener(OnReplaceSpell);
         GameManager.Instance.OnWaveEnd += ShowRewardScreen;
         GameManager.Instance.OnGameWin += ShowWinScreen;
 
@@ -75,7 +77,13 @@ public class RewardScreenManager : MonoBehaviour
     void OnNextWavePressed()
     {
         GameManager.Instance.ResetWaveStats();
-        rewardUI.SetActive(false);  
+        rewardUI.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+
+    public void OnReplaceSpell()
+    {
+        playerController.spellcaster.setSpell(builtSpell);
     }
 }
