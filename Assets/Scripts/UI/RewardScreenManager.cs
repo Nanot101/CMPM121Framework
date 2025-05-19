@@ -42,7 +42,7 @@ public class RewardScreenManager : MonoBehaviour
     {
         rewardUI.SetActive(true);
         summaryText.text = GameManager.Instance.GetWaveSummary();
-        descriptionText.text = "Select your reward before continuing.";
+        descriptionText.text = "Drop one of your current spells to replace it with this one.";
         builtSpell = spellBuilder.Build(playerController.spellcaster);
         spellUI.SetSpell(builtSpell);
         Time.timeScale = 0f;
@@ -54,25 +54,6 @@ public class RewardScreenManager : MonoBehaviour
         rewardUI.SetActive(false);
         GameEndText.onWin();
     }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-    //     if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
-    //     {
-    //         rewardUI.SetActive(true);
-    //         summaryText.text = GameManager.Instance.GetWaveSummary();
-    //         descriptionText.text = "";
-    //     }
-    //     else if(GameManager.Instance.state == GameManager.GameState.GAMEWIN)
-    //     {
-    //         GameEndText.onWin();
-    //     }
-    //     else
-    //     {
-    //         rewardUI.SetActive(false);
-    //     }
-    // }
 
     void OnNextWavePressed()
     {
