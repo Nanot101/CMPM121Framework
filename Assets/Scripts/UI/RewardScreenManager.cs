@@ -10,6 +10,11 @@ public class RewardScreenManager : MonoBehaviour
     public TextMeshProUGUI descriptionText;
     public Button nextButton;
     public GameEndText GameEndText;
+    public SpellUI spellUI;
+    public SpellBuilder spellBuilder;
+    private Spell builtSpell;
+    public PlayerController playerController;
+    public TextMeshProUGUI spellDescriptionText;
 
     void Start()
     {
@@ -17,6 +22,11 @@ public class RewardScreenManager : MonoBehaviour
         nextButton.onClick.AddListener(OnNextWavePressed);
         GameManager.Instance.OnWaveEnd += ShowRewardScreen;
         GameManager.Instance.OnGameWin += ShowWinScreen;
+
+        if (playerController == null)
+        {
+            playerController = FindAnyObjectByType<PlayerController>();
+        }
     }
 
     void OnDestroy()
@@ -31,7 +41,10 @@ public class RewardScreenManager : MonoBehaviour
         rewardUI.SetActive(true);
         summaryText.text = GameManager.Instance.GetWaveSummary();
         descriptionText.text = "Select your reward before continuing.";
+        builtSpell = spellBuilder.Build(playerController.spellcaster);
+        spellUI.SetSpell(builtSpell);
         Time.timeScale = 0f;
+        spellDescriptionText.text = spellBuilder.GetFullDescription();
     }
 
     void ShowWinScreen()
