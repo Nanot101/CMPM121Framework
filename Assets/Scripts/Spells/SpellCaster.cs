@@ -95,6 +95,7 @@ public class SpellCaster
 
     public Spell getSpellAtIndex(int index)
     {
+        Debug.Log($"Setting spells. Spellui at index {index}: {spells[index]}");
         return spells[index];
     }
     public Spell getActiveSpell()

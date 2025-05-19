@@ -10,10 +10,17 @@ public class SpellUIContainer : MonoBehaviour
     {
         // we only have one spell (right now)
         // spellUIs[0].SetActive(true);
-        for(int i = 0; i< spellUIs.Length; ++i)
+
+
+        //Problem is not here
+        Debug.Log($"Setting spells. Spellui length: {spellUIs.Length}");
+        Debug.Log($"Spellui 1: {spellUIs[1]}");
+        for (int i = 0; i < spellUIs.Length; ++i)
         {
             spellUIs[i].SetActive(true);
+            Debug.Log($"Spell {i}: {spellUIs}");
         }
+
     }
 
     // Update is called once per frame

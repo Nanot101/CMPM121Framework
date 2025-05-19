@@ -65,8 +65,14 @@ public class PlayerController : MonoBehaviour
         //spellUIs = new SpellUI[4];
         for(int i = 0; i < 4; i++)
         {
-            if(spellcaster.getSpellAtIndex(i) != null)
+            Debug.Log("playercont: in for loop");
+            if (spellcaster.getSpellAtIndex(i) != null)
+            {
+                Debug.Log("playercont: in if statement");
                 spellUIs[i].SetSpell(spellcaster.getSpellAtIndex(i));
+            }
+
+                
 
         }
     }
