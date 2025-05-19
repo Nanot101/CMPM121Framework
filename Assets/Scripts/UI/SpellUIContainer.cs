@@ -4,6 +4,7 @@ public class SpellUIContainer : MonoBehaviour
 {
     public GameObject[] spellUIs;
     public PlayerController player;
+    private SpellCaster spellCaster;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,7 +27,7 @@ public class SpellUIContainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void removeFirstSpell()
     {
@@ -43,5 +44,25 @@ public class SpellUIContainer : MonoBehaviour
     public void removeFourthSpell()
     {
         spellUIs[3].SetActive(false);
+    }
+    
+    public void RemoveSpell(int index)
+    {
+        if (index >= 0 && index < spellUIs.Length)
+        {
+            SpellUI spellUI = spellUIs[index].GetComponent<SpellUI>();
+            if (spellUI != null)
+            {
+                spellUI.SetActive(false, index); // calls SpellUI's SetActive
+            }
+            else
+            {
+                Debug.LogWarning($"No SpellUI component found on GameObject at index {index}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid spell index: {index}");
+        }
     }
 }

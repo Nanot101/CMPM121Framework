@@ -165,7 +165,6 @@ public abstract class Spell
 
     public virtual bool IsReady()
     {
-
         return last_cast + GetCooldown() < Time.time;
     }
 }

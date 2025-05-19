@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.Experimental.AI;
 
-public class SpellCaster 
+public class SpellCaster
 {
     public int mana;
     public int max_mana;
@@ -87,7 +87,7 @@ public class SpellCaster
     }
     public void setActiveSpell(int spellNum)
     {
-        if (spells[activeSpell] != null)
+        if (spells[activeSpell] != null || spells[spellNum] != null )
             activeSpell = spellNum;
         else
             Debug.Log("Spell number invalid: No spell at that index");
@@ -95,11 +95,23 @@ public class SpellCaster
 
     public Spell getSpellAtIndex(int index)
     {
-        Debug.Log($"Setting spells. Spellui at index {index}: {spells[index]}");
+        Debug.Log($"Spellui at index {index}: {spells[index]}");
         return spells[index];
     }
     public Spell getActiveSpell()
     {
         return spells[activeSpell];
+    }
+    public void RemoveSpell(int index)
+    {
+        if (index >= 0 && index < spells.Length)
+        {
+            Debug.Log($"[SpellCaster] Removing spell at index {index}: {spells[index]?.GetName()}");
+            spells[index] = null;
+        }
+        else
+        {
+            Debug.LogWarning($"[SpellCaster] Invalid index: {index}");
+        }
     }
 }
