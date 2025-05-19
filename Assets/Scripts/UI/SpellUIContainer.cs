@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpellUIContainer : MonoBehaviour
 {
-    public SpellUI[] spellUIs;
+    public GameObject[] spellUIs;
     public PlayerController player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
