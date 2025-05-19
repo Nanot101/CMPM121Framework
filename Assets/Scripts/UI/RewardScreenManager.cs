@@ -45,8 +45,9 @@ public class RewardScreenManager : MonoBehaviour
         descriptionText.text = "Drop one of your current spells to replace it with this one.";
         builtSpell = spellBuilder.Build(playerController.spellcaster);
         spellUI.SetSpell(builtSpell);
+        spellDescriptionText.text = spellBuilder.description;
         Time.timeScale = 0f;
-        spellDescriptionText.text = spellBuilder.GetFullDescription();
+        
     }
 
     void ShowWinScreen()
@@ -66,5 +67,14 @@ public class RewardScreenManager : MonoBehaviour
     public void OnReplaceSpell()
     {
         playerController.spellcaster.setSpell(builtSpell);
+        for(int i = 0; i < 4; i++)
+        {
+            Debug.Log("rewardScreen: in for loop");
+            if (playerController.spellcaster.getSpellAtIndex(i) != null)
+            {
+                Debug.Log("rewardScreen: in if statement");
+                playerController.spellUIs[i].SetSpell(playerController.spellcaster.getSpellAtIndex(i));
+            }
+        }
     }
 }

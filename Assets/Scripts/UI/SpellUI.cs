@@ -62,14 +62,14 @@ public class SpellUI : MonoBehaviour
     {
         if (!active)
         {
-            icon.SetActive(false);
+            icon.GetComponent<Image>().sprite = null;
             manacost.text = "";
             damage.text = "";
             playerController.spellcaster.RemoveSpell(index);
         }
         else
         {
-            icon.SetActive(true);
+            // icon.SetActive(true);
 
         }
     }
