@@ -158,7 +158,7 @@ public class SpellBuilder : MonoBehaviour
                 string spellName = keys[rand];
                 // string spellName = "magic_missile";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
-                spellName = "arcane_bolt";
+                // spellName = "arcane_bolt";
                 switch (spellName)
                 {
                     case "arcane_bolt":
