@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
         hp.SetMaxHP(hpNum);
         //spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
-        StartCoroutine(spellcaster.ManaRegeneration());
+        // StartCoroutine(spellcaster.ManaRegeneration());
         manaui.SetSpellCaster(spellcaster);
 
 
