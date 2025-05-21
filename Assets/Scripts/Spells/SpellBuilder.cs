@@ -132,7 +132,7 @@ public class SpellBuilder : MonoBehaviour
     public SpellLoader spellsAndModifiers;
     List<ModifierSpell> modifiers;
     Spell baseSpell;
-    string description = "";
+    public string description = "";
 
     public string GetFullDescription()
     {
@@ -158,7 +158,7 @@ public class SpellBuilder : MonoBehaviour
                 string spellName = keys[rand];
                 // string spellName = "magic_missile";
                 //baseSpell = spellsAndModifiers.getSpellDict()[spellName];
-                spellName = "arcane_bolt";
+                // spellName = "arcane_bolt";
                 switch (spellName)
                 {
                     case "arcane_bolt":
@@ -183,18 +183,18 @@ public class SpellBuilder : MonoBehaviour
                 if (modifierLength != 0)
                 {
                     description = recentSpell.GetDescription();
-                    Debug.Log("Decription: " + description);
-                    Debug.Log("Inside if (!modifiers.Any())...");
+                    // Debug.Log("Decription: " + description);
+                    // Debug.Log("Inside if (!modifiers.Any())...");
                     // foreach (ModifierSpell modifier in modifiers)
                     for (int i = 0; i < modifiers.Count - 1; i++)
                     {
-                        Debug.Log("Inside for loop");
+                        // Debug.Log("Inside for loop");
                         ModifierSpell modifier = modifiers[i];
                         modifier.setInnerSpell(recentSpell);
 
-                        Debug.Log("Calling apply modifiers");
+                        // Debug.Log("Calling apply modifiers");
                         modifier.ApplyModifiers();
-                        Debug.Log("apply modifiers finished");
+                        // Debug.Log("apply modifiers finished");
                         description += modifier.GetDescription();
                         // Debug.Log($"Descripton inside for loop: {description}");
                         recentSpell = modifier.GetSpellBase();
@@ -206,11 +206,11 @@ public class SpellBuilder : MonoBehaviour
                     Debug.Log(description);
                     Debug.Log(LastModifier);
                     LastModifier.ApplyModifiers();
-                    modifiers.Clear();
                     return LastModifier;
                 }
                 else
                 {
+                    description = recentSpell.GetDescription();
                     Debug.LogError("Modifier list is not found");
                 }
 

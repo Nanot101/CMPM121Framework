@@ -210,15 +210,15 @@ public class SpellData
     }
     public void addToDamage(int damageAdded)
     {
-        Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
-        if (damageAdded != 0)
-        {
-            Debug.Log("Damage added is nonzero.");
-        }
-        if (damage.amount != null)
-        {
-            Debug.Log("Damage is not null.");
-        }
+        // Debug.Log($"In SpellDef: damage.amount is {damage.amount} | damageAdded is {damageAdded}");
+        // if (damageAdded != 0)
+        // {
+        //     Debug.Log("Damage added is nonzero.");
+        // }
+        // if (damage.amount != null)
+        // {
+        //     Debug.Log("Damage is not null.");
+        // }
         damage.amount += " " + damageAdded + " +";
     }
     public void addToMana(int manaAdded)

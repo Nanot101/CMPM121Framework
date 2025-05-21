@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager 
+public class GameManager
 {
     public enum GameState
     {
@@ -16,9 +16,17 @@ public class GameManager
     }
     public GameState state;
 
+
+    // Events
+    public event Action OnWaveEnd;
+    public event Action OnGameWin;
+
+
     public int countdown;
     private static GameManager theInstance;
-    public static GameManager Instance {  get
+    public static GameManager Instance
+    {
+        get
         {
             if (theInstance == null)
                 theInstance = new GameManager();
@@ -27,9 +35,7 @@ public class GameManager
     }
 
     public int CurrentWave { get; set; }
-
     public GameObject player;
-    
     public ProjectileManager projectileManager;
     public SpellIconManager spellIconManager;
     public EnemySpriteManager enemySpriteManager;
@@ -52,7 +58,7 @@ public class GameManager
     {
         if (enemies == null || enemies.Count == 0) return null;
         if (enemies.Count == 1) return enemies[0];
-        return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
+        return enemies.Aggregate((a, b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
     }
 
 
@@ -81,23 +87,31 @@ public class GameManager
     public void EndWave()
     {
         waveEndTime = Time.time;
+        state = GameState.WAVEEND;
+        OnWaveEnd?.Invoke();
+    }
+
+    public void WinGame()
+    {
+        state = GameState.GAMEWIN;
+        OnGameWin?.Invoke();
     }
 
     public float WaveDuration => waveEndTime - waveStartTime;
 
-    public void ShowSummary()
-    {
-        float duration = waveEndTime - waveStartTime;
-        Debug.Log("----- Wave Summary -----");
-        Debug.Log("Damage Taken: " + damageTaken);
-        Debug.Log("Zombies Killed: " + zombiesKilled);
-        Debug.Log("Skeletons Killed: " + skeletonsKilled);
-        Debug.Log("Warlocks Killed: " + warlocksKilled);
-        Debug.Log("Rogues killed: " + roguesKilled);
-        Debug.Log("Time to Beat the Wave: " + duration.ToString("F2") + "s");
-        Debug.Log("------------------------");
-        //ResetWaveStats();
-    }
+    // public void ShowSummary()
+    // {
+    //     float duration = waveEndTime - waveStartTime;
+    //     Debug.Log("----- Wave Summary -----");
+    //     Debug.Log("Damage Taken: " + damageTaken);
+    //     Debug.Log("Zombies Killed: " + zombiesKilled);
+    //     Debug.Log("Skeletons Killed: " + skeletonsKilled);
+    //     Debug.Log("Warlocks Killed: " + warlocksKilled);
+    //     Debug.Log("Rogues killed: " + roguesKilled);
+    //     Debug.Log("Time to Beat the Wave: " + duration.ToString("F2") + "s");
+    //     Debug.Log("------------------------");
+    //     //ResetWaveStats();
+    // }
 
     public string GetWaveSummary()
     {
@@ -139,5 +153,20 @@ public class GameManager
         waveStartTime = 0;
         waveEndTime = 0;
     }
+    
+    public void Initialize()
+    {
+        
+
+        player = GameObject.FindWithTag("unit");
+        projectileManager = new ProjectileManager();
+        spellIconManager = new SpellIconManager();
+        enemySpriteManager = new EnemySpriteManager();
+        playerSpriteManager = new PlayerSpriteManager();
+        relicIconManager = new RelicIconManager();
+
+        //enemies = new List<GameObject>();
+    }
+
 
 }

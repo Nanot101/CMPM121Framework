@@ -26,6 +26,7 @@ public class GameEndText : MonoBehaviour
         restartButton.SetActive(false);
         artPanel.SetActive(false);
         GameManager.Instance.Reset();
+        GameManager.Instance.Initialize();
     }
     public void onDie()
     {

@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
     public GameEndText GameEndText;
     [SerializeField] private Level currentLevel;
     private int currentWave = 1;
+    public PlayerController playerController;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,6 +44,10 @@ public class EnemySpawner : MonoBehaviour
             selector.transform.localPosition = new Vector3(0, yOffset + spacing * i);
             selector.GetComponent<MenuSelectorController>().spawner = this;
             selector.GetComponent<MenuSelectorController>().SetLevel(level.name);
+            if (playerController == null)
+            {
+                playerController = GameObject.FindAnyObjectByType<PlayerController>();
+            }
         }
     }
 
@@ -64,11 +69,13 @@ public class EnemySpawner : MonoBehaviour
         level_selector.gameObject.SetActive(false);
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
         StartCoroutine(SpawnWave());
+        
     }
 
 
     public void NextWave()
     {
+        GameManager.Instance.player.GetComponent<PlayerController>().updateHP();
         StartCoroutine(SpawnWave());
     }
 
@@ -168,7 +175,7 @@ public class EnemySpawner : MonoBehaviour
         else
         {
             GameManager.Instance.state = GameManager.GameState.WAVEEND;
-
+            GameManager.Instance.EndWave();
             currentWave++;
             GameManager.Instance.CurrentWave = currentWave;
         }

@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public ManaBar manaui;
 
     public SpellCaster spellcaster;
-    public SpellUI spellui;
+    public SpellUI[] spellUIs;
 
     public int speed;
 
@@ -62,15 +62,24 @@ public class PlayerController : MonoBehaviour
         // tell UI elements what to show
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
-        spellui.SetSpell(spellcaster.spell);
+        //spellUIs = new SpellUI[4];
+        for(int i = 0; i < 4; i++)
+        {
+            // Debug.Log("playercont: in for loop");
+            if (spellcaster.getSpellAtIndex(i) != null)
+            {
+                // Debug.Log("playercont: in if statement");
+                spellUIs[i].SetSpell(spellcaster.getSpellAtIndex(i));
+            }
+        }
     }
 
-    void updateHP()
+    public void updateHP()
     {
         //only do next line if new maxHP increases their curent HP
         //int missingHP = hp.max_hp - hp.hp;
         int oldMaxHP = hp.max_hp;
-
+        Debug.Log("updateHP called");
         RpnEvaluator rpn = new RpnEvaluator();
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
@@ -80,22 +89,13 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
         int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
         hp.SetMaxHP(hpNum);
-        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        //spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         StartCoroutine(spellcaster.ManaRegeneration());
         manaui.SetSpellCaster(spellcaster);
 
 
         //only do next line if MaxHP increases their current HP
         hp.hp += (hpNum - oldMaxHP);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
-        {
-            updateHP();
-        }
     }
 
     void OnAttack(InputValue value)
@@ -121,5 +121,23 @@ public class PlayerController : MonoBehaviour
     public int GetCurrentHp()
     {
         return hp.hp;
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1)) {
+            spellcaster.setActiveSpell(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            spellcaster.setActiveSpell(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            spellcaster.setActiveSpell(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            spellcaster.setActiveSpell(3);
+        }
     }
 }

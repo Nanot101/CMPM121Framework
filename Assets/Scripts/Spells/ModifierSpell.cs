@@ -120,9 +120,9 @@ public class ModifierSpell : Spell
         float damage = innerSpell.GetDamage() + damageAdder;
         damage *= damageMultiplier;
         int damageIncrease = (int)damage - innerSpell.GetDamage();
-        Debug.Log("Damage is " + innerSpell.GetDamage() + ", new damage is " + damage + ", damage increase is " + damageIncrease);
+        // Debug.Log("Damage is " + innerSpell.GetDamage() + ", new damage is " + damage + ", damage increase is " + damageIncrease);
         innerSpell.addToDamage(damageIncrease);
-        Debug.Log("After call, new base value is " + innerSpell.GetDamage());
+        // Debug.Log("After call, new base value is " + innerSpell.GetDamage());
 
 
         //set mana cost
@@ -138,18 +138,20 @@ public class ModifierSpell : Spell
         float speed = innerSpell.GetSpeed() + speedAdder;
         speed *= speedMultiplier;
         float speedIncrease = speed - innerSpell.GetSpeed();
-        Debug.Log("Speed is " + innerSpell.GetSpeed() + ", new speed is " + speed + ", speed increase is " + speedIncrease);
+        // Debug.Log("Speed is " + innerSpell.GetSpeed() + ", new speed is " + speed + ", speed increase is " + speedIncrease);
         innerSpell.addToSpeed(speedIncrease);
-        Debug.Log("After call, new base value is " + innerSpell.getSpeed());
+        // Debug.Log("After call, new base value is " + innerSpell.getSpeed());
 
         addToAngle(angle);
+
         float cooldown = GetCooldown();
         Debug.Log($"Base cooldown: {cooldown}");
         cooldown *= cooldownMultiplier;
         Debug.Log($"Cooldown with {cooldownMultiplier} multiplier: {cooldown}");
-        float cooldownIncrease = cooldown - innerSpell.GetCooldown();
-        Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
+        float cooldownIncrease = cooldown - innerSpell.getCooldown();
+        // Debug.Log($"Trying to add cooldown: {cooldownIncrease}");
         innerSpell.addToCooldown(cooldownIncrease);
+        Debug.Log($"Cooldown: {innerSpell.GetCooldown()}");
 
 
         //set trajectory

@@ -1,26 +1,32 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
 
 public class SpellUIContainer : MonoBehaviour
 {
     public GameObject[] spellUIs;
     public PlayerController player;
+    private SpellCaster spellCaster;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // we only have one spell (right now)
-        spellUIs[0].SetActive(true);
-        for(int i = 1; i< spellUIs.Length; ++i)
+
+        // Debug.Log($"Setting spells. Spellui length: {spellUIs.Length}");
+        // Debug.Log($"Spellui 1: {spellUIs[1]}");
+        for (int i = 0; i < spellUIs.Length; ++i)
         {
-            spellUIs[i].SetActive(false);
+            spellUIs[i].SetActive(true);
+            // Debug.Log($"Spell {i}: {spellUIs}");
         }
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
     public void removeFirstSpell()
     {
         spellUIs[0].SetActive(false);
-
     }
     public void removeSecondSpell()
     {
@@ -34,10 +40,24 @@ public class SpellUIContainer : MonoBehaviour
     {
         spellUIs[3].SetActive(false);
     }
-    // Update is called once per frame
-    void Update()
+    
+    public void RemoveSpell(int index)
     {
-        
+        if (index >= 0 && index < spellUIs.Length)
+        {
+            SpellUI spellUI = spellUIs[index].GetComponent<SpellUI>();
+            if (spellUI != null)
+            {
+                spellUI.SetActive(false, index); // calls SpellUI's SetActive
+            }
+            else
+            {
+                Debug.LogWarning($"No SpellUI component found on GameObject at index {index}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid spell index: {index}");
+        }
     }
-
 }

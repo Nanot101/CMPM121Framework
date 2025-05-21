@@ -14,6 +14,7 @@ public abstract class Spell
     public SpellCaster owner;
     public Hittable.Team team;
     protected SpellData attributes;
+    int angle;
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
@@ -68,6 +69,10 @@ public abstract class Spell
         float speed = attributes.GetBaseSpeed();
         return speed > 0 ? speed : 0;
     }
+    public int getAngle()
+    {
+        return angle;
+    }
     public virtual string GetTrajectory() 
     {
         return attributes.trajectory;
@@ -104,9 +109,8 @@ public abstract class Spell
     }
     public void addToDamage(int damageAdded)
     {
-        Debug.Log($"Calling innerspell.addToDamage. damageAdded should still be {damageAdded}");
-        //this is causing errors, attributes.damage returns null
-        Debug.Log(attributes.damage);
+        // Debug.Log($"Calling innerspell.addToDamage. damageAdded should still be {damageAdded}");
+        // Debug.Log(attributes.damage);
         attributes.addToDamage(damageAdded);
     }
     public void addToMana(int manaAdded)
@@ -116,6 +120,10 @@ public abstract class Spell
     public void addToSpeed(float speedAdded)
     {
         attributes.addToSpeed(speedAdded);
+    }
+    public void addToAngle(int angleAdded)
+    {
+        angle += angleAdded;
     }
     public void addToCooldown(float cooldownAdded)
     {
@@ -157,7 +165,6 @@ public abstract class Spell
 
     public virtual bool IsReady()
     {
-
         return last_cast + GetCooldown() < Time.time;
     }
 }
