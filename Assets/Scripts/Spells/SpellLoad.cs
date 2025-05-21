@@ -24,33 +24,6 @@ public class SpellLoader : MonoBehaviour
             return;
         }
 
-    //     Dictionary<string, Dictionary<string, object>> rawData =
-    //         JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(jsonFile.text);
-
-    //     foreach (var kvp in rawData)
-    //     {
-    //         string key = kvp.Key;
-    //         var value = kvp.Value;
-
-    //         if (value.ContainsKey("damage") || value.ContainsKey("projectile"))
-    //         {
-    //             // It's a base spell
-    //             string serialized = JsonConvert.SerializeObject(value);
-    //             SpellData spell = JsonConvert.DeserializeObject<SpellData>(serialized);
-    //             Spells[key] = spell;
-    //         }
-    //         else
-    //         {
-    //             // It's a modifier
-    //             string serialized = JsonConvert.SerializeObject(value);
-    //             ModifierData modifier = JsonConvert.DeserializeObject<ModifierData>(serialized);
-    //             Modifiers[key] = modifier;
-    //         }
-    //     }
-
-    //     Debug.Log($"Loaded {Spells.Count} base spells and {Modifiers.Count} modifiers.");
-    // }
-
 
     var rawData = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(jsonFile.text);
 
@@ -80,7 +53,7 @@ public class SpellLoader : MonoBehaviour
                 Modifiers[key] = modifier;
             }
         }
-
+        Debug.Log("-------------");
         Debug.Log($"Loaded {Spells.Count} base spells and {Modifiers.Count} modifiers.");
     }
 

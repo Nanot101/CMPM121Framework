@@ -6,20 +6,15 @@ public class SpellUIContainer : MonoBehaviour
     public PlayerController player;
     private SpellCaster spellCaster;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // we only have one spell (right now)
-        // spellUIs[0].SetActive(true);
 
-
-        //Problem is not here
-        Debug.Log($"Setting spells. Spellui length: {spellUIs.Length}");
-        Debug.Log($"Spellui 1: {spellUIs[1]}");
+        // Debug.Log($"Setting spells. Spellui length: {spellUIs.Length}");
+        // Debug.Log($"Spellui 1: {spellUIs[1]}");
         for (int i = 0; i < spellUIs.Length; ++i)
         {
             spellUIs[i].SetActive(true);
-            Debug.Log($"Spell {i}: {spellUIs}");
+            // Debug.Log($"Spell {i}: {spellUIs}");
         }
 
     }
