@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.player = gameObject;
     }
 
+    public void ChooseClass(ClassDef chosenClass)
+    {
+        this.chosenClass = chosenClass;
+    }
+
     public void StartLevel()
     {
         RpnEvaluator rpn = new RpnEvaluator();
@@ -157,5 +162,18 @@ public class PlayerController : MonoBehaviour
                 { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
         int currSpeed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
         return currSpeed;
+    }
+    public int GetSpellpower()
+    {
+        RpnEvaluator rpn = new RpnEvaluator();
+        Dictionary<string, float> vars = new Dictionary<string, float>
+            {
+                { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
+        int currSpellpower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
+        return currSpellpower;
+    }
+    public void AddToSpellpower(int numAdded)
+    {
+        chosenClass.spellpower += " " + numAdded + " +";
     }
 }
