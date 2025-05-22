@@ -15,25 +15,25 @@ public class PlayerController : MonoBehaviour
 
     public SpellCaster spellcaster;
     public SpellUI[] spellUIs;
-
+    public ClassLoad ClassLoad;
     public ClassDef chosenClass;
 
     public Unit unit;
     public GameEndText endText;
     public SpellBuilder spellBuilder;
 
-    private ClassDef playerClass;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
-        playerClass = ClassLoad.GetClass("mage");
-        if (playerClass != null)
+        chosenClass = ClassLoad.GetClass("mage");
+        if (chosenClass != null)
         {
             // Example usage
-            Debug.Log($"Using class mage: Health={playerClass.health}, Mana={playerClass.mana}");
+            Debug.Log($"Using class mage: Health={chosenClass.health}, Mana={chosenClass.mana}");
             // Initialize player stats here, e.g.:
             // this.health = playerClass.health;
             // this.mana = playerClass.mana;
