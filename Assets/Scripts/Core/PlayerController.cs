@@ -15,18 +15,42 @@ public class PlayerController : MonoBehaviour
 
     public SpellCaster spellcaster;
     public SpellUI[] spellUIs;
-
     public int speed;
+    public ClassLoad ClassLoad;
+    public ClassDef chosenClass;
+    public ClassesButtons ClassesButtons;
 
     public Unit unit;
     public GameEndText endText;
     public SpellBuilder spellBuilder;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //ClassesButtons = new ClassesButtons();
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
+        chosenClass = new ClassDef();
+        //ClassLoad = new ClassLoad();
+        //ClassesButtons = new ClassesButtons();
+        if (chosenClass != null)
+        {
+            // Example usage
+            Debug.Log($"Using class mage: Health={chosenClass.health}, Mana={chosenClass.mana}");
+            // Initialize player stats here, e.g.:
+            // this.health = playerClass.health;
+            // this.mana = playerClass.mana;
+        }
+        else
+        {
+            Debug.LogError("Failed to load player class.");
+        }
+    }
+
+    public void ChooseClass(ClassDef chosenClass)
+    {
+        this.chosenClass = chosenClass;
     }
 
     public void StartLevel()
@@ -34,11 +58,24 @@ public class PlayerController : MonoBehaviour
         RpnEvaluator rpn = new RpnEvaluator();
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
-                { "wave", (float)GameManager.Instance.CurrentWave } };
-        int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
-        int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
-        int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
-        int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
+                { "wave", (float)GameManager.Instance.CurrentWave }
+            };
+        //FIXME: how to call this chooseclass method
+        string className = ClassesButtons.GetClassName();
+        if (className == null || className == "")
+        {
+            Debug.Log("After calling GetClassName, return value is null. Defaulting to mage.");
+            className = "mage";
+        }
+        Debug.Log(className);
+        Debug.Log(ClassLoad);
+        Debug.Log(chosenClass);
+        ChooseClass(ClassLoad.GetClass(className));
+        int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
+        int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
+        int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
+        int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
+        int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         Spell spell = new ArcaneBolt(spellcaster);
         spellcaster.setSpell(spell);
@@ -84,11 +121,24 @@ public class PlayerController : MonoBehaviour
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
                 { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
-        int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
-        int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
-        int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
-        int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
-        hp.SetMaxHP(hpNum);
+//<<<<<<< HEAD
+//        int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
+//        int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
+//        int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
+//        int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
+//        hp.SetMaxHP(hpNum);
+//=======
+        int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
+        int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
+        int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
+        int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
+        int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
+        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        //int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
+        //int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
+        //int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
+        //int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
+        //hp.SetMaxHP(hpNum);
         //spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         StartCoroutine(spellcaster.ManaRegeneration());
         manaui.SetSpellCaster(spellcaster);
@@ -110,7 +160,8 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value)
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
-        unit.movement = value.Get<Vector2>()*speed;
+        // int currSpeed = GetSpeed();
+        unit.movement = value.Get<Vector2>()*GetSpeed();
     }
 
     void Die()
@@ -139,5 +190,28 @@ public class PlayerController : MonoBehaviour
         {
             spellcaster.setActiveSpell(3);
         }
+    }
+
+    public int GetSpeed()
+    {
+        RpnEvaluator rpn = new RpnEvaluator();
+        Dictionary<string, float> vars = new Dictionary<string, float>
+            {
+                { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
+        int currSpeed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
+        return currSpeed;
+    }
+    public int GetSpellpower()
+    {
+        RpnEvaluator rpn = new RpnEvaluator();
+        Dictionary<string, float> vars = new Dictionary<string, float>
+            {
+                { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
+        int currSpellpower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
+        return currSpellpower;
+    }
+    public void AddToSpellpower(int numAdded)
+    {
+        chosenClass.spellpower += " " + numAdded + " +";
     }
 }

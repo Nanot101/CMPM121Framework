@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections;
 
 public class ClassLoad : MonoBehaviour
 {
@@ -41,4 +42,9 @@ public class ClassLoad : MonoBehaviour
             Debug.LogError("Error parsing classes.json:\n" + ex.Message);
         }
     }
+    public ClassDef GetClass(string name)
+    {
+        return classes[name];
+    }
+
 }

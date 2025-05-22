@@ -45,4 +45,10 @@ public class RelicLoad : MonoBehaviour
             Debug.LogError("Error parsing relics.json:\n" + ex.Message);
         }
     }
+
+    public static RelicDef GetRelicByName(string name)
+    {
+        if (relics == null) return null;
+        return relics.Find(r => r.name == name);
+    }
 }
