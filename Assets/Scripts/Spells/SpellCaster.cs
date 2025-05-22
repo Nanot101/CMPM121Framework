@@ -13,8 +13,6 @@ public class SpellCaster
     public Spell[] spells;
     public int Power;
     public int activeSpell;
-    private int temporarySpellpower = 0;
-
     public IEnumerator ManaRegeneration()
     {
         while (true)
@@ -41,30 +39,6 @@ public class SpellCaster
         this.spells[3] = new ArcanePulse(this, 0.5f);
         // spellBuilder.Build(this);
 
-    }
-
-    public void AddMana(int amount)
-    {
-        mana = Mathf.Min(mana + amount, max_mana);
-        Debug.Log($"[SpellCaster] Mana increased by {amount}. Current mana: {mana}");
-    }
-    
-
-    public void AddTemporarySpellpower(int amount)
-    {
-        temporarySpellpower += amount;
-        Debug.Log($"[SpellCaster] Temporary spellpower added: {amount}. Total power now: {GetTotalPower()}");
-    }
-
-    public void RemoveTemporarySpellpower()
-    {
-        temporarySpellpower = 0;
-        Debug.Log($"[SpellCaster] Temporary spellpower removed. Total power now: {GetTotalPower()}");
-    }
-
-    public int GetTotalPower()
-    {
-        return Power + temporarySpellpower;
     }
 
     // public IEnumerator Cast(Vector3 where, Vector3 target)
