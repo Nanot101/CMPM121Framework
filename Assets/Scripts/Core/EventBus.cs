@@ -15,6 +15,16 @@ public class EventBus
     }
 
     public event Action<Vector3, Damage, Hittable> OnDamage;
+    public event Action OnKill;
+    public event Action OnMove;
+    public event Action<Vector3> OnStandStill;
+    public event Action OnSpellCast;
+
+    public void DoKill() => OnKill?.Invoke();
+    public void DoMove() => OnMove?.Invoke();
+    public void DoStandStill(Vector3 pos) => OnStandStill?.Invoke(pos);
+    public void DoSpellCast() => OnSpellCast?.Invoke();
+
     
     public void DoDamage(Vector3 where, Damage dmg, Hittable target)
     {
