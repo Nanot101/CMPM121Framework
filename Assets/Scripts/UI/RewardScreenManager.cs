@@ -69,9 +69,10 @@ public class RewardScreenManager : MonoBehaviour
         playerController.spellcaster.setSpell(builtSpell);
         for (int i = 0; i < 4; i++)
         {
-            Debug.Log("rewardScreen: in for loop");
+            // Debug.Log("rewardScreen: in for loop");
             if (playerController.spellcaster.getSpellAtIndex(i) != null)
             {
+<<<<<<< HEAD
                 Debug.Log("rewardScreen: in if statement");
                 // Debug.Log("rewardScreen: in for loop");
                 if (playerController.spellcaster.getSpellAtIndex(i) != null)
@@ -79,6 +80,10 @@ public class RewardScreenManager : MonoBehaviour
                     // Debug.Log("rewardScreen: in if statement");
                     playerController.spellUIs[i].SetSpell(playerController.spellcaster.getSpellAtIndex(i));
                 }
+=======
+                // Debug.Log("rewardScreen: in if statement");
+                playerController.spellUIs[i].SetSpell(playerController.spellcaster.getSpellAtIndex(i));
+>>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
             }
         }
     }
