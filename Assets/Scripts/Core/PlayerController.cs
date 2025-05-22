@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
         //int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
         //hp.SetMaxHP(hpNum);
         //spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
-        StartCoroutine(spellcaster.ManaRegeneration());
+        // StartCoroutine(spellcaster.ManaRegeneration());
         manaui.SetSpellCaster(spellcaster);
 
 
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value)
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
-        int currSpeed = GetSpeed();
+        // int currSpeed = GetSpeed();
         unit.movement = value.Get<Vector2>()*GetSpeed();
     }
 
