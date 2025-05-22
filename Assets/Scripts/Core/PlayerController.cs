@@ -22,11 +22,26 @@ public class PlayerController : MonoBehaviour
     public GameEndText endText;
     public SpellBuilder spellBuilder;
 
+    private ClassDef playerClass;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
+        playerClass = ClassLoad.GetClass("mage");
+        if (playerClass != null)
+        {
+            // Example usage
+            Debug.Log($"Using class mage: Health={playerClass.health}, Mana={playerClass.mana}");
+            // Initialize player stats here, e.g.:
+            // this.health = playerClass.health;
+            // this.mana = playerClass.mana;
+        }
+        else
+        {
+            Debug.LogError("Failed to load player class.");
+        }
     }
 
     public void ChooseClass(ClassDef chosenClass)
@@ -39,8 +54,10 @@ public class PlayerController : MonoBehaviour
         RpnEvaluator rpn = new RpnEvaluator();
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
-                { "wave", (float)GameManager.Instance.CurrentWave } };
-        
+                { "wave", (float)GameManager.Instance.CurrentWave }
+            };
+        //FIXME: how to call this chooseclass method
+        ChooseClass(playerClass);
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
@@ -103,7 +120,7 @@ public class PlayerController : MonoBehaviour
         //int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
         //hp.SetMaxHP(hpNum);
         //spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
-        // StartCoroutine(spellcaster.ManaRegeneration());
+        StartCoroutine(spellcaster.ManaRegeneration());
         manaui.SetSpellCaster(spellcaster);
 
 

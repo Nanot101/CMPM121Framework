@@ -975,11 +975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardUI: {fileID: 1709288111}
   summaryText: {fileID: 49966178}
-<<<<<<<< HEAD:Assets/Scenes/Main2.unity
   descriptionText: {fileID: 201354477}
-========
-  descriptionText: {fileID: 0}
->>>>>>>> GavinTest:Assets/Scenes/LoonTest.unity
   nextButton: {fileID: 284566018}
   GameEndText: {fileID: 1712148168}
   spellUI: {fileID: 1719178346}
@@ -2149,21 +2145,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1982188287}
         m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-<<<<<<<< HEAD:Assets/Scenes/Main2.unity
         m_MethodName: RemoveSpell
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
-========
-        m_MethodName: removeSecondSpell
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
->>>>>>>> GavinTest:Assets/Scenes/LoonTest.unity
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2862,21 +2849,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1982188287}
         m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-<<<<<<<< HEAD:Assets/Scenes/Main2.unity
         m_MethodName: RemoveSpell
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 3
-========
-        m_MethodName: removeFourthSpell
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
->>>>>>>> GavinTest:Assets/Scenes/LoonTest.unity
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3431,13 +3409,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1982188287}
         m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-<<<<<<<< HEAD:Assets/Scenes/Main2.unity
         m_MethodName: RemoveSpell
         m_Mode: 3
-========
-        m_MethodName: removeFirstSpell
-        m_Mode: 1
->>>>>>>> GavinTest:Assets/Scenes/LoonTest.unity
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6316,21 +6289,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1982188287}
         m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-<<<<<<<< HEAD:Assets/Scenes/Main2.unity
         m_MethodName: RemoveSpell
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
-========
-        m_MethodName: removeThirdSpell
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
->>>>>>>> GavinTest:Assets/Scenes/LoonTest.unity
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -7191,7 +7155,13 @@ MonoBehaviour:
   - {fileID: 96316929}
   - {fileID: 457295004}
   - {fileID: 797691355}
-  speed: 30
+  chosenClass:
+    sprite: 0
+    health: 
+    mana: 
+    mana_regeneration: 
+    spellpower: 
+    speed: 
   unit: {fileID: 1718273956}
   endText: {fileID: 1712148168}
   spellBuilder: {fileID: 1604162239}

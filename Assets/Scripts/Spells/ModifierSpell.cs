@@ -169,7 +169,7 @@ public class ModifierSpell : Spell
         // Adjust trajectory or angle if specified
         Vector3 direction = (target - where).normalized;
         // Modify the angle if applicable
-        Debug.Log("Angle is " + angle);
+        // Debug.Log("Angle is " + angle);
         if (angle != 0)
         {
             float radians = angle * Mathf.Deg2Rad;
