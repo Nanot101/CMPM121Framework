@@ -104,6 +104,9 @@ public class SpellCaster
         mana -= spells[activeSpell].GetManaCost();
         Debug.Log($"[SpellCaster] Casting {spells[activeSpell].GetName()} at target. Remaining Mana: {mana}");
         yield return spells[activeSpell].Cast(where, target, team);
+
+        EventBus.Instance.DoSpellCast();
+        RemoveTemporarySpellpower();
     }
     public void setSpell(Spell spell)
     {

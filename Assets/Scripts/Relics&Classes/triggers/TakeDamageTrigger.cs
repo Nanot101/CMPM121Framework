@@ -8,9 +8,16 @@ public class TakeDamageTrigger : IRelicTrigger
         this.relic = relic;
         EventBus.Instance.OnDamage += OnDamage;
     }
+    public void Uninitialize()
+    {
+        EventBus.Instance.OnDamage -= OnDamage;
+    }
 
     private void OnDamage(Vector3 pos, Damage dmg, Hittable target)
     {
-        relic.ActivateEffect();
+        if (target.team == Hittable.Team.PLAYER)
+        {
+            relic.ActivateEffect();
+        }
     }
 }

@@ -80,8 +80,8 @@ public class PlayerController : MonoBehaviour
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
-        Spell spell = new ArcaneBolt(spellcaster);
-        spellcaster.setSpell(spell);
+        // Spell spell = new ArcaneBolt(spellcaster);
+        // spellcaster.setSpell(spell);
         StartCoroutine(spellcaster.ManaRegeneration());
        
         hp = new Hittable(hpNum, Hittable.Team.PLAYER, gameObject);
