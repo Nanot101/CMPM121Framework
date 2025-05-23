@@ -1,3 +1,4 @@
+using UnityEngine;
 public class Relic
 {
     public RelicDef def;
@@ -15,6 +16,7 @@ public class Relic
 
     public void ActivateEffect()
     {
+        Debug.Log($"[Relic] Activating effect for {def.name}");
         effect?.Apply();
     }
 
@@ -22,6 +24,12 @@ public class Relic
     {
         effect?.Cleanup();
     }
+
+    public IRelicTrigger GetTrigger()
+    {
+        return trigger;
+    }
+
 
     public string GetName() => def.name;
     public int GetSpriteIndex() => def.sprite;

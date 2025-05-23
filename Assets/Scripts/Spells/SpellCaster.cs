@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.Experimental.AI;
+using System;
 
 public class SpellCaster
 {
@@ -14,6 +15,9 @@ public class SpellCaster
     public int Power;
     public int activeSpell;
     private int temporarySpellpower = 0;
+    public int CurrentSpellpower => Power + temporarySpellpower;
+    public event Action<int> OnSpellpowerChanged;
+    
 
     public IEnumerator ManaRegeneration()
     {
@@ -53,18 +57,20 @@ public class SpellCaster
     public void AddTemporarySpellpower(int amount)
     {
         temporarySpellpower += amount;
+        OnSpellpowerChanged?.Invoke(CurrentSpellpower);
         Debug.Log($"[SpellCaster] Temporary spellpower added: {amount}. Total power now: {GetTotalPower()}");
     }
 
     public void RemoveTemporarySpellpower()
     {
         temporarySpellpower = 0;
+        OnSpellpowerChanged?.Invoke(CurrentSpellpower);
         Debug.Log($"[SpellCaster] Temporary spellpower removed. Total power now: {GetTotalPower()}");
     }
 
     public int GetTotalPower()
     {
-        return Power + temporarySpellpower;
+        return CurrentSpellpower + temporarySpellpower;
     }
 
     // public IEnumerator Cast(Vector3 where, Vector3 target)

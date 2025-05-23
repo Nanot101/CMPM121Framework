@@ -16,6 +16,7 @@ public class GainSpellpowerEffect : IRelicEffect
 
     public void Apply()
     {
+        Debug.Log("[GainSpellpowerEffect] Apply() called");
         if (applied) return;
 
         int power = evaluator.SafeEvaluateInt(amount, new Dictionary<string, float>
@@ -50,8 +51,8 @@ public class GainSpellpowerEffect : IRelicEffect
 
         if (until == "move")
             EventBus.Instance.OnMove += Cleanup;
-        // else if (until == "cast-spell")
-        //     EventBus.Instance.OnSpellCast += Cleanup;
+        else if (until == "cast-spell")
+            EventBus.Instance.OnSpellCast += Cleanup;
     }
 
     public void Cleanup()
@@ -85,7 +86,7 @@ public class GainSpellpowerEffect : IRelicEffect
 
         if (until == "move")
             EventBus.Instance.OnMove -= Cleanup;
-        // else if (until == "cast-spell")
-        //     EventBus.Instance.OnSpellCast -= Cleanup;
+        else if (until == "cast-spell")
+            EventBus.Instance.OnSpellCast -= Cleanup;
     }
 }

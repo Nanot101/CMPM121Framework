@@ -14,8 +14,8 @@ public class StandStillTrigger : IRelicTrigger
     public void Initialize(Relic relic)
     {
         this.relic = relic;
-        EventBus.Instance.OnStandStill += OnMove;
-        EventBus.Instance.OnStandStill += OnStandStill;
+        // EventBus.Instance.OnMove += OnMove;
+        // EventBus.Instance.OnStandStill += OnStandStill;
     }
 
     private void HandleStandStill(Vector3 pos)
@@ -23,26 +23,28 @@ public class StandStillTrigger : IRelicTrigger
         relic.ActivateEffect();
     }
 
-    private void OnMove(Vector3 pos)
+    public void UpdateTime(float dt)
     {
-        // Reset timer if player moved
+        if (wasMoving)
+        {
+            stillTime = 0f;
+            wasMoving = false;
+        }
+
+        stillTime += dt;
+        // Debug.Log($"[StandStillTrigger] stillTime = {stillTime}");
+
+        if (stillTime >= requiredTime)
+        {
+            // Debug.Log("Activating effect");
+            relic.ActivateEffect();
+        }
+    }
+
+    public void Reset()
+    {
         stillTime = 0f;
         wasMoving = true;
     }
 
-    private void OnStandStill(Vector3 pos)
-    {
-        if (wasMoving)
-        {
-            stillTime = 0f; // start tracking only when we newly stop moving
-            wasMoving = false;
-        }
-
-        stillTime += Time.deltaTime;
-        Debug.Log($"[StandStillTrigger] stillTime = {stillTime}");
-        if (stillTime >= requiredTime)
-        {
-            relic.ActivateEffect();
-        }
-    }
 }

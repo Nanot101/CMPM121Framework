@@ -7923,7 +7923,7 @@ MonoBehaviour:
   - {fileID: 96316929}
   - {fileID: 457295004}
   - {fileID: 797691355}
-  speed: 0
+  speed: 30
   ClassLoad: {fileID: 545911932}
   chosenClass:
     sprite: 0

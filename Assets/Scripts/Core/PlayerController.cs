@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     public GameEndText endText;
     public SpellBuilder spellBuilder;
 
+    private Vector3 lastPosition;
+    public StandStillTrigger standStillTrigger;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -175,7 +178,8 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1)) {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
             spellcaster.setActiveSpell(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -190,6 +194,21 @@ public class PlayerController : MonoBehaviour
         {
             spellcaster.setActiveSpell(3);
         }
+        
+        float moveDistance = Vector3.Distance(transform.position, lastPosition);
+        bool isStill = moveDistance < 0.01f;
+
+        if (isStill)
+        {
+            standStillTrigger?.UpdateTime(Time.deltaTime);
+        }
+        else
+        {
+            standStillTrigger?.Reset();
+            EventBus.Instance.DoMove();
+        }
+
+        lastPosition = transform.position;
     }
     public int GetSpeed()
     {
