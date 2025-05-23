@@ -4006,10 +4006,7 @@ GameObject:
   - component: {fileID: 797295795}
   - component: {fileID: 797295797}
   - component: {fileID: 797295796}
-<<<<<<< HEAD
   - component: {fileID: 797295798}
-=======
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
   m_Layer: 5
   m_Name: ClassSelector
   m_TagString: Untagged
@@ -4078,7 +4075,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797295794}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
 --- !u!114 &797295798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4093,8 +4089,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   className: mage
   buttonsUI: {fileID: 797295794}
-=======
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
 --- !u!1 &797691353
 GameObject:
   m_ObjectHideFlags: 0
@@ -5351,15 +5345,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-<<<<<<< HEAD
       - m_Target: {fileID: 797295798}
         m_TargetAssemblyTypeName: ClassesButtons, Assembly-CSharp
         m_MethodName: MageClass
-=======
-      - m_Target: {fileID: 797295794}
-        m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: 
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5768,15 +5756,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-<<<<<<< HEAD
       - m_Target: {fileID: 797295798}
         m_TargetAssemblyTypeName: ClassesButtons, Assembly-CSharp
         m_MethodName: BattlemageClass
-=======
-      - m_Target: {fileID: 519420033}
-        m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: NextWave
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7941,11 +7923,8 @@ MonoBehaviour:
   - {fileID: 96316929}
   - {fileID: 457295004}
   - {fileID: 797691355}
-<<<<<<< HEAD
   speed: 0
   ClassLoad: {fileID: 545911932}
-=======
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
   chosenClass:
     sprite: 0
     health: 
@@ -7953,10 +7932,7 @@ MonoBehaviour:
     mana_regeneration: 
     spellpower: 
     speed: 
-<<<<<<< HEAD
   ClassesButtons: {fileID: 797295798}
-=======
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
   unit: {fileID: 1718273956}
   endText: {fileID: 1712148168}
   spellBuilder: {fileID: 1604162239}
@@ -59051,15 +59027,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-<<<<<<< HEAD
       - m_Target: {fileID: 797295798}
         m_TargetAssemblyTypeName: ClassesButtons, Assembly-CSharp
         m_MethodName: WarlockClass
-=======
-      - m_Target: {fileID: 519420033}
-        m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: NextWave
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

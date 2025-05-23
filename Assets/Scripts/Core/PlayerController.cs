@@ -24,10 +24,6 @@ public class PlayerController : MonoBehaviour
     public GameEndText endText;
     public SpellBuilder spellBuilder;
 
-<<<<<<< HEAD
-=======
-    private ClassDef playerClass;
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,7 +31,6 @@ public class PlayerController : MonoBehaviour
         //ClassesButtons = new ClassesButtons();
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
-<<<<<<< HEAD
         chosenClass = new ClassDef();
         //ClassLoad = new ClassLoad();
         //ClassesButtons = new ClassesButtons();
@@ -43,13 +38,6 @@ public class PlayerController : MonoBehaviour
         {
             // Example usage
             Debug.Log($"Using class mage: Health={chosenClass.health}, Mana={chosenClass.mana}");
-=======
-        playerClass = ClassLoad.GetClass("mage");
-        if (playerClass != null)
-        {
-            // Example usage
-            Debug.Log($"Using class mage: Health={playerClass.health}, Mana={playerClass.mana}");
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
             // Initialize player stats here, e.g.:
             // this.health = playerClass.health;
             // this.mana = playerClass.mana;
@@ -73,7 +61,6 @@ public class PlayerController : MonoBehaviour
                 { "wave", (float)GameManager.Instance.CurrentWave }
             };
         //FIXME: how to call this chooseclass method
-<<<<<<< HEAD
         string className = ClassesButtons.GetClassName();
         if (className == null || className == "")
         {
@@ -84,9 +71,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log(ClassLoad);
         Debug.Log(chosenClass);
         ChooseClass(ClassLoad.GetClass(className));
-=======
-        ChooseClass(playerClass);
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
@@ -137,7 +121,6 @@ public class PlayerController : MonoBehaviour
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
                 { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
-<<<<<<< HEAD
 //<<<<<<< HEAD
 //        int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
 //        int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
@@ -145,8 +128,6 @@ public class PlayerController : MonoBehaviour
 //        int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
 //        hp.SetMaxHP(hpNum);
 //=======
-=======
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
@@ -210,10 +191,6 @@ public class PlayerController : MonoBehaviour
             spellcaster.setActiveSpell(3);
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
     public int GetSpeed()
     {
         RpnEvaluator rpn = new RpnEvaluator();
@@ -236,8 +213,4 @@ public class PlayerController : MonoBehaviour
     {
         chosenClass.spellpower += " " + numAdded + " +";
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
