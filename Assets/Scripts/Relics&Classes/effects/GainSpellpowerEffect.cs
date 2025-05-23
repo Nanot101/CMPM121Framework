@@ -50,8 +50,8 @@ public class GainSpellpowerEffect : IRelicEffect
 
         if (until == "move")
             EventBus.Instance.OnMove += Cleanup;
-        else if (until == "cast-spell")
-            EventBus.Instance.OnSpellCast += Cleanup;
+        // else if (until == "cast-spell")
+        //     EventBus.Instance.OnSpellCast += Cleanup;
     }
 
     public void Cleanup()
@@ -85,7 +85,7 @@ public class GainSpellpowerEffect : IRelicEffect
 
         if (until == "move")
             EventBus.Instance.OnMove -= Cleanup;
-        else if (until == "cast-spell")
-            EventBus.Instance.OnSpellCast -= Cleanup;
+        // else if (until == "cast-spell")
+        //     EventBus.Instance.OnSpellCast -= Cleanup;
     }
 }
