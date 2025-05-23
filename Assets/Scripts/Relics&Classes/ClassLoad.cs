@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections;
 
 public class ClassLoad : MonoBehaviour
 {
@@ -41,6 +42,11 @@ public class ClassLoad : MonoBehaviour
             Debug.LogError("Error parsing classes.json:\n" + ex.Message);
         }
     }
+<<<<<<< HEAD
+    public ClassDef GetClass(string name)
+    {
+        return classes[name];
+=======
 
     public static ClassDef GetClass(string id)
     {
@@ -57,6 +63,7 @@ public class ClassLoad : MonoBehaviour
 
         Debug.LogWarning($"Class ID '{id}' not found.");
         return null;
+>>>>>>> b20081bf46b43b8333c638fff256e8e0969178c2
     }
 
 }
