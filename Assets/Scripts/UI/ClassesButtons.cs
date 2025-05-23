@@ -1,29 +1,39 @@
+using System;
 using UnityEngine;
 
 public class ClassesButtons : MonoBehaviour
 {
     public string className;
+    public GameObject buttonsUI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        className = string.Empty;
+        //className = string.Empty;
     }
 
     public void MageClass()
     {
-        className = "mage";
+        buttonsUI.SetActive(false);
+        this.className = "mage";
+        Debug.Log("Player selected mage class.");
     }
     public void WarlockClass()
     {
-        className = "warlock";
+        buttonsUI.SetActive(false);
+        this.className = "warlock";
+        Debug.Log("Player selected warlock class.");
+
     }
     public void BattlemageClass()
     {
-        className = "battlemage";
+        buttonsUI.SetActive(false);
+        this.className = "battlemage";
+        Debug.Log("Player selected battlemage class.");
+
     }
     public string GetClassName()
     {
-        return className;
+        return this.className;
     }
 
     // Update is called once per frame

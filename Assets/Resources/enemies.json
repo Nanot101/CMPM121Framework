@@ -3,7 +3,7 @@
        "name": "zombie",
        "sprite": 0,
        "hp": 38,
-       "speed": 5,
+       "speed": 1,
        "damage": 5
    },
    {

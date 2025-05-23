@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.Experimental.AI;
+using System;
 
 public class SpellCaster
 {
@@ -13,7 +14,14 @@ public class SpellCaster
     public Spell[] spells;
     public int Power;
     public int activeSpell;
-    private int temporarySpellpower = 0;
+    // private int temporarySpellpower = 0;
+    // public int CurrentSpellpower => Power + temporarySpellpower;
+    private int temporarySpellpowerFromGoldenMask = 0;
+    private int temporarySpellpowerFromJadeElephant = 0;
+
+    public int CurrentSpellpower => Power + temporarySpellpowerFromGoldenMask + temporarySpellpowerFromJadeElephant;
+    public event Action<int> OnSpellpowerChanged;
+    
 
     public IEnumerator ManaRegeneration()
     {
@@ -48,23 +56,47 @@ public class SpellCaster
         mana = Mathf.Min(mana + amount, max_mana);
         Debug.Log($"[SpellCaster] Mana increased by {amount}. Current mana: {mana}");
     }
-    
 
-    public void AddTemporarySpellpower(int amount)
+
+    // public void AddTemporarySpellpower(int amount)
+    // {
+    //     temporarySpellpower += amount;
+    //     OnSpellpowerChanged?.Invoke(CurrentSpellpower);
+    //     Debug.Log($"[SpellCaster] Temporary spellpower added: {amount}. Total power now: {GetTotalPower()}");
+    // }
+    public void AddTemporarySpellpower(int amount, string source)
     {
-        temporarySpellpower += amount;
-        Debug.Log($"[SpellCaster] Temporary spellpower added: {amount}. Total power now: {GetTotalPower()}");
+        if (source == "Golden Mask")
+            temporarySpellpowerFromGoldenMask += amount;
+        else if (source == "Jade Elephant")
+            temporarySpellpowerFromJadeElephant += amount;
+
+        OnSpellpowerChanged?.Invoke(CurrentSpellpower);
+        Debug.Log($"[SpellCaster] Temporary spellpower added: {amount} from {source}. Total power now: {GetTotalPower()}");
     }
 
-    public void RemoveTemporarySpellpower()
+    // public void RemoveTemporarySpellpower()
+    // {
+    //     temporarySpellpower = 0;
+    //     OnSpellpowerChanged?.Invoke(CurrentSpellpower);
+    //     Debug.Log($"[SpellCaster] Temporary spellpower removed. Total power now: {GetTotalPower()}");
+    // }
+
+    public void RemoveTemporarySpellpower(string source)
     {
-        temporarySpellpower = 0;
-        Debug.Log($"[SpellCaster] Temporary spellpower removed. Total power now: {GetTotalPower()}");
+        if (source == "Golden Mask")
+            temporarySpellpowerFromGoldenMask = 0;
+        else if (source == "Jade Elephant")
+            temporarySpellpowerFromJadeElephant = 0;
+
+        OnSpellpowerChanged?.Invoke(CurrentSpellpower);
+        Debug.Log($"[SpellCaster] Temporary spellpower from {source} removed. Total power now: {GetTotalPower()}");
     }
+
 
     public int GetTotalPower()
     {
-        return Power + temporarySpellpower;
+        return CurrentSpellpower;
     }
 
     // public IEnumerator Cast(Vector3 where, Vector3 target)
@@ -98,6 +130,9 @@ public class SpellCaster
         mana -= spells[activeSpell].GetManaCost();
         Debug.Log($"[SpellCaster] Casting {spells[activeSpell].GetName()} at target. Remaining Mana: {mana}");
         yield return spells[activeSpell].Cast(where, target, team);
+
+        EventBus.Instance.DoSpellCast();
+        RemoveTemporarySpellpower("Golden Mask");
     }
     public void setSpell(Spell spell)
     {

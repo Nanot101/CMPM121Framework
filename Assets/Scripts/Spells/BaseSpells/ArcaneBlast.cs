@@ -192,7 +192,7 @@ public class ArcaneBlast : Spell
     {
         var vars = new Dictionary<string, float>
         {
-            { "power", owner.Power },
+            { "power", owner.CurrentSpellpower },
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };

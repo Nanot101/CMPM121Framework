@@ -134,7 +134,7 @@ public class ArcaneSpray : Spell
     {
         return new Dictionary<string, float>
         {
-            { "power", owner.Power },
+            { "power", owner.CurrentSpellpower },
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };

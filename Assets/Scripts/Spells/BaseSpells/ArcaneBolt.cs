@@ -121,7 +121,7 @@ public class ArcaneBolt : Spell
     {
         return new Dictionary<string, float>
         {
-            { "power", owner.Power },
+            { "power", owner.CurrentSpellpower },
             { "wave", GameManager.Instance.CurrentWave },
             { "base", 1 }
         };

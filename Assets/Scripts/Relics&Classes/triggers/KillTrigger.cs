@@ -5,6 +5,18 @@ public class KillTrigger : IRelicTrigger
     public void Initialize(Relic relic)
     {
         this.relic = relic;
-        EventBus.Instance.OnKill += relic.ActivateEffect;
+        EventBus.Instance.OnKill += OnKill;
+    }
+    public void Uninitialize()
+    {
+        EventBus.Instance.OnKill -= OnKill;
+    }
+
+    private void OnKill(Hittable killer, Hittable killed)
+    {
+        if (killer.team == Hittable.Team.PLAYER)
+        {
+            relic.ActivateEffect();
+        }
     }
 }

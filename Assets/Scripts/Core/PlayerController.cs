@@ -15,21 +15,28 @@ public class PlayerController : MonoBehaviour
 
     public SpellCaster spellcaster;
     public SpellUI[] spellUIs;
+    public int Speed;
     public ClassLoad ClassLoad;
     public ClassDef chosenClass;
+    public ClassesButtons ClassesButtons;
 
     public Unit unit;
     public GameEndText endText;
     public SpellBuilder spellBuilder;
 
+    private Vector3 lastPosition;
+    public StandStillTrigger standStillTrigger;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        //ClassesButtons = new ClassesButtons();
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
-        chosenClass = ClassLoad.GetClass("mage");
+        chosenClass = new ClassDef();
+        //ClassLoad = new ClassLoad();
+        //ClassesButtons = new ClassesButtons();
         if (chosenClass != null)
         {
             // Example usage
@@ -57,15 +64,26 @@ public class PlayerController : MonoBehaviour
                 { "wave", (float)GameManager.Instance.CurrentWave }
             };
         //FIXME: how to call this chooseclass method
-        ChooseClass(playerClass);
+        string className = ClassesButtons.GetClassName();
+        if (className == null || className == "")
+        {
+            Debug.Log("After calling GetClassName, return value is null. Defaulting to mage.");
+            className = "mage";
+        }
+        Debug.Log(className);
+        Debug.Log(ClassLoad);
+        Debug.Log(chosenClass);
+        ChooseClass(ClassLoad.GetClass(className));
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
+        Speed = speed;
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
-        Spell spell = new ArcaneBolt(spellcaster);
-        spellcaster.setSpell(spell);
+        spellcaster.Power = spellPower;
+        // Spell spell = new ArcaneBolt(spellcaster);
+        // spellcaster.setSpell(spell);
         StartCoroutine(spellcaster.ManaRegeneration());
        
         hp = new Hittable(hpNum, Hittable.Team.PLAYER, gameObject);
@@ -113,7 +131,9 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
+        Speed = speed;
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        spellcaster.Power = spellPower;
         //int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
         //int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
         //int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
@@ -155,7 +175,8 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1)) {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
             spellcaster.setActiveSpell(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -170,6 +191,21 @@ public class PlayerController : MonoBehaviour
         {
             spellcaster.setActiveSpell(3);
         }
+        
+        float moveDistance = Vector3.Distance(transform.position, lastPosition);
+        bool isStill = moveDistance < 0.01f;
+
+        if (isStill)
+        {
+            standStillTrigger?.UpdateTime(Time.deltaTime);
+        }
+        else
+        {
+            standStillTrigger?.Reset();
+            EventBus.Instance.DoMove();
+        }
+
+        lastPosition = transform.position;
     }
     public int GetSpeed()
     {

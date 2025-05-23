@@ -13,6 +13,17 @@ public class RelicManager : MonoBehaviour
         Instance = this;
     }
 
+    // public void AddRelic(RelicDef def)
+    // {
+    //     if (activeRelics.Any(r => r.def.name == def.name))
+    //     {
+    //         Debug.Log("Relic already acquired: " + def.name);
+    //         return;
+    //     }
+
+    //     var relic = new Relic(def);
+    //     activeRelics.Add(relic);
+    // }
     public void AddRelic(RelicDef def)
     {
         if (activeRelics.Any(r => r.def.name == def.name))
@@ -23,14 +34,25 @@ public class RelicManager : MonoBehaviour
 
         var relic = new Relic(def);
         activeRelics.Add(relic);
+
+        if (relic.GetTrigger() is StandStillTrigger standStillTrigger)
+        {
+            var player = FindAnyObjectByType<PlayerController>();
+            if (player != null)
+            {
+                player.standStillTrigger = standStillTrigger;
+            }
+        }
+
     }
+
 
     public List<Relic> GetActiveRelics() => activeRelics;
 
     private void Start()
     {
         // Wait for RelicLoad to finish loading relics before this runs
-        var testRelic = RelicLoad.GetRelicByName("Jade Elephant");
+        var testRelic = RelicLoad.GetRelicByName("Golden Mask");
         if (testRelic != null)
         {
             AddRelic(testRelic);
