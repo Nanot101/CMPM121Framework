@@ -51,6 +51,8 @@ public class EnemyController : MonoBehaviour
         if (!dead)
         {
             dead = true;
+            Hittable killer = GameManager.Instance.player.GetComponent<PlayerController>().hp;
+            EventBus.Instance.DoKill(killer, hp);
             // Track enemy kills by type
             switch (enemyType.ToLower())
             {

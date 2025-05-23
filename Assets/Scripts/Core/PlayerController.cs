@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public SpellCaster spellcaster;
     public SpellUI[] spellUIs;
-    public int speed;
+    public int Speed;
     public ClassLoad ClassLoad;
     public ClassDef chosenClass;
     public ClassesButtons ClassesButtons;
@@ -76,10 +76,12 @@ public class PlayerController : MonoBehaviour
         ChooseClass(ClassLoad.GetClass(className));
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
-        int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
+        int manaRegen = 0;  //(int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
+        Speed = speed;
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        spellcaster.Power = spellPower;
         // Spell spell = new ArcaneBolt(spellcaster);
         // spellcaster.setSpell(spell);
         StartCoroutine(spellcaster.ManaRegeneration());
@@ -136,7 +138,9 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
+        Speed = speed;
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        spellcaster.Power = spellPower;
         //int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
         //int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
         //int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
