@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         ChooseClass(ClassLoad.GetClass(className));
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
-        int manaRegen = 0;  //(int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
+        int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
         Speed = speed;
@@ -126,13 +126,6 @@ public class PlayerController : MonoBehaviour
         Dictionary<string, float> vars = new Dictionary<string, float>
             {
                 { "wave", (float)(GameManager.Instance.CurrentWave + 1) } };
-//<<<<<<< HEAD
-//        int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
-//        int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
-//        int manaRegen = (int)rpn.EvaluateRPN("10 wave +", vars);
-//        int spellPower = (int)rpn.EvaluateRPN("wave 10 *", vars);
-//        hp.SetMaxHP(hpNum);
-//=======
         int hpNum = (int)rpn.EvaluateRPN(chosenClass.health, vars);
         int mana = (int)rpn.EvaluateRPN(chosenClass.mana, vars);
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);

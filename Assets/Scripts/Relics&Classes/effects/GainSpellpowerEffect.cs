@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class GainSpellpowerEffect : IRelicEffect
 {
     private readonly string amount;
     private readonly string until;
     private bool applied = false;
+    private readonly string source;
     private readonly RpnEvaluator evaluator = new RpnEvaluator();
 
-    public GainSpellpowerEffect(string amount, string until)
+    public GainSpellpowerEffect(string amount, string until, string source)
     {
         this.amount = amount;
         this.until = until;
+        this.source = source;
     }
 
     public void Apply()
@@ -45,7 +48,7 @@ public class GainSpellpowerEffect : IRelicEffect
             return;
         }
 
-        spellCaster.AddTemporarySpellpower(power);
+        spellCaster.AddTemporarySpellpower(power, source);
         applied = true;
         Debug.Log($"[GainSpellpowerEffect] Applied temporary spellpower: {power}");
 
@@ -80,7 +83,7 @@ public class GainSpellpowerEffect : IRelicEffect
             return;
         }
 
-        spellCaster.RemoveTemporarySpellpower();
+        spellCaster.RemoveTemporarySpellpower(source);
         applied = false;
         Debug.Log("[GainSpellpowerEffect] Removed temporary spellpower on Cleanup.");
 

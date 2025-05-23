@@ -8,9 +8,8 @@ public class Relic
     public Relic(RelicDef def)
     {
         this.def = def;
-        effect = RelicEffectFactory.Create(def.effect);
+        effect = RelicEffectFactory.Create(def.effect, def.name);
         trigger = RelicTriggerFactory.Create(def.trigger);
-
         trigger?.Initialize(this);
     }
 
