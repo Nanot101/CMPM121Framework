@@ -52,7 +52,7 @@ public class RelicManager : MonoBehaviour
     private void Start()
     {
         // Wait for RelicLoad to finish loading relics before this runs
-        var testRelic = RelicLoad.GetRelicByName("Golden Mask");
+        var testRelic = RelicLoad.GetRelicByName("Bloody Mask");
         if (testRelic != null)
         {
             AddRelic(testRelic);

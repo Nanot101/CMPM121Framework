@@ -53,5 +53,20 @@
             "type": "gain-mana",
             "amount": "25"
         }
+    },
+    {
+         "name": "Bloody Mask",
+        "sprite": 4,
+        "trigger": {
+            "description": "When you don't move for 5 seconds",
+            "type": "stand-still",
+            "amount": "5"
+        },
+        "effect": {
+            "description": "you gain 10 health",
+            "type": "gain-health",
+            "amount": "10",
+            "until": "move"
+        }
     }
 ]

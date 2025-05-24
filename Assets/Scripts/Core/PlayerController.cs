@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviour
         // Spell spell = new ArcaneBolt(spellcaster);
         // spellcaster.setSpell(spell);
         StartCoroutine(spellcaster.ManaRegeneration());
-       
+
         hp = new Hittable(hpNum, Hittable.Team.PLAYER, gameObject);
         //hp.OnDeath += Die;
         // hp.team = Hittable.Team.PLAYER;
@@ -96,7 +97,7 @@ public class PlayerController : MonoBehaviour
         // spellui.SetSpell(spellcaster.spell);
         //spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
         //StartCoroutine(spellcaster.ManaRegeneration());
-        
+
         //hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
         hp.OnDeath += Die;
         hp.team = Hittable.Team.PLAYER;
@@ -105,7 +106,7 @@ public class PlayerController : MonoBehaviour
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
         //spellUIs = new SpellUI[4];
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             // Debug.Log("playercont: in for loop");
             if (spellcaster.getSpellAtIndex(i) != null)
@@ -161,7 +162,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
         // int currSpeed = GetSpeed();
-        unit.movement = value.Get<Vector2>()*GetSpeed();
+        unit.movement = value.Get<Vector2>() * GetSpeed();
     }
 
     void Die()
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
         {
             spellcaster.setActiveSpell(3);
         }
-        
+
         float moveDistance = Vector3.Distance(transform.position, lastPosition);
         bool isStill = moveDistance < 0.01f;
 
@@ -228,5 +229,19 @@ public class PlayerController : MonoBehaviour
     public void AddToSpellpower(int numAdded)
     {
         chosenClass.spellpower += " " + numAdded + " +";
+    }
+    public void Heal(int amount)
+    {
+        hp.hp = Mathf.Min(hp.hp + amount, hp.max_hp);
+        Debug.Log($"Healed for {amount}. Current HP: {hp.hp}");
+    }
+
+    private IEnumerator AutoHeal()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3f);
+            Heal(10);
+        }
     }
 }
