@@ -4089,6 +4089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   className: mage
   buttonsUI: {fileID: 797295794}
+  spriteManager: {fileID: 1803653858}
 --- !u!1 &797691353
 GameObject:
   m_ObjectHideFlags: 0
@@ -7923,7 +7924,7 @@ MonoBehaviour:
   - {fileID: 96316929}
   - {fileID: 457295004}
   - {fileID: 797691355}
-  speed: 30
+  Speed: 0
   ClassLoad: {fileID: 545911932}
   chosenClass:
     sprite: 0
@@ -8435,6 +8436,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectiles:
   - {fileID: 5974830082219523945, guid: f34a30cd4de40054fbf581a2defa05b3, type: 3}
+--- !u!114 &1803653858 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2963255102610807039, guid: b531ed09aa5f5a847918ddac98e4bf16, type: 3}
+  m_PrefabInstance: {fileID: 2306492998223050676}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803653849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14db7cd87a59310418d20264ff87c6fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1830367748
 GameObject:
   m_ObjectHideFlags: 0
@@ -60272,6 +60284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GFXManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2963255102610807039, guid: b531ed09aa5f5a847918ddac98e4bf16, type: 3}
+      propertyPath: playerShown
+      value: 
+      objectReference: {fileID: 232596020}
     - target: {fileID: 5489274343212671176, guid: b531ed09aa5f5a847918ddac98e4bf16, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.2238593
