@@ -7,6 +7,7 @@ public static class RelicTriggerFactory
             "take-damage" => new TakeDamageTrigger(),
             "on-kill" => new KillTrigger(),
             "stand-still" => new StandStillTrigger(def.amount),
+            "new-wave" => new NewWaveTrigger(),
             _ => null,
         };
     }

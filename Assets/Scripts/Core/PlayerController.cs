@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
 
         //only do next line if MaxHP increases their current HP
-        hp.hp += (hpNum - oldMaxHP);
+        hp.hp += hpNum - oldMaxHP;
     }
 
     void OnAttack(InputValue value)

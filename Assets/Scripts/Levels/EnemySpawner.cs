@@ -18,15 +18,6 @@ public class EnemySpawner : MonoBehaviour
     private int currentWave = 1;
     public PlayerController playerController;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // void Start()
-    // {
-    //     GameObject selector = Instantiate(button, level_selector.transform);
-    //     selector.transform.localPosition = new Vector3(0, 130);
-    //     selector.GetComponent<MenuSelectorController>().spawner = this;
-    //     selector.GetComponent<MenuSelectorController>().SetLevel("Start");
-    // }
     void Start()
     {
         // Load data from JSON
@@ -51,15 +42,6 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-
-    // public void StartLevel(string levelname)
-    // {
-    //     level_selector.gameObject.SetActive(false);
-    //     // this is not nice: we should not have to be required to tell the player directly that the level is starting
-    //     GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
-    //     StartCoroutine(SpawnWave());
-    // }
-
     public void StartLevel(string levelname)
     {
         currentLevel = EnemyDataLoader.levels.Find(l => l.name == levelname);
@@ -79,25 +61,6 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnWave());
     }
 
-
-    // IEnumerator SpawnWave()
-    // {
-    //     GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
-    //     GameManager.Instance.countdown = 3;
-    //     for (int i = 3; i > 0; i--)
-    //     {
-    //         yield return new WaitForSeconds(1);
-    //         GameManager.Instance.countdown--;
-    //     }
-    //     GameManager.Instance.state = GameManager.GameState.INWAVE;
-    //     for (int i = 0; i < 10; ++i)
-    //     {
-    //         yield return SpawnZombie();
-    //     }
-    //     yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
-    //     GameManager.Instance.state = GameManager.GameState.WAVEEND;
-    // }
-
     IEnumerator SpawnWave()
     {
         if (currentLevel == null)
@@ -116,6 +79,7 @@ public class EnemySpawner : MonoBehaviour
 
         GameManager.Instance.state = GameManager.GameState.INWAVE;
         GameManager.Instance.waveStartTime = Time.time;
+        EventBus.Instance.DoNewWave();
 
         var rpn = new RpnEvaluator();
 
@@ -127,21 +91,6 @@ public class EnemySpawner : MonoBehaviour
                 Debug.LogError($"Enemy type {spawn.enemy} not found");
                 continue;
             }
-
-            // Dictionary<string, int> vars = new Dictionary<string, int>
-            // {
-            //     { "wave", currentWave },
-            //     { "base", enemyData.hp }
-            // };
-
-            // int count = rpn.EvaluateRPN(spawn.count, vars);
-            // int hp = rpn.EvaluateRPN(spawn.hp, vars);
-            // int damage = enemyData.damage;
-            // if (!string.IsNullOrEmpty(spawn.damage))
-            // {
-            //     vars["base"] = enemyData.damage;
-            //     damage = rpn.EvaluateRPN(spawn.damage, vars);
-            // }
 
             Dictionary<string, float> vars = new Dictionary<string, float>
             {

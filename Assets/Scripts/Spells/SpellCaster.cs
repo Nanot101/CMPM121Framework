@@ -66,7 +66,7 @@ public class SpellCaster
     // }
     public void AddTemporarySpellpower(int amount, string source)
     {
-        if (source == "Golden Mask")
+        if (source == "Golden Mask" || source == "Power Burst")
             temporarySpellpowerFromGoldenMask += amount;
         else if (source == "Jade Elephant")
             temporarySpellpowerFromJadeElephant += amount;
@@ -84,7 +84,7 @@ public class SpellCaster
 
     public void RemoveTemporarySpellpower(string source)
     {
-        if (source == "Golden Mask")
+        if (source == "Golden Mask" || source == "Power Burst")
             temporarySpellpowerFromGoldenMask = 0;
         else if (source == "Jade Elephant")
             temporarySpellpowerFromJadeElephant = 0;
@@ -133,6 +133,7 @@ public class SpellCaster
 
         EventBus.Instance.DoSpellCast();
         RemoveTemporarySpellpower("Golden Mask");
+        RemoveTemporarySpellpower("Power Burst");
     }
     public void setSpell(Spell spell)
     {
