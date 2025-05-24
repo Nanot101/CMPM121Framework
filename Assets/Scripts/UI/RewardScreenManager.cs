@@ -6,7 +6,7 @@ using UnityEditor;
 public class RewardScreenManager : MonoBehaviour
 {
     public GameObject rewardUI;
-    public TextMeshProUGUI summaryText;
+    // public TextMeshProUGUI summaryText;
     public TextMeshProUGUI descriptionText;
     public Button nextButton;
     public GameEndText GameEndText;
@@ -16,6 +16,7 @@ public class RewardScreenManager : MonoBehaviour
     public PlayerController playerController;
     public TextMeshProUGUI spellDescriptionText;
     public Button replaceButton;
+    public RelicUI relicUI;
 
     void Start()
     {
@@ -33,7 +34,6 @@ public class RewardScreenManager : MonoBehaviour
 
     void OnDestroy()
     {
-        // Unsubscribe from events to prevent memory leaks
         GameManager.Instance.OnWaveEnd -= ShowRewardScreen;
         GameManager.Instance.OnGameWin -= ShowWinScreen;
     }
@@ -41,11 +41,12 @@ public class RewardScreenManager : MonoBehaviour
     void ShowRewardScreen()
     {
         rewardUI.SetActive(true);
-        summaryText.text = GameManager.Instance.GetWaveSummary();
+        // summaryText.text = GameManager.Instance.GetWaveSummary();
         descriptionText.text = "Drop one of your current spells to replace it with this one.";
         builtSpell = spellBuilder.Build(playerController.spellcaster);
         spellUI.SetSpell(builtSpell);
         spellDescriptionText.text = spellBuilder.description;
+        relicUI.ShowRelicChoices();
         Time.timeScale = 0f;
 
     }

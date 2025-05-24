@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
         // Speed = speed;
-        spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
+        // spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         spellcaster.Power = spellPower;
         //int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
         //int mana = (int)rpn.EvaluateRPN("90 wave 10 * +", vars);
