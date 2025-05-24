@@ -63,10 +63,23 @@
             "amount": "5"
         },
         "effect": {
-            "description": "you gain 10 health",
+            "description": "you gain 10 health every 3 seconds",
             "type": "gain-health",
             "amount": "10",
             "until": "move"
+        }
+    },
+    {
+         "name": "Speed Boost",
+        "sprite": 16,
+        "trigger": {
+            "description": "When you take damage",
+            "type": "take-damage"
+        },
+        "effect": {
+            "description": "you gain a short burst of speed",
+            "type": "gain-speed",
+            "amount": "4 wave 1 * +"
         }
     }
 ]

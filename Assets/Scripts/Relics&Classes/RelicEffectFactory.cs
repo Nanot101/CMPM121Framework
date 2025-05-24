@@ -9,6 +9,7 @@ public static class RelicEffectFactory
             "gain-mana" => new GainManaEffect(def.amount),
             "gain-spellpower" => new GainSpellpowerEffect(def.amount, def.until, relicName),
             "gain-health" => new GainHealthEffect(def.amount, def.until),
+            "gain-speed" => new GainSpeedEffect(def.amount),
             _ => null,
         };
     }

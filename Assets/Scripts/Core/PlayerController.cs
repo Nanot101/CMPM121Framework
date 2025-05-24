@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
-        Speed = speed;
+        // Speed = speed;
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         spellcaster.Power = spellPower;
         // Spell spell = new ArcaneBolt(spellcaster);
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
         int manaRegen = (int)rpn.EvaluateRPN(chosenClass.mana_regeneration, vars);
         int spellPower = (int)rpn.EvaluateRPN(chosenClass.spellpower, vars);
         int speed = (int)rpn.EvaluateRPN(chosenClass.speed, vars);
-        Speed = speed;
+        // Speed = speed;
         spellcaster = new SpellCaster(mana, manaRegen, Hittable.Team.PLAYER, spellBuilder);
         spellcaster.Power = spellPower;
         //int hpNum = (int)rpn.EvaluateRPN("95 wave 5 * +", vars);
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
         // int currSpeed = GetSpeed();
-        unit.movement = value.Get<Vector2>() * GetSpeed();
+        unit.movement = value.Get<Vector2>() * (GetSpeed() + Speed);
     }
 
     void Die()
@@ -234,14 +234,5 @@ public class PlayerController : MonoBehaviour
     {
         hp.hp = Mathf.Min(hp.hp + amount, hp.max_hp);
         Debug.Log($"Healed for {amount}. Current HP: {hp.hp}");
-    }
-
-    private IEnumerator AutoHeal()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(3f);
-            Heal(10);
-        }
     }
 }
