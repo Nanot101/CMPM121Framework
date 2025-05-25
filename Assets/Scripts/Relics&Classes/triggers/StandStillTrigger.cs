@@ -17,6 +17,10 @@ public class StandStillTrigger : IRelicTrigger
         // EventBus.Instance.OnMove += OnMove;
         // EventBus.Instance.OnStandStill += OnStandStill;
     }
+    public void Uninitialize()
+    {
+        
+    }
 
     private void HandleStandStill(Vector3 pos)
     {

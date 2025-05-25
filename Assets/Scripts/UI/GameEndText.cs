@@ -27,6 +27,7 @@ public class GameEndText : MonoBehaviour
         artPanel.SetActive(false);
         GameManager.Instance.Reset();
         GameManager.Instance.Initialize();
+        RelicManager.Instance.Reset();
     }
     public void onDie()
     {

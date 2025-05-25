@@ -5,6 +5,7 @@ using System.Linq;
 public class RelicManager : MonoBehaviour
 {
     public static RelicManager Instance;
+    [SerializeField] RelicUI relicUI1; 
 
     private List<Relic> activeRelics = new();
 
@@ -49,4 +50,23 @@ public class RelicManager : MonoBehaviour
     //         Debug.LogWarning($"{testRelic.name} relic not found in loaded relics.");
     //     }
     // }
+
+    public void Reset()
+    {
+
+        foreach (var relic in activeRelics)
+        {
+            relic.Uninitialize();
+        }
+        var player = FindAnyObjectByType<PlayerController>();
+        if (player != null)
+        {
+            player.standStillTrigger = null;
+            
+        }
+        activeRelics.Clear();
+        Debug.Log("All relics cleared on game restart.");
+        relicUI1.DebugLogCurrentRelics();
+        
+    }
 }

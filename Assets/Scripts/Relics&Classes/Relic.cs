@@ -29,6 +29,13 @@ public class Relic
         return trigger;
     }
 
+    public void Uninitialize()
+    {
+        trigger?.Uninitialize();
+        ClearEffect();
+        Debug.Log($"[Relic] {def.name} uninitialized.");
+    }
+
 
     public string GetName() => def.name;
     public int GetSpriteIndex() => def.sprite;
