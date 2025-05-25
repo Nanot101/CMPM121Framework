@@ -22,7 +22,7 @@ public class RewardScreenManager : MonoBehaviour
     {
         rewardUI.SetActive(false);
         nextButton.onClick.AddListener(OnNextWavePressed);
-        nextButton.onClick.AddListener(OnReplaceSpell);
+        replaceButton.onClick.AddListener(OnReplaceSpell);
         GameManager.Instance.OnWaveEnd += ShowRewardScreen;
         GameManager.Instance.OnGameWin += ShowWinScreen;
 
@@ -46,7 +46,10 @@ public class RewardScreenManager : MonoBehaviour
         builtSpell = spellBuilder.Build(playerController.spellcaster);
         spellUI.SetSpell(builtSpell);
         spellDescriptionText.text = spellBuilder.description;
-        relicUI.ShowRelicChoices();
+        if (GameManager.Instance.CurrentWave % 3 == 0)
+        {
+            relicUI.ShowRelicChoices();
+        }
         Time.timeScale = 0f;
 
     }

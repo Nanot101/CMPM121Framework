@@ -15,10 +15,12 @@ public class RelicUI : MonoBehaviour
     void Awake()
     {
         relicSlots = new List<GameObject> { relic1, relic2, relic3 };
+        relicPanel.SetActive(false);
     }
 
     public void ShowRelicChoices()
     {
+        relicPanel.SetActive(true);
         Debug.Log("Showing relics");
         // Get relics player does NOT have
         var ownedNames = RelicManager.Instance.GetActiveRelics()
